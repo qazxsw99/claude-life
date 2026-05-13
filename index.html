@@ -592,7 +592,8 @@
 
         // 處理Legend點擊事件
         const legendItems = document.querySelectorAll('.legend-item');
-        const visibleCategories = new Set(['shanghai', 'hanoi', 'holiday', 'tiger-miyazaki', 'tiger-yonago', 'crowded']);
+        const visibleCategories = new Set(['shanghai', 'hanoi', 'holiday', 'crowded']);
+        // 虎航預設隱藏：tiger-miyazaki, tiger-yonago 不在 visibleCategories 中
 
         legendItems.forEach(item => {
             item.addEventListener('click', function() {
@@ -609,6 +610,13 @@
                 updateCalendarVisibility();
             });
         });
+
+        // 初始化時隱藏虎航標記
+        const tigerLegendItems = document.querySelectorAll('[data-category="tiger-miyazaki"], [data-category="tiger-yonago"]');
+        tigerLegendItems.forEach(item => {
+            item.classList.add('hidden');
+        });
+        updateCalendarVisibility();
 
         function updateCalendarVisibility() {
             const allDays = document.querySelectorAll('.day');
