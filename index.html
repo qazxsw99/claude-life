@@ -627,26 +627,48 @@
             const allDays = document.querySelectorAll('.day');
 
             allDays.forEach(day => {
-                let shouldHide = false;
+                // 檢查是否應該隱藏標記
+                let shouldRemoveBackground = false;
+                let shouldHideLabel = false;
 
-                // 根據可見的類別決定是否隱藏
+                // 根據可見的類別決定是否隱藏標記
                 if (day.classList.contains('shanghai') && !visibleCategories.has('shanghai')) {
-                    shouldHide = true;
+                    shouldRemoveBackground = true;
+                    shouldHideLabel = true;
                 } else if (day.classList.contains('hanoi') && !visibleCategories.has('hanoi')) {
-                    shouldHide = true;
+                    shouldRemoveBackground = true;
+                    shouldHideLabel = true;
                 } else if (day.classList.contains('japan-holiday') && !visibleCategories.has('holiday')) {
-                    shouldHide = true;
+                    shouldRemoveBackground = true;
+                    shouldHideLabel = true;
                 } else if (day.classList.contains('tiger-miyazaki') && !visibleCategories.has('tiger-miyazaki')) {
-                    shouldHide = true;
+                    shouldRemoveBackground = true;
+                    shouldHideLabel = true;
                 } else if (day.classList.contains('tiger-yonago') && !visibleCategories.has('tiger-yonago')) {
-                    shouldHide = true;
+                    shouldRemoveBackground = true;
+                    shouldHideLabel = true;
                 } else if (day.classList.contains('tiger-both') && !visibleCategories.has('tiger-both')) {
-                    shouldHide = true;
+                    shouldRemoveBackground = true;
+                    shouldHideLabel = true;
                 } else if (day.classList.contains('crowded-warning') && !visibleCategories.has('crowded')) {
-                    shouldHide = true;
+                    shouldHideLabel = true;
+                    // crowded只隱藏標記，但保留背景樣式的邊框
                 }
 
-                day.style.display = shouldHide ? 'none' : '';
+                // 隱藏標記文字
+                const label = day.querySelector('.day-label');
+                if (label) {
+                    label.style.display = shouldHideLabel ? 'none' : '';
+                }
+
+                // 移除背景顏色但保留邊框
+                if (shouldRemoveBackground) {
+                    day.style.background = 'white';
+                    day.style.border = '1px solid #ddd';
+                } else {
+                    day.style.background = '';
+                    day.style.border = '';
+                }
             });
         }
     </script>
