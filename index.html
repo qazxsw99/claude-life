@@ -638,31 +638,32 @@
                     { name: 'crowded', class: 'crowded-warning' }
                 ];
 
+                let hasAnyMarkedCategory = false;
                 let hasVisibleCategory = false;
-                let shouldHideCrowded = false;
 
-                // 檢查是否有任何可見的類別
+                // 檢查該日期是否有任何標記類別，以及是否有可見的類別
                 for (const cat of categories) {
                     if (day.classList.contains(cat.class)) {
+                        hasAnyMarkedCategory = true;
                         if (visibleCategories.has(cat.name)) {
                             hasVisibleCategory = true;
-                        } else if (cat.name === 'crowded') {
-                            shouldHideCrowded = true;
                         }
                     }
                 }
 
-                // 隱藏標記文字
+                // 隱藏標記文字（只有在有可見類別時才顯示）
                 const label = day.querySelector('.day-label');
                 if (label) {
                     label.style.display = hasVisibleCategory ? '' : 'none';
                 }
 
-                // 移除背景顏色但保留邊框
-                if (hasVisibleCategory) {
+                // 移除背景顏色（只有在有標記且所有標記都隱藏時才移除）
+                if (!hasAnyMarkedCategory || hasVisibleCategory) {
+                    // 沒有標記或有可見標記 -> 顯示普通背景
                     day.style.background = '';
                     day.style.border = '';
                 } else {
+                    // 有標記但全部隱藏 -> 移除背景
                     day.style.background = 'white';
                     day.style.border = '1px solid #ddd';
                 }
