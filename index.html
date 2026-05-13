@@ -193,6 +193,23 @@
             border: 2px solid #FF4444;
         }
 
+        /* 虎航航班 */
+        .day.tiger-flight {
+            background: linear-gradient(135deg, #E5F5FF 0%, #CCE8FF 100%);
+            border: 2px dashed #0099FF;
+        }
+
+        .day.tiger-flight .day-label {
+            color: #0066CC;
+            font-weight: bold;
+            font-size: 0.7em;
+        }
+
+        .legend-tiger {
+            background: linear-gradient(135deg, #E5F5FF 0%, #CCE8FF 100%);
+            border: 2px dashed #0099FF;
+        }
+
         .footer {
             text-align: center;
             color: white;
@@ -271,6 +288,10 @@
             <div class="legend-item">
                 <div class="legend-color legend-holiday"></div>
                 <span>日本節日 (避開)</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color legend-tiger"></div>
+                <span>虎航 TPE-宮崎 (週一、五)</span>
             </div>
         </div>
 
@@ -351,6 +372,19 @@
             }
         ];
 
+        function isTigerFlightDay(date) {
+            // 虎航 2026年7-9月 每週一(1)、五(5)有航班
+            const month = date.getMonth();
+            const dayOfWeek = date.getDay();
+
+            // 檢查是否在7-9月
+            if (month >= 6 && month <= 8) {
+                // 檢查是否為週一(1)或週五(5)
+                return dayOfWeek === 1 || dayOfWeek === 5;
+            }
+            return false;
+        }
+
         function generateCalendar(month, year, containerId) {
             const container = document.getElementById(containerId);
             const firstDay = new Date(year, month, 1);
@@ -392,6 +426,9 @@
                 if (japanHolidays[dateStr]) {
                     dayElement.classList.add('japan-holiday');
                     label.textContent = japanHolidays[dateStr];
+                } else if (isTigerFlightDay(currentDate)) {
+                    dayElement.classList.add('tiger-flight');
+                    label.textContent = '虎航班';
                 } else if (tripName) {
                     label.textContent = tripName;
                 }
