@@ -53,6 +53,20 @@
             display: flex;
             align-items: center;
             gap: 10px;
+            cursor: pointer;
+            padding: 8px 12px;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            user-select: none;
+        }
+
+        .legend-item:hover {
+            background: #f5f5f5;
+            transform: scale(1.05);
+        }
+
+        .legend-item.hidden {
+            opacity: 0.5;
         }
 
         .legend-color {
@@ -267,6 +281,21 @@
             border-radius: 5px;
         }
 
+        /* 顯示/隱藏控制 */
+        .day.hidden-category {
+            opacity: 0.3;
+            pointer-events: none;
+        }
+
+        .day.shanghai.hidden-shanghai,
+        .day.hanoi.hidden-hanoi,
+        .day.japan-holiday.hidden-holiday,
+        .day.tiger-miyazaki.hidden-tiger-miyazaki,
+        .day.tiger-yonago.hidden-tiger-yonago,
+        .day.tiger-both.hidden-tiger-both {
+            display: none;
+        }
+
         @media (max-width: 768px) {
             .calendars {
                 grid-template-columns: 1fr;
@@ -287,6 +316,10 @@
                 padding: 10px;
                 font-size: 0.9em;
             }
+
+            .legend-item {
+                width: 100%;
+            }
         }
     </style>
 </head>
@@ -306,23 +339,23 @@
         </div>
 
         <div class="legend">
-            <div class="legend-item">
+            <div class="legend-item" data-category="shanghai">
                 <div class="legend-color legend-shanghai"></div>
                 <span>上海行程 (7/3-7/11)</span>
             </div>
-            <div class="legend-item">
+            <div class="legend-item" data-category="hanoi">
                 <div class="legend-color legend-hanoi"></div>
                 <span>峴港行程 (8/4-8/8)</span>
             </div>
-            <div class="legend-item">
+            <div class="legend-item" data-category="holiday">
                 <div class="legend-color legend-holiday"></div>
-                <span>日本節日 (避開)</span>
+                <span>日本節日 (7/18-20、8/13-16、9/21-22)</span>
             </div>
-            <div class="legend-item">
+            <div class="legend-item" data-category="tiger-miyazaki">
                 <div class="legend-color legend-tiger-miyazaki"></div>
                 <span>虎航 TPE-宮崎 (週一、五)</span>
             </div>
-            <div class="legend-item">
+            <div class="legend-item" data-category="tiger-yonago">
                 <div class="legend-color legend-tiger-yonago"></div>
                 <span>虎航 TPE-米子 (週一、五)</span>
             </div>
@@ -380,6 +413,8 @@
     <script>
         // 日本節日定義
         const japanHolidays = {
+            '2026-07-18': '暑假連假',
+            '2026-07-19': '暑假連假',
             '2026-07-20': '海之日',
             '2026-08-13': '盂蘭盆節',
             '2026-08-14': '盂蘭盆節',
@@ -492,6 +527,75 @@
         generateCalendar(6, 2026, 'july');     // July (month 6)
         generateCalendar(7, 2026, 'august');   // August (month 7)
         generateCalendar(8, 2026, 'september'); // September (month 8)
+
+        // 處理Legend點擊事件
+        const legendItems = document.querySelectorAll('.legend-item');
+        const visibleCategories = new Set(['shanghai', 'hanoi', 'holiday', 'tiger-miyazaki', 'tiger-yonago']);
+
+        legendItems.forEach(item => {
+            item.addEventListener('click', function() {
+                const category = this.dataset.category;
+                this.classList.toggle('hidden');
+
+                if (visibleCategories.has(category)) {
+                    visibleCategories.delete(category);
+                } else {
+                    visibleCategories.add(category);
+                }
+
+                // 更新所有日期的顯示狀態
+                updateCalendarVisibility();
+            });
+        });
+
+        function updateCalendarVisibility() {
+            const allDays = document.querySelectorAll('.day');
+
+            allDays.forEach(day => {
+                let shouldShow = false;
+
+                // 檢查該天是否屬於任何可見的類別
+                if (!visibleCategories.has('shanghai') && day.classList.contains('shanghai')) {
+                    shouldShow = false;
+                } else if (!visibleCategories.has('hanoi') && day.classList.contains('hanoi')) {
+                    shouldShow = false;
+                } else if (!visibleCategories.has('holiday') && day.classList.contains('japan-holiday')) {
+                    shouldShow = false;
+                } else if (!visibleCategories.has('tiger-miyazaki') && day.classList.contains('tiger-miyazaki')) {
+                    shouldShow = false;
+                } else if (!visibleCategories.has('tiger-yonago') && day.classList.contains('tiger-yonago')) {
+                    shouldShow = false;
+                } else if (!visibleCategories.has('tiger-both') && day.classList.contains('tiger-both')) {
+                    shouldShow = false;
+                } else {
+                    shouldShow = true;
+                }
+
+                // 根據可見的類別決定是否顯示
+                if (day.classList.contains('shanghai') && !visibleCategories.has('shanghai')) {
+                    day.style.opacity = '0.3';
+                    day.style.pointerEvents = 'none';
+                } else if (day.classList.contains('hanoi') && !visibleCategories.has('hanoi')) {
+                    day.style.opacity = '0.3';
+                    day.style.pointerEvents = 'none';
+                } else if (day.classList.contains('japan-holiday') && !visibleCategories.has('holiday')) {
+                    day.style.opacity = '0.3';
+                    day.style.pointerEvents = 'none';
+                } else if (day.classList.contains('tiger-miyazaki') && !visibleCategories.has('tiger-miyazaki')) {
+                    day.style.opacity = '0.3';
+                    day.style.pointerEvents = 'none';
+                } else if (day.classList.contains('tiger-yonago') && !visibleCategories.has('tiger-yonago')) {
+                    day.style.opacity = '0.3';
+                    day.style.pointerEvents = 'none';
+                } else if (day.classList.contains('tiger-both') && !visibleCategories.has('tiger-both')) {
+                    day.style.opacity = '0.3';
+                    day.style.pointerEvents = 'none';
+                } else {
+                    day.style.opacity = '1';
+                    day.style.pointerEvents = 'auto';
+                }
+            });
+        }
     </script>
 </body>
 </html>
