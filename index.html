@@ -555,25 +555,30 @@
                 const label = document.createElement('div');
                 label.className = 'day-label';
 
-                if (japanHolidays[dateStr]) {
+                const tigerRoutes = getTigerFlightRoutes(currentDate);
+                const hasHoliday = !!japanHolidays[dateStr];
+
+                if (hasHoliday && tigerRoutes.length > 0) {
+                    // 同時是節日和虎航班
+                    dayElement.classList.add('japan-holiday');
+                    dayElement.classList.add('tiger-both');
+                    label.textContent = japanHolidays[dateStr] + '\n虎航班';
+                } else if (hasHoliday) {
                     dayElement.classList.add('japan-holiday');
                     label.textContent = japanHolidays[dateStr];
-                } else {
-                    const tigerRoutes = getTigerFlightRoutes(currentDate);
-                    if (tigerRoutes.length > 0) {
-                        if (tigerRoutes.length === 2) {
-                            dayElement.classList.add('tiger-both');
-                            label.textContent = '虎航\n宮崎&米子';
-                        } else if (tigerRoutes.includes('miyazaki')) {
-                            dayElement.classList.add('tiger-miyazaki');
-                            label.textContent = '虎航-宮崎';
-                        } else {
-                            dayElement.classList.add('tiger-yonago');
-                            label.textContent = '虎航-米子';
-                        }
-                    } else if (tripName) {
-                        label.textContent = tripName;
+                } else if (tigerRoutes.length > 0) {
+                    if (tigerRoutes.length === 2) {
+                        dayElement.classList.add('tiger-both');
+                        label.textContent = '虎航\n宮崎&米子';
+                    } else if (tigerRoutes.includes('miyazaki')) {
+                        dayElement.classList.add('tiger-miyazaki');
+                        label.textContent = '虎航-宮崎';
+                    } else {
+                        dayElement.classList.add('tiger-yonago');
+                        label.textContent = '虎航-米子';
                     }
+                } else if (tripName) {
+                    label.textContent = tripName;
                 }
 
                 if (label.textContent) {
