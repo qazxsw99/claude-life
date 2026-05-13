@@ -301,20 +301,6 @@
             border-radius: 5px;
         }
 
-        /* 顯示/隱藏控制 */
-        .day.hidden-category {
-            opacity: 0.3;
-            pointer-events: none;
-        }
-
-        .day.shanghai.hidden-shanghai,
-        .day.hanoi.hidden-hanoi,
-        .day.japan-holiday.hidden-holiday,
-        .day.tiger-miyazaki.hidden-tiger-miyazaki,
-        .day.tiger-yonago.hidden-tiger-yonago,
-        .day.tiger-both.hidden-tiger-both {
-            display: none;
-        }
 
         @media (max-width: 768px) {
             .calendars {
@@ -628,35 +614,26 @@
             const allDays = document.querySelectorAll('.day');
 
             allDays.forEach(day => {
-                let opacity = '1';
-                let pointerEvents = 'auto';
+                let shouldHide = false;
 
-                // 根據可見的類別決定是否顯示
+                // 根據可見的類別決定是否隱藏
                 if (day.classList.contains('shanghai') && !visibleCategories.has('shanghai')) {
-                    opacity = '0.3';
-                    pointerEvents = 'none';
+                    shouldHide = true;
                 } else if (day.classList.contains('hanoi') && !visibleCategories.has('hanoi')) {
-                    opacity = '0.3';
-                    pointerEvents = 'none';
+                    shouldHide = true;
                 } else if (day.classList.contains('japan-holiday') && !visibleCategories.has('holiday')) {
-                    opacity = '0.3';
-                    pointerEvents = 'none';
+                    shouldHide = true;
                 } else if (day.classList.contains('tiger-miyazaki') && !visibleCategories.has('tiger-miyazaki')) {
-                    opacity = '0.3';
-                    pointerEvents = 'none';
+                    shouldHide = true;
                 } else if (day.classList.contains('tiger-yonago') && !visibleCategories.has('tiger-yonago')) {
-                    opacity = '0.3';
-                    pointerEvents = 'none';
+                    shouldHide = true;
                 } else if (day.classList.contains('tiger-both') && !visibleCategories.has('tiger-both')) {
-                    opacity = '0.3';
-                    pointerEvents = 'none';
+                    shouldHide = true;
                 } else if (day.classList.contains('crowded-warning') && !visibleCategories.has('crowded')) {
-                    opacity = '0.3';
-                    pointerEvents = 'none';
+                    shouldHide = true;
                 }
 
-                day.style.opacity = opacity;
-                day.style.pointerEvents = pointerEvents;
+                day.style.display = shouldHide ? 'none' : '';
             });
         }
     </script>
