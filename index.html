@@ -276,6 +276,20 @@
 
         <div class="calendars">
             <div class="calendar">
+                <div class="calendar-header">2026年 7月</div>
+                <div class="weekdays">
+                    <div class="weekday">日</div>
+                    <div class="weekday">一</div>
+                    <div class="weekday">二</div>
+                    <div class="weekday">三</div>
+                    <div class="weekday">四</div>
+                    <div class="weekday">五</div>
+                    <div class="weekday">六</div>
+                </div>
+                <div class="days" id="july"></div>
+            </div>
+
+            <div class="calendar">
                 <div class="calendar-header">2026年 8月</div>
                 <div class="weekdays">
                     <div class="weekday">日</div>
@@ -312,6 +326,7 @@
     <script>
         // 日本節日定義
         const japanHolidays = {
+            '2026-07-20': '海之日',
             '2026-08-13': '盂蘭盆節',
             '2026-08-14': '盂蘭盆節',
             '2026-08-15': '盂蘭盆節',
@@ -391,6 +406,7 @@
         }
 
         // 生成日曆
+        generateCalendar(6, 2026, 'july');     // July (month 6)
         generateCalendar(7, 2026, 'august');   // August (month 7)
         generateCalendar(8, 2026, 'september'); // September (month 8)
     </script>
