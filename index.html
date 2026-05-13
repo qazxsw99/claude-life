@@ -627,47 +627,44 @@
             const allDays = document.querySelectorAll('.day');
 
             allDays.forEach(day => {
-                // 檢查是否應該隱藏標記
-                let shouldRemoveBackground = false;
-                let shouldHideLabel = false;
+                // 檢查該日期的各個類別是否應該顯示
+                const categories = [
+                    { name: 'shanghai', class: 'shanghai' },
+                    { name: 'hanoi', class: 'hanoi' },
+                    { name: 'holiday', class: 'japan-holiday' },
+                    { name: 'tiger-miyazaki', class: 'tiger-miyazaki' },
+                    { name: 'tiger-yonago', class: 'tiger-yonago' },
+                    { name: 'tiger-both', class: 'tiger-both' },
+                    { name: 'crowded', class: 'crowded-warning' }
+                ];
 
-                // 根據可見的類別決定是否隱藏標記
-                if (day.classList.contains('shanghai') && !visibleCategories.has('shanghai')) {
-                    shouldRemoveBackground = true;
-                    shouldHideLabel = true;
-                } else if (day.classList.contains('hanoi') && !visibleCategories.has('hanoi')) {
-                    shouldRemoveBackground = true;
-                    shouldHideLabel = true;
-                } else if (day.classList.contains('japan-holiday') && !visibleCategories.has('holiday')) {
-                    shouldRemoveBackground = true;
-                    shouldHideLabel = true;
-                } else if (day.classList.contains('tiger-miyazaki') && !visibleCategories.has('tiger-miyazaki')) {
-                    shouldRemoveBackground = true;
-                    shouldHideLabel = true;
-                } else if (day.classList.contains('tiger-yonago') && !visibleCategories.has('tiger-yonago')) {
-                    shouldRemoveBackground = true;
-                    shouldHideLabel = true;
-                } else if (day.classList.contains('tiger-both') && !visibleCategories.has('tiger-both')) {
-                    shouldRemoveBackground = true;
-                    shouldHideLabel = true;
-                } else if (day.classList.contains('crowded-warning') && !visibleCategories.has('crowded')) {
-                    shouldHideLabel = true;
-                    // crowded只隱藏標記，但保留背景樣式的邊框
+                let hasVisibleCategory = false;
+                let shouldHideCrowded = false;
+
+                // 檢查是否有任何可見的類別
+                for (const cat of categories) {
+                    if (day.classList.contains(cat.class)) {
+                        if (visibleCategories.has(cat.name)) {
+                            hasVisibleCategory = true;
+                        } else if (cat.name === 'crowded') {
+                            shouldHideCrowded = true;
+                        }
+                    }
                 }
 
                 // 隱藏標記文字
                 const label = day.querySelector('.day-label');
                 if (label) {
-                    label.style.display = shouldHideLabel ? 'none' : '';
+                    label.style.display = hasVisibleCategory ? '' : 'none';
                 }
 
                 // 移除背景顏色但保留邊框
-                if (shouldRemoveBackground) {
-                    day.style.background = 'white';
-                    day.style.border = '1px solid #ddd';
-                } else {
+                if (hasVisibleCategory) {
                     day.style.background = '';
                     day.style.border = '';
+                } else {
+                    day.style.background = 'white';
+                    day.style.border = '1px solid #ddd';
                 }
             });
         }
