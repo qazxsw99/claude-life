@@ -37,6 +37,11 @@ a{color:inherit}
 .hero h1{margin:0;font-size:clamp(34px,6vw,54px);letter-spacing:-.02em;line-height:1.15;font-weight:800}
 .hero h1 em{font-style:normal;color:#0ea5e9}
 .hero p.lead{color:var(--sub);margin:14px 0 0;font-size:16px}
+.alert{margin-top:24px;background:#fff;border:1px solid #fecaca;border-left:4px solid #dc2626;
+  border-radius:16px;padding:18px 22px;box-shadow:var(--sh)}
+.alert h3{margin:0 0 9px;font-size:14px;letter-spacing:.04em;color:#dc2626}
+.alert ul{margin:0;padding-left:19px}
+.alert li{font-size:14px;color:#334155;margin:7px 0;line-height:1.7}
 .stats{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}
 .stats div{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:10px 16px;box-shadow:var(--sh)}
 .stats b{display:block;font-size:19px;letter-spacing:-.01em}
@@ -79,7 +84,16 @@ nav a:hover{border-color:var(--dc);color:var(--dc);transform:translateY(-1px)}
 .tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:9px}
 .cat{color:#fff;font-size:11px;font-weight:700;padding:3px 10px;border-radius:999px}
 .tag{background:#f1f5f9;color:#475569;font-size:11px;padding:3px 10px;border-radius:999px}
-.sum{margin:15px 0 0;font-size:15px;color:#1e293b}
+.sum{margin:13px 0 0;font-size:15px;color:#1e293b}
+.biz{margin-top:14px;border:1px solid var(--line);border-left:3px solid var(--s);
+  border-radius:12px;padding:10px 14px;background:#fbfcfd}
+.biz.closed{background:#fef2f2;border-color:#fecaca;border-left-color:var(--s)}
+.biz.tight{background:#fffbeb;border-color:#fde68a;border-left-color:var(--s)}
+.bizhead{display:flex;flex-wrap:wrap;align-items:center;gap:9px}
+.badge{color:#fff;font-size:11px;font-weight:800;padding:3px 10px;border-radius:999px;white-space:nowrap}
+.hrs{font-size:13px;font-weight:700;color:#0f172a}
+.hnote{margin:6px 0 0;font-size:12.5px;color:#475569;line-height:1.65}
+.hnote strong,.biz strong{color:var(--s)}
 .hot{margin-top:14px;background:#f8fafc;border:1px solid var(--line);border-radius:13px;padding:13px 16px}
 .hot h4{margin:0 0 7px;font-size:12px;letter-spacing:.1em;color:var(--c);font-weight:800}
 .hot ul{margin:0;padding-left:17px}
@@ -158,11 +172,21 @@ footer{margin-top:40px;text-align:center;color:var(--sub);font-size:12px;line-he
     <p class="kicker">Ishikawa ・ Japan ・ 2026</p>
     <h1>金澤 <em>2026</em><br>加賀百萬石 5 日行程</h1>
     <p class="lead">2026/08/16 – 08/20 ・ 金澤市區 × 白川鄉 × 五箇山 ・ 每站附熱門重點、實景照片與 Google 地圖連結</p>
+    <div class="alert">
+      <h3>營業時間查證結果（2026/08 官方資料）</h3>
+      <ul>
+        <li><b>Day 2 20:06 寶可夢中心：已打烊。</b>金澤 FORUS 全館物販 10:00–20:00，且店在 5F 不是 6F。FORUS 三家店＋百番街 3COINS 都在 20:00 關門，塞不進 17:00–20:00，建議把 3COINS 移到第 4 或第 5 天。</li>
+        <li><b>Day 1 17:05 到金澤車站：偏樂觀。</b>國際線接駁巴士約在班機落地 1 小時後才發車，車程 40–55 分；8/8–8/16 北陸道施工再加約 30 分，實際約 17:45–18:15 到站。</li>
+        <li><b>Day 3 白色道路：蛇谷園地往姥瀑布・親谷之湯的步道自 2025/6 起無限期封閉</b>，野溪溫泉停用。通行費 ¥1,700 只收現金、禁行機車。</li>
+        <li><b>Day 2 09:05 近江町市場：</b>物販約 9:00 開，但海鮮丼餐廳多為 11:00 才開門。</li>
+        <li>其餘 30 站在排定時間皆正常營業。金澤 21 世紀美術館公休日是週一，8/19 為週三不受影響。</li>
+      </ul>
+    </div>
     <div class="stats">
       <div><b>5 天 4 夜</b><small>08/16 – 08/20</small></div>
       <div><b>35 個行程點</b><small>含交通與購物</small></div>
       <div><b>2 處世界遺產</b><small>白川鄉・五箇山</small></div>
-      <div><b>Hotel Forza</b><small>連住 4 晚</small></div>
+      <div><b>已查證營業時間</b><small>2026/08 官方資料</small></div>
     </div>
   </header>
 
@@ -175,7 +199,7 @@ footer{margin-top:40px;text-align:center;color:var(--sub);font-size:12px;line-he
         <p class="ddate">2026/08/16・週日 ・ 4 個行程點</p>
       </div>
     </header>
-    <div class="dnote">航班日。小松機場到金澤車站有機場接駁巴士（約 40 分鐘），下車後步行即達飯店。</div>
+    <div class="dnote">航班日。國際線接駁巴士約在班機抵達 1 小時後發車、車程 40–55 分（¥1,400），實際到金澤車站約 17:45–18:15；8/8–8/16 北陸道施工可能再多 30 分，第一晚行程請留彈性。</div>
     <div class="cards">
       <article class="card" style="--c:#64748b">
         <div class="chead">
@@ -186,6 +210,7 @@ footer{margin-top:40px;text-align:center;color:var(--sub);font-size:12px;line-he
             <div class="tags"><span class="cat" style="background:#64748b">✈ 交通</span><span class="tag">出境</span><span class="tag">第一航廈／第二航廈</span></div>
           </div>
         </div>
+        <div class="biz info" style="--s:#64748b"><div class="bizhead"><span class="badge" style="background:#64748b">全天開放</span><span class="hrs">24 小時營運</span></div><p class="hnote">航廈全天開放；建議起飛前 3 小時抵達</p></div>
         <p class="sum">起飛前 3 小時抵達最保險。飛小松（KMQ）的航班多為中華航空／台灣虎航，出發航廈記得在訂位紀錄再確認一次。</p>
         <div class="hot"><h4>熱門重點</h4><ul><li>管制區內的『微風廣場』與大江戶温泉風格休息區是殺時間首選</li><li>第一航廈的天空南／北走廊、第二航廈的空橋採光是打卡點</li><li>日幣現鈔建議在台灣先換好，小松機場匯率較差</li></ul></div>
         <div class="galwrap"><div class="gal g3"><figure class="ph"><img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/Exterior_of_Terminal_1%2C_Taoyuan_Airport_20141230.jpg?width=1000" alt="桃園國際機場 TPE" onerror="imgFail(this)"></figure><figure class="ph"><img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/Taiwan_Taoyuan_International_Airport_-_Terminal_1.jpg?width=1000" alt="桃園國際機場 TPE" onerror="imgFail(this)"></figure><figure class="ph"><img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/Taoyuan_Airport_Terminal_2_outside_space_frames_20091024.jpg?width=1000" alt="桃園國際機場 TPE" onerror="imgFail(this)"></figure></div><div class="fb" hidden><div class="noimg" style="--c:#64748b"><span class="ni-ic">✈</span><span class="ni-jp">臺灣桃園國際機場</span><span class="ni-tx">圖片載入失敗（請確認網路連線）</span></div></div></div>
@@ -200,8 +225,9 @@ footer{margin-top:40px;text-align:center;color:var(--sub);font-size:12px;line-he
             <div class="tags"><span class="cat" style="background:#64748b">✈ 交通</span><span class="tag">入境</span><span class="tag">接駁巴士</span></div>
           </div>
         </div>
+        <div class="biz ok" style="--s:#059669"><div class="bizhead"><span class="badge" style="background:#059669">營業中</span><span class="hrs">航廈 6:35–22:15｜店舖 7:00–20:10</span></div><p class="hnote">航空博物館（航空プラザ）9:00–17:00，僅年末年始休</p></div>
         <p class="sum">石川縣的空中門戶，規模小、入境動線短，通常 30 分鐘內可完成通關提行李。國內線航廈 1F 有觀光案內所可拿地圖與巴士時刻表。</p>
-        <div class="hot"><h4>熱門重點</h4><ul><li>機場接駁巴士『小松機場連絡巴士』直達金澤車站西口，約 40 分、¥1,300</li><li>2F 有航空博物館連通口與展望台，班機延誤時可打發時間</li><li>出境大廳的加賀棒茶、金箔霜淇淋是最後補貨點</li></ul></div>
+        <div class="hot"><h4>熱門重點</h4><ul><li>機場接駁巴士直達金澤車站西口，約 40–55 分、¥1,400（國際線班機抵達約 1 小時後發車）</li><li>2F 有航空博物館連通口與展望台，班機延誤時可打發時間</li><li>出境大廳的加賀棒茶、金箔霜淇淋是最後補貨點</li></ul></div>
         <div class="galwrap"><div class="gal g2"><figure class="ph"><img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/Komatsu_airport_terminal_building.jpg?width=1000" alt="小松機場 KMQ" onerror="imgFail(this)"></figure><figure class="ph"><img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/KOMATSU_Airport_-_Sky_Lounge_HAKUSAN._%2832441162598%29.jpg?width=1000" alt="小松機場 KMQ" onerror="imgFail(this)"></figure></div><div class="fb" hidden><div class="noimg" style="--c:#64748b"><span class="ni-ic">✈</span><span class="ni-jp">小松空港</span><span class="ni-tx">圖片載入失敗（請確認網路連線）</span></div></div></div>
         <a class="mapbtn" href="https://www.google.com/maps/search/?api=1&amp;query=%E5%B0%8F%E6%9D%BE%E7%A9%BA%E6%B8%AF" target="_blank" rel="noopener">在 Google 地圖開啟 <span>›</span></a>
       </article>
@@ -214,6 +240,7 @@ footer{margin-top:40px;text-align:center;color:var(--sub);font-size:12px;line-he
             <div class="tags"><span class="cat" style="background:#0ea5e9">◈ 地標</span><span class="tag">鼓門</span><span class="tag">百番街</span></div>
           </div>
         </div>
+        <div class="biz tight" style="--s:#d97706"><div class="bizhead"><span class="badge" style="background:#d97706">時間緊迫</span><span class="hrs">百番街 あんと 8:30–20:00｜Rinto 10:00–20:00</span></div><p class="hnote">國際線接駁巴士約在班機抵達 1 小時後發車、車程 40–55 分，實際到站約 17:45–18:15；8/8–8/16 北陸道能美根上一帶施工，可能再多 30 分</p></div>
         <p class="sum">被美國旅遊雜誌選為「世界最美車站」之一。東口的木造「鼓門」與玻璃穹頂「もてなしドーム」是金澤的門面，入夜點燈後更值得回訪拍照。</p>
         <div class="hot"><h4>熱門重點</h4><ul><li>鼓門｜傍晚藍調時刻＋夜間點燈是最佳拍攝時段</li><li>金澤百番街 Anto｜伴手禮一次買齊：金箔製品、加賀棒茶、柴舟</li><li>百番街 Rinto／Kutsurogikan｜餐廳與甜點集中，第一晚覓食很方便</li></ul></div>
         <div class="galwrap"><div class="gal g3"><figure class="ph"><img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/Tsuzumimon_Gate_in_front_of_Kanazawa_Station_in_the_morning_20150121.JPG?width=1000" alt="金澤車站" onerror="imgFail(this)"></figure><figure class="ph"><img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/Motenashi_Dome%2C_Kanazawa_Station.JPG?width=1000" alt="金澤車站" onerror="imgFail(this)"></figure><figure class="ph"><img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/Tsuzumimon_Gate_in_front_of_Kanazawa_Station_at_night_20150120.JPG?width=1000" alt="金澤車站" onerror="imgFail(this)"></figure></div><div class="fb" hidden><div class="noimg" style="--c:#0ea5e9"><span class="ni-ic">◈</span><span class="ni-jp">金沢駅</span><span class="ni-tx">圖片載入失敗（請確認網路連線）</span></div></div></div>
@@ -228,6 +255,7 @@ footer{margin-top:40px;text-align:center;color:var(--sub);font-size:12px;line-he
             <div class="tags"><span class="cat" style="background:#8b5cf6">⌂ 住宿</span><span class="tag">連住 4 晚</span><span class="tag">近車站</span></div>
           </div>
         </div>
+        <div class="biz ok" style="--s:#059669"><div class="bizhead"><span class="badge" style="background:#059669">營業中</span><span class="hrs">Check-in 14:00–翌 5:00｜Check-out 11:00</span></div><p class="hnote">早餐 6:30–10:30（最後入場 10:00）</p></div>
         <p class="sum">位在金澤車站東口徒步圈的商務型飯店，房型偏日系精簡但機能齊全，作為連住 4 晚的基地非常合適。</p>
         <div class="hot"><h4>熱門重點</h4><ul><li>Check-in 後先確認早餐時段與最後一天的寄放行李規定</li><li>飯店周邊便利商店、藥妝、居酒屋密度高，宵夜不愁</li><li>距離近江町市場步行約 12 分鐘，隔天早上可直接走過去</li></ul></div>
         <div class="galwrap"><div class="gal g3"><figure class="ph"><img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/Skyline_of_Kanazawa_from_Ishikawa_Prefectural_Office_Building20230429.jpg?width=1000" alt="金澤佛爾薩酒店" onerror="imgFail(this)"></figure><figure class="ph"><img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/Fountain_clock_in_front_of_east_entrance_of_Kanazawa_Station_at_night.JPG?width=1000" alt="金澤佛爾薩酒店" onerror="imgFail(this)"></figure><figure class="ph"><img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/Machinori_port_02_Kanazawa_station_east.jpg?width=1000" alt="金澤佛爾薩酒店" onerror="imgFail(this)"></figure></div><div class="fb" hidden><div class="noimg" style="--c:#8b5cf6"><span class="ni-ic">⌂</span><span class="ni-jp">ホテルフォルツァ金沢</span><span class="ni-tx">圖片載入失敗（請確認網路連線）</span></div></div></div><p class="imgnote">以下為飯店周邊街景參考圖（該飯店本身無公開授權照片）</p>
@@ -243,7 +271,7 @@ footer{margin-top:40px;text-align:center;color:var(--sub);font-size:12px;line-he
         <p class="ddate">2026/08/17・週一 ・ 14 個行程點</p>
       </div>
     </header>
-    <div class="dnote">全天步行＋巴士。建議買『金澤市內一日周遊券（城下町金沢周遊バス）』¥600，兼六園周邊上下坡不少，記得帶水。</div>
+    <div class="dnote">全天步行＋巴士。⚠️ FORUS 與百番街 Rinto 皆 20:00 打烊，四家店塞在 17:00–20:00 會來不及，建議把寶可夢中心提前、3COINS 移到第 4 或第 5 天。建議買『金澤市內 1 日自由乘車券』¥800（城下町周遊巴士右回 8:30–18:00），兼六園周邊上下坡不少，記得帶水。</div>
     <div class="cards">
       <article class="card" style="--c:#8b5cf6">
         <div class="chead">
@@ -254,6 +282,7 @@ footer{margin-top:40px;text-align:center;color:var(--sub);font-size:12px;line-he
             <div class="tags"><span class="cat" style="background:#8b5cf6">⌂ 住宿</span><span class="tag">出發</span></div>
           </div>
         </div>
+        <div class="biz ok" style="--s:#059669"><div class="bizhead"><span class="badge" style="background:#059669">營業中</span><span class="hrs">早餐 6:30–10:30</span></div></div>
         <p class="sum">早餐後出發。今天路線是一路往東南走，最後再回到車站商圈掃貨，行李可全部留在房間。</p>
         <div class="hot"><h4>熱門重點</h4><ul><li>八月金澤日間常達 33–35°C 且濕度高，防曬與補水是重點</li><li>上午先攻市場最新鮮，海鮮丼名店 11 點後就開始排隊</li></ul></div>
         <div class="galwrap"><div class="gal g3"><figure class="ph"><img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/Skyline_of_Kanazawa_from_Ishikawa_Prefectural_Office_Building20230429.jpg?width=1000" alt="金澤佛爾薩酒店" onerror="imgFail(this)"></figure><figure class="ph"><img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/Fountain_clock_in_front_of_east_entrance_of_Kanazawa_Station_at_night.JPG?width=1000" alt="金澤佛爾薩酒店" onerror="imgFail(this)"></figure><figure class="ph"><img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/Machinori_port_02_Kanazawa_station_east.jpg?width=1000" alt="金澤佛爾薩酒店" onerror="imgFail(this)"></figure></div><div class="fb" hidden><div class="noimg" style="--c:#8b5cf6"><span class="ni-ic">⌂</span><span class="ni-jp">ホテルフォルツァ金沢</span><span class="ni-tx">圖片載入失敗（請確認網路連線）</span></div></div></div><p class="imgnote">周邊街景參考圖</p>
@@ -268,8 +297,9 @@ footer{margin-top:40px;text-align:center;color:var(--sub);font-size:12px;line-he
             <div class="tags"><span class="cat" style="background:#f97316">◍ 美食</span><span class="tag">海鮮丼</span><span class="tag">早餐</span></div>
           </div>
         </div>
+        <div class="biz tight" style="--s:#d97706"><div class="bizhead"><span class="badge" style="background:#d97706">時間緊迫</span><span class="hrs">物販約 9:00–17:00｜飲食多為 11:00 起</span></div><p class="hnote">週一營業（多數店家公休日是週三）。但海鮮丼名店多半 11:00 才開，09:05 到只有少數早開店（如いきいき亭 7:00 起）可吃</p></div>
         <p class="sum">有近 300 年歷史的「金澤市民的廚房」，約 170 間店舖擠在有頂棚的市場巷弄裡。是全金澤最好吃海鮮的地方，早上 9 點正是最有活力的時段。</p>
-        <div class="hot"><h4>熱門重點</h4><ul><li>海鮮丼｜『近江町海鮮丼家 ひかりや』『いきいき亭』是排隊定番，¥2,000 起跳</li><li>現剝生蠔與甜蝦｜多家攤位可站著吃，一顆 ¥300 上下</li><li>金澤名產｜加能蟹（冬季）、能登牡蠣、能登豬肉可樂餅</li><li>市場 2F『近江町いちば館』有座位區與土產店，中暑時可避暑</li></ul></div>
+        <div class="hot"><h4>熱門重點</h4><ul><li>⚠️ 市場物販約 9:00 開、餐飲多為 11:00 才開。09:05 想吃海鮮丼要挑早開的店（如『いきいき亭』7:00 起），¥2,000 上下</li><li>現剝生蠔與甜蝦｜多家攤位可站著吃，一顆 ¥300 上下</li><li>金澤名產｜加能蟹（冬季）、能登牡蠣、能登豬肉可樂餅</li><li>市場 2F『近江町いちば館』有座位區與土產店，中暑時可避暑</li></ul></div>
         <div class="galwrap"><div class="gal g2"><figure class="ph"><img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/Omicho_covered_market_western_entrance%2C_Kanazawa%2C_2016.jpg?width=1000" alt="近江町市場" onerror="imgFail(this)"></figure><figure class="ph"><img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/Omicho_Market.JPG?width=1000" alt="近江町市場" onerror="imgFail(this)"></figure></div><div class="fb" hidden><div class="noimg" style="--c:#f97316"><span class="ni-ic">◍</span><span class="ni-jp">近江町市場</span><span class="ni-tx">圖片載入失敗（請確認網路連線）</span></div></div></div>
         <a class="mapbtn" href="https://www.google.com/maps/search/?api=1&amp;query=%E8%BF%91%E6%B1%9F%E7%94%BA%E5%B8%82%E5%A0%B4" target="_blank" rel="noopener">在 Google 地圖開啟 <span>›</span></a>
       </article>
@@ -282,6 +312,7 @@ footer{margin-top:40px;text-align:center;color:var(--sub);font-size:12px;line-he
             <div class="tags"><span class="cat" style="background:#b45309">⛩ 古街</span><span class="tag">重要傳統建造物群</span><span class="tag">淺野川</span></div>
           </div>
         </div>
+        <div class="biz info" style="--s:#64748b"><div class="bizhead"><span class="badge" style="background:#64748b">全天開放</span><span class="hrs">公道・全天開放</span></div><p class="hnote">無門禁；巷內為住宅區請降低音量</p></div>
         <p class="sum">金澤三大茶屋街中最小、也最安靜的一處，緊鄰淺野川。木格子二層樓的茶屋沿河而立，仍有藝妓在此接客，白天幾乎沒有觀光客，是拍照最舒服的時段。</p>
         <div class="hot"><h4>熱門重點</h4><ul><li>暗がり坂（暗坂）｜狹窄的石階小徑，過去是旦那們前往茶屋的秘密通道，必拍</li><li>淺野川大橋｜國家登錄有形文化財，橋上是俯瞰整條茶屋街的最佳角度</li><li>與東茶屋街步行只要 8 分鐘，兩處可一次走完</li><li>巷內住民仍在生活，請降低音量、勿闖入私人玄關</li></ul></div>
         <div class="galwrap"><div class="gal g1"><div class="noimg" style="--c:#b45309"><span class="ni-ic">⛩</span><span class="ni-jp">主計町茶屋街</span><span class="ni-tx">無公開授權照片</span></div></div></div>
@@ -296,6 +327,7 @@ footer{margin-top:40px;text-align:center;color:var(--sub);font-size:12px;line-he
             <div class="tags"><span class="cat" style="background:#b45309">⛩ 古街</span><span class="tag">金箔</span><span class="tag">必訪 No.1</span></div>
           </div>
         </div>
+        <div class="biz ok" style="--s:#059669"><div class="bizhead"><span class="badge" style="background:#059669">營業中</span><span class="hrs">志摩 9:30–17:30（無休）｜懷華樓 10:00–17:00（不定休）｜箔一東山店 9:00–18:00</span></div><p class="hnote">懷華樓為不定休且常有包場，當天請先查官網營業日曆</p></div>
         <p class="sum">金澤人氣第一的老街，整排江戶後期的紅褐色木格子茶屋建築，被指定為國家重要傳統建造物群保存地區。石板路＋和服＋金箔霜淇淋，是金澤明信片上的畫面。</p>
         <div class="hot"><h4>熱門重點</h4><ul><li>志摩（重要文化財）｜完整保存的茶屋內部，可入內參觀 ¥500</li><li>懷華樓｜金澤最大的茶屋，二樓的紅色房間與金箔階梯很震撼</li><li>箔一 東山店｜整支金箔霜淇淋 ¥891，最紅打卡甜點</li><li>茶屋美人 / 金銀箔工藝さくだ｜金箔面膜、化妝品伴手禮首選</li><li>上午 11 點多店家陸續開門，人潮還沒滿，時間抓得剛好</li></ul></div>
         <div class="galwrap"><div class="gal g3"><figure class="ph"><img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/Higashiyama_Higashi_Chaya_District_Kanazawa_%2829103739857%29.jpg?width=1000" alt="東茶屋街" onerror="imgFail(this)"></figure><figure class="ph"><img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/Higashi_Chaya_district%2C_Kanazawa_%283810720612%29.jpg?width=1000" alt="東茶屋街" onerror="imgFail(this)"></figure><figure class="ph"><img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/Higashi_chaya_gai003.jpg?width=1000" alt="東茶屋街" onerror="imgFail(this)"></figure></div><div class="fb" hidden><div class="noimg" style="--c:#b45309"><span class="ni-ic">⛩</span><span class="ni-jp">ひがし茶屋街</span><span class="ni-tx">圖片載入失敗（請確認網路連線）</span></div></div></div>
@@ -310,8 +342,9 @@ footer{margin-top:40px;text-align:center;color:var(--sub);font-size:12px;line-he
             <div class="tags"><span class="cat" style="background:#059669">❋ 名勝</span><span class="tag">日本三名園</span><span class="tag">國家特別名勝</span></div>
           </div>
         </div>
+        <div class="biz ok" style="--s:#059669"><div class="bizhead"><span class="badge" style="background:#059669">營業中</span><span class="hrs">7:00–18:00（最後入園 17:30）</span></div><p class="hnote">門票 ¥320；8 月另有 4:00–6:45 早朝免費開放</p></div>
         <p class="sum">與水戶偕樂園、岡山後樂園並稱「日本三大名園」，加賀藩前田家歷經約 180 年打造的迴遊式庭園。名字取自「宏大・幽邃・人力・蒼古・水泉・眺望」六勝兼備。</p>
-        <div class="hot"><h4>熱門重點</h4><ul><li>徽軫燈籠（ことじ灯籠）｜兩腳石燈籠配虹橋與霞池，金澤最經典的一幕</li><li>霞池・唐崎松｜池畔黑松枝幹橫展，冬天的雪吊也是從這裡看</li><li>翠瀧・瓢池｜夏天最涼快的一角，適合躲太陽</li><li>成巽閣｜園內的藩主母堂宅邸，另外收費但和室與庭園很精緻</li><li>夏季 7:00–18:00 開園、門票 ¥320；早上 7 點前免費入園</li></ul></div>
+        <div class="hot"><h4>熱門重點</h4><ul><li>徽軫燈籠（ことじ灯籠）｜兩腳石燈籠配虹橋與霞池，金澤最經典的一幕</li><li>霞池・唐崎松｜池畔黑松枝幹橫展，冬天的雪吊也是從這裡看</li><li>翠瀧・瓢池｜夏天最涼快的一角，適合躲太陽</li><li>成巽閣｜園內的藩主母堂宅邸，另外收費但和室與庭園很精緻</li><li>夏季 7:00–18:00 開園（最後入園 17:30）、門票 ¥320；8 月另有 4:00–6:45 早朝免費開放</li></ul></div>
         <div class="galwrap"><div class="gal g3"><figure class="ph"><img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/Kotoji-toro_lantern%2C_Kenroku-en_%283810732114%29.jpg?width=1000" alt="兼六園" onerror="imgFail(this)"></figure><figure class="ph"><img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/Kotoji_Toro_and_Nijibashi_Bridge_in_Kenroku_Garden.JPG?width=1000" alt="兼六園" onerror="imgFail(this)"></figure><figure class="ph"><img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/131109_Kenrokuen_Kanazawa_Ishikawa_pref_Japan01s3.jpg?width=1000" alt="兼六園" onerror="imgFail(this)"></figure></div><div class="fb" hidden><div class="noimg" style="--c:#059669"><span class="ni-ic">❋</span><span class="ni-jp">兼六園</span><span class="ni-tx">圖片載入失敗（請確認網路連線）</span></div></div></div>
         <a class="mapbtn" href="https://www.google.com/maps/search/?api=1&amp;query=%E5%85%BC%E5%85%AD%E5%9C%92" target="_blank" rel="noopener">在 Google 地圖開啟 <span>›</span></a>
       </article>
@@ -324,6 +357,7 @@ footer{margin-top:40px;text-align:center;color:var(--sub);font-size:12px;line-he
             <div class="tags"><span class="cat" style="background:#dc2626">⛩ 神社</span><span class="tag">粉紅鳥居</span><span class="tag">戀愛結緣</span></div>
           </div>
         </div>
+        <div class="biz ok" style="--s:#059669"><div class="bizhead"><span class="badge" style="background:#059669">營業中</span><span class="hrs">境內全天開放｜授與所約 9:00–16:00 或 17:00</span></div><p class="hnote">授與所時間各方說法不一（9:00–16:00 / 9:00–17:00），求御守御朱印建議提早</p></div>
         <p class="sum">金澤最古老的神社，創建於 1,500 年前，就在兼六園與 21 世紀美術館旁邊。近年因為 101 座粉紅色水引鳥居隧道爆紅，是年輕人與情侶必訪。</p>
         <div class="hot"><h4>熱門重點</h4><ul><li>101 座粉紅鳥居｜穿過鳥居隧道通往廣坂稻荷，超上鏡</li><li>きまちゃん籤｜圓滾滾的紅白狛犬御守，擺滿一整排的畫面很可愛</li><li>結緣・良緣御守｜這裡最有名的授與品</li><li>停留 30 分鐘剛好，走出來就是 21 世紀美術館方向</li></ul></div>
         <div class="galwrap"><div class="gal g1"><figure class="ph"><img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/Ishiura_Shrine_Goshuin_20200820.jpg?width=1000" alt="石浦神社" onerror="imgFail(this)"></figure></div><div class="fb" hidden><div class="noimg" style="--c:#dc2626"><span class="ni-ic">⛩</span><span class="ni-jp">石浦神社</span><span class="ni-tx">圖片載入失敗（請確認網路連線）</span></div></div></div><p class="imgnote">公開授權照片有限，此為該社御朱印</p>
@@ -338,6 +372,7 @@ footer{margin-top:40px;text-align:center;color:var(--sub);font-size:12px;line-he
             <div class="tags"><span class="cat" style="background:#059669">❋ 名勝</span><span class="tag">加賀百萬石</span><span class="tag">與兼六園相鄰</span></div>
           </div>
         </div>
+        <div class="biz ok" style="--s:#059669"><div class="bizhead"><span class="badge" style="background:#059669">營業中</span><span class="hrs">公園 7:00–18:00｜菱櫓・五十間長屋 9:00–16:30（最後入館 16:00）</span></div><p class="hnote">公園免費，建物內 ¥320</p></div>
         <p class="sum">加賀藩前田家的居城，經過多次火災後由現代工法忠實復原。白色鉛瓦屋頂與海鼠壁（黑白格紋牆）是金澤城最好認的外觀，腹地廣大、草坪開闊。</p>
         <div class="hot"><h4>熱門重點</h4><ul><li>石川門｜面向兼六園的正門，江戶後期原構、重要文化財</li><li>五十間長屋・菱櫓｜日本戰後最大規模的木造復原建築，內部可付費參觀 ¥320</li><li>玉泉院丸庭園｜階梯狀的池泉庭園，旁邊的玉泉庵可抹茶配和菓子（約 ¥730）</li><li>公園本身免費開放，只有建物內部收費</li></ul></div>
         <div class="galwrap"><div class="gal g3"><figure class="ph"><img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/Castle_-_Ishikawa_Gate.JPG?width=1000" alt="金澤城公園" onerror="imgFail(this)"></figure><figure class="ph"><img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/Kanazawa_Kanazawa-jo_Hishi_Yagura_%26_Sakura_1.jpg?width=1000" alt="金澤城公園" onerror="imgFail(this)"></figure><figure class="ph"><img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/Kanazawa_Castle_with_moat_-_Kanazawa%2C_Japan.JPG?width=1000" alt="金澤城公園" onerror="imgFail(this)"></figure></div><div class="fb" hidden><div class="noimg" style="--c:#059669"><span class="ni-ic">❋</span><span class="ni-jp">金沢城公園</span><span class="ni-tx">圖片載入失敗（請確認網路連線）</span></div></div></div>
@@ -352,6 +387,7 @@ footer{margin-top:40px;text-align:center;color:var(--sub);font-size:12px;line-he
             <div class="tags"><span class="cat" style="background:#dc2626">⛩ 神社</span><span class="tag">和洋折衷</span><span class="tag">彩繪玻璃</span></div>
           </div>
         </div>
+        <div class="biz ok" style="--s:#059669"><div class="bizhead"><span class="badge" style="background:#059669">營業中</span><span class="hrs">境內全天開放｜授與所 8:30–18:00（觀光官網作 9:00–17:00）｜神門點燈 日落–22:00</span></div></div>
         <p class="sum">祭祀加賀藩初代藩主前田利家與正室阿松。最大看點是 1875 年建成的「神門」——三層樓、混合和漢洋三種風格，頂層鑲滿彩色玻璃，日落與夜間會點燈。</p>
         <div class="hot"><h4>熱門重點</h4><ul><li>神門（重要文化財）｜頂端原本是燈塔，彩繪玻璃在傍晚逆光時最美</li><li>神苑（舊金谷御殿庭園）｜以樂器造型配置石橋的池泉庭園</li><li>前田利家公像・母衣武者像｜戰國迷必拍</li><li>從這裡走到金澤車站約 15 分鐘，正好接上晚間購物</li></ul></div>
         <div class="galwrap"><div class="gal g3"><figure class="ph"><img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/Torii_and_Gate_of_Oyama_Shrine.JPG?width=1000" alt="尾山神社" onerror="imgFail(this)"></figure><figure class="ph"><img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/Haiden_of_Oyama_Shrine.JPG?width=1000" alt="尾山神社" onerror="imgFail(this)"></figure><figure class="ph"><img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/Matsu_Maeda_stone_relief_Oyama-jinja.jpg?width=1000" alt="尾山神社" onerror="imgFail(this)"></figure></div><div class="fb" hidden><div class="noimg" style="--c:#dc2626"><span class="ni-ic">⛩</span><span class="ni-jp">尾山神社</span><span class="ni-tx">圖片載入失敗（請確認網路連線）</span></div></div></div>
@@ -366,6 +402,7 @@ footer{margin-top:40px;text-align:center;color:var(--sub);font-size:12px;line-he
             <div class="tags"><span class="cat" style="background:#0ea5e9">◈ 地標</span><span class="tag">轉換點</span></div>
           </div>
         </div>
+        <div class="biz ok" style="--s:#059669"><div class="bizhead"><span class="badge" style="background:#059669">營業中</span><span class="hrs">百番街 あんと 8:30–20:00｜Rinto 10:00–20:00</span></div></div>
         <p class="sum">短暫停留、休息並補水，接著進入車站周邊的購物行程。百番街與對面的 FORUS 徒步 3 分鐘內互通。</p>
         <div class="hot"><h4>熱門重點</h4><ul><li>百番街 Anto｜關門前先看好想買的伴手禮，最後一天再回來掃</li><li>車站觀光案內所可索取隔天白川鄉巴士的時刻表</li></ul></div>
         <div class="galwrap"><div class="gal g3"><figure class="ph"><img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/Tsuzumimon_Gate_in_front_of_Kanazawa_Station_in_the_morning_20150121.JPG?width=1000" alt="金澤車站" onerror="imgFail(this)"></figure><figure class="ph"><img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/Motenashi_Dome%2C_Kanazawa_Station.JPG?width=1000" alt="金澤車站" onerror="imgFail(this)"></figure><figure class="ph"><img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/Tsuzumimon_Gate_in_front_of_Kanazawa_Station_at_night_20150120.JPG?width=1000" alt="金澤車站" onerror="imgFail(this)"></figure></div><div class="fb" hidden><div class="noimg" style="--c:#0ea5e9"><span class="ni-ic">◈</span><span class="ni-jp">金沢駅</span><span class="ni-tx">圖片載入失敗（請確認網路連線）</span></div></div></div>
@@ -380,6 +417,7 @@ footer{margin-top:40px;text-align:center;color:var(--sub);font-size:12px;line-he
             <div class="tags"><span class="cat" style="background:#db2777">◎ 購物</span><span class="tag">¥330 均一</span><span class="tag">生活雜貨</span></div>
           </div>
         </div>
+        <div class="biz ok" style="--s:#059669"><div class="bizhead"><span class="badge" style="background:#059669">營業中</span><span class="hrs">10:00–20:00</span></div><p class="hnote">位於百番街 Rinto</p></div>
         <p class="sum">日本人氣的 300 日圓均一雜貨店，+plus 是加大型店，商品線比一般店更廣。就在車站站內的 Rinto 區，回飯店超順路。</p>
         <div class="hot"><h4>熱門重點</h4><ul><li>旅行小物｜壓縮收納袋、掛式盥洗包、折疊購物袋，馬上就能用上</li><li>廚房與收納｜密封罐、瀝水盤、冰箱收納盒 CP 值最高</li><li>3COINS 原創美妝與髮飾｜女生最容易失手的一區</li><li>季節限定與聯名商品（迪士尼、三麗鷗）常常只在日本買得到</li></ul></div>
         <div class="galwrap"><div class="gal g1"><div class="noimg" style="--c:#db2777"><span class="ni-ic">◎</span><span class="ni-jp">3COINS+plus 金沢百番街Rinto店</span><span class="ni-tx">無公開授權照片</span></div></div></div>
@@ -394,6 +432,7 @@ footer{margin-top:40px;text-align:center;color:var(--sub);font-size:12px;line-he
             <div class="tags"><span class="cat" style="background:#db2777">◎ 購物</span><span class="tag">日本限定</span><span class="tag">免稅</span></div>
           </div>
         </div>
+        <div class="biz ok" style="--s:#059669"><div class="bizhead"><span class="badge" style="background:#059669">營業中</span><span class="hrs">10:00–20:00（FORUS 4F）</span></div><p class="hnote">距打烊剩約 1 小時 55 分</p></div>
         <p class="sum">就在金澤車站東口正對面的 FORUS 百貨內。日本本土 UNIQLO 的價格與限定款是最大誘因，滿 ¥5,000 可辦免稅。</p>
         <div class="hot"><h4>熱門重點</h4><ul><li>日本限定 UT 聯名｜浮世繪、動漫、美術館聯名款台灣通常沒有</li><li>AIRism / 感熱衣｜日本定價明顯低於台灣，八月正是夏季出清期</li><li>Uniqlo U 與 +J 系列｜日本鋪貨最齊</li><li>記得帶護照才能辦免稅</li></ul></div>
         <div class="galwrap"><div class="gal g3"><figure class="ph"><img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/UNIQLO_tokyo_ginza_store.JPG?width=1000" alt="UNIQLO 金澤 FORUS 店" onerror="imgFail(this)"></figure><figure class="ph"><img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/Uniqlo_Shinjuku_West.JPG?width=1000" alt="UNIQLO 金澤 FORUS 店" onerror="imgFail(this)"></figure><figure class="ph"><img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/UNIQLO_Uji_Okubo.JPG?width=1000" alt="UNIQLO 金澤 FORUS 店" onerror="imgFail(this)"></figure></div><div class="fb" hidden><div class="noimg" style="--c:#db2777"><span class="ni-ic">◎</span><span class="ni-jp">ユニクロ 金沢フォーラス店</span><span class="ni-tx">圖片載入失敗（請確認網路連線）</span></div></div></div><p class="imgnote">品牌門市示意圖（非金澤分店）</p>
@@ -408,6 +447,7 @@ footer{margin-top:40px;text-align:center;color:var(--sub);font-size:12px;line-he
             <div class="tags"><span class="cat" style="background:#db2777">◎ 購物</span><span class="tag">日本定價</span><span class="tag">免稅</span></div>
           </div>
         </div>
+        <div class="biz tight" style="--s:#d97706"><div class="bizhead"><span class="badge" style="background:#d97706">時間緊迫</span><span class="hrs">10:00–20:00（FORUS 5F）</span></div><p class="hnote">距打烊只剩約 54 分鐘</p></div>
         <p class="sum">與 UNIQLO 同棟的 FORUS 內，動線上樓下樓就到。日本無印的價格約為台灣的 6–7 折，是採買的重點站。</p>
         <div class="hot"><h4>熱門重點</h4><ul><li>食品區｜咖哩調理包、不揃いバウム年輪蛋糕、糖果零食，最好買也最好帶</li><li>文具｜筆記本、Gel 筆、旅行收納袋，日本限定色多</li><li>保養與香氛｜精油、香氛機、化妝水，台灣售價落差最大</li><li>滿 ¥5,000 免稅，建議把兩天的無印一起結帳</li></ul></div>
         <div class="galwrap"><div class="gal g2"><figure class="ph"><img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/Muji_Grand_Front_Osaka_201407.JPG?width=1000" alt="無印良品 金澤 FORUS 店" onerror="imgFail(this)"></figure><figure class="ph"><img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/Clothes_and_furniture_at_the_Muji_Canal_City_store_in_Fukuoka_January_2019.jpg?width=1000" alt="無印良品 金澤 FORUS 店" onerror="imgFail(this)"></figure></div><div class="fb" hidden><div class="noimg" style="--c:#db2777"><span class="ni-ic">◎</span><span class="ni-jp">無印良品 金沢フォーラス</span><span class="ni-tx">圖片載入失敗（請確認網路連線）</span></div></div></div><p class="imgnote">品牌門市示意圖（非金澤分店）</p>
@@ -422,8 +462,9 @@ footer{margin-top:40px;text-align:center;color:var(--sub);font-size:12px;line-he
             <div class="tags"><span class="cat" style="background:#db2777">◎ 購物</span><span class="tag">北陸唯一</span><span class="tag">限定商品</span></div>
           </div>
         </div>
-        <p class="sum">北陸地區唯一的官方寶可夢中心，同樣位在金澤 FORUS。2020 年開幕，店內有大型立體展示與限定扭蛋機。</p>
-        <div class="hot"><h4>熱門重點</h4><ul><li>金澤／北陸限定商品｜加賀友禪、金箔、和風主題的皮卡丘系列</li><li>店頭大型模型｜拍照打卡必備</li><li>Pokémon Center 限定絨毛與扭蛋｜台灣代購價常翻倍</li><li>營業到 20:00 或 21:00（依 FORUS 而定），這站建議提早一點到</li></ul></div>
+        <div class="biz closed" style="--s:#dc2626"><div class="bizhead"><span class="badge" style="background:#dc2626">已打烊</span><span class="hrs">10:00–20:00（FORUS 5F，非 6F）</span></div><p class="hnote">20:00 就打烊，20:06 到已經關門。務必把這站提前——建議 16:50 到車站後先上 FORUS 5F</p></div>
+        <p class="sum">北陸地區唯一的官方寶可夢中心，位在金澤 FORUS <strong>5F</strong>（非 6F）。2020 年開幕，店內有大型立體展示與限定扭蛋機。</p>
+        <div class="hot"><h4>熱門重點</h4><ul><li>金澤／北陸限定商品｜加賀友禪、金箔、和風主題的皮卡丘系列</li><li>店頭大型模型｜拍照打卡必備</li><li>Pokémon Center 限定絨毛與扭蛋｜台灣代購價常翻倍</li><li>⚠️ 營業時間 10:00–20:00，行程排的 20:06 會撲空。建議與無印、UNIQLO 一起提前到 17:00 前後開始逛</li></ul></div>
         <div class="galwrap"><div class="gal g3"><figure class="ph"><img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/Mega_Tokyo_Pok%C3%A9mon_Center_2.jpg?width=1000" alt="寶可夢中心 金澤店" onerror="imgFail(this)"></figure><figure class="ph"><img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/Pokemon_Center_Tohoku_in_SENDAI_PARCO.jpg?width=1000" alt="寶可夢中心 金澤店" onerror="imgFail(this)"></figure><figure class="ph"><img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/PokemonCenterTokyo-Hamamatsucho.JPG?width=1000" alt="寶可夢中心 金澤店" onerror="imgFail(this)"></figure></div><div class="fb" hidden><div class="noimg" style="--c:#db2777"><span class="ni-ic">◎</span><span class="ni-jp">ポケモンセンターカナザワ</span><span class="ni-tx">圖片載入失敗（請確認網路連線）</span></div></div></div><p class="imgnote">品牌門市示意圖（非金澤分店）</p>
         <a class="mapbtn" href="https://www.google.com/maps/search/?api=1&amp;query=%E3%83%9D%E3%82%B1%E3%83%A2%E3%83%B3%E3%82%BB%E3%83%B3%E3%82%BF%E3%83%BC%E3%82%AB%E3%83%8A%E3%82%B6%E3%83%AF" target="_blank" rel="noopener">在 Google 地圖開啟 <span>›</span></a>
       </article>
@@ -436,6 +477,7 @@ footer{margin-top:40px;text-align:center;color:var(--sub);font-size:12px;line-he
             <div class="tags"><span class="cat" style="background:#8b5cf6">⌂ 住宿</span><span class="tag">回程</span></div>
           </div>
         </div>
+        <div class="biz ok" style="--s:#059669"><div class="bizhead"><span class="badge" style="background:#059669">營業中</span><span class="hrs">24 小時櫃檯</span></div></div>
         <p class="sum">回飯店整理戰利品。明天是長途山路行程，記得早點休息並把暈車藥、外套備好。</p>
         <div class="hot"><h4>熱門重點</h4><ul><li>白川鄉山區早晚溫差大，建議帶一件薄外套</li><li>白山白川鄉白色道路是收費道路，開車請先備好現金或 ETC</li></ul></div>
         <div class="galwrap"><div class="gal g3"><figure class="ph"><img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/Skyline_of_Kanazawa_from_Ishikawa_Prefectural_Office_Building20230429.jpg?width=1000" alt="金澤佛爾薩酒店" onerror="imgFail(this)"></figure><figure class="ph"><img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/Fountain_clock_in_front_of_east_entrance_of_Kanazawa_Station_at_night.JPG?width=1000" alt="金澤佛爾薩酒店" onerror="imgFail(this)"></figure><figure class="ph"><img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/Machinori_port_02_Kanazawa_station_east.jpg?width=1000" alt="金澤佛爾薩酒店" onerror="imgFail(this)"></figure></div><div class="fb" hidden><div class="noimg" style="--c:#8b5cf6"><span class="ni-ic">⌂</span><span class="ni-jp">ホテルフォルツァ金沢</span><span class="ni-tx">圖片載入失敗（請確認網路連線）</span></div></div></div><p class="imgnote">周邊街景參考圖</p>
@@ -451,7 +493,7 @@ footer{margin-top:40px;text-align:center;color:var(--sub);font-size:12px;line-he
         <p class="ddate">2026/08/18・週二 ・ 9 個行程點</p>
       </div>
     </header>
-    <div class="dnote">全天山路行程。白山白川鄉白色道路每年約 6 月上旬～11 月上旬開放，通行時間 7:00–18:00（最後進入約 16:00），普通車通行費約 ¥1,700，且禁止機車與夜間通行——出發前務必上官網確認當日通行狀況。</div>
+    <div class="dnote">全天山路行程。白山白川鄉白色道路 2026 年開放期間為 6/12–11/10，8 月入場時間 7:00–18:00（出口 19:00）。普通車單程 ¥1,700、<strong>只收現金</strong>（不能刷卡或 ETC），全線禁行機車。出發前務必上官網確認當日通行狀況。</div>
     <div class="cards">
       <article class="card" style="--c:#8b5cf6">
         <div class="chead">
@@ -462,6 +504,7 @@ footer{margin-top:40px;text-align:center;color:var(--sub);font-size:12px;line-he
             <div class="tags"><span class="cat" style="background:#8b5cf6">⌂ 住宿</span><span class="tag">出發</span></div>
           </div>
         </div>
+        <div class="biz ok" style="--s:#059669"><div class="bizhead"><span class="badge" style="background:#059669">營業中</span><span class="hrs">早餐 6:30–10:30</span></div><p class="hnote">山路無便利商店，油與飲水先備妥</p></div>
         <p class="sum">早餐後出發往白山方向。到白色道路入口約 1.5 小時車程，沿途便利商店在進山後就變少，飲水與零食先買好。</p>
         <div class="hot"><h4>熱門重點</h4><ul><li>加油站在山區稀少，出發前先加滿油</li><li>山路彎道多，會暈車的人建議坐前座</li></ul></div>
         <div class="galwrap"><div class="gal g3"><figure class="ph"><img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/Skyline_of_Kanazawa_from_Ishikawa_Prefectural_Office_Building20230429.jpg?width=1000" alt="金澤佛爾薩酒店" onerror="imgFail(this)"></figure><figure class="ph"><img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/Fountain_clock_in_front_of_east_entrance_of_Kanazawa_Station_at_night.JPG?width=1000" alt="金澤佛爾薩酒店" onerror="imgFail(this)"></figure><figure class="ph"><img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/Machinori_port_02_Kanazawa_station_east.jpg?width=1000" alt="金澤佛爾薩酒店" onerror="imgFail(this)"></figure></div><div class="fb" hidden><div class="noimg" style="--c:#8b5cf6"><span class="ni-ic">⌂</span><span class="ni-jp">ホテルフォルツァ金沢</span><span class="ni-tx">圖片載入失敗（請確認網路連線）</span></div></div></div><p class="imgnote">周邊街景參考圖</p>
@@ -476,8 +519,9 @@ footer{margin-top:40px;text-align:center;color:var(--sub);font-size:12px;line-he
             <div class="tags"><span class="cat" style="background:#65a30d">⌒ 景觀道路</span><span class="tag">收費道路</span><span class="tag">季節限定</span></div>
           </div>
         </div>
+        <div class="biz ok" style="--s:#059669"><div class="bizhead"><span class="badge" style="background:#059669">營業中</span><span class="hrs">2026 開放期間 6/12–11/10｜8 月入場 7:00–18:00（出口 19:00）</span></div><p class="hnote">普通車單程 ¥1,700，<strong>僅收現金</strong>（不能刷卡／ETC）；全線禁行機車。金澤 IC 出發約 90 分</p></div>
         <p class="sum">連接石川縣白山市與岐阜縣白川村、全長約 33 公里的山岳觀光道路（舊稱白山超級林道）。海拔最高處超過 1,450 公尺，穿越白山國立公園的原始林，是北陸最經典的一段兜風路線。</p>
-        <div class="hot"><h4>熱門重點</h4><ul><li>ふくべの大滝｜落差 86 公尺、水量驚人，可停車近距離觀賞，是全線最大亮點</li><li>蛇谷園地・親谷之湯｜溪谷步道與野溪溫泉（足湯）</li><li>三方岩岳登山口｜全線最高點附近，展望絕佳</li><li>10 月中～11 月初是紅葉最盛期；8 月則是滿眼濃綠與瀑布水量最大的季節</li></ul></div>
+        <div class="hot"><h4>熱門重點</h4><ul><li>ふくべの大滝｜落差 86 公尺、水量驚人，可停車近距離觀賞，是全線最大亮點</li><li>⚠️ 蛇谷園地往姥瀑布・親谷之湯的步道自 2025/6/26 起因落石無限期封閉，野溪溫泉停用</li><li>三方岩岳登山口｜全線最高點附近，展望絕佳</li><li>10 月中～11 月初是紅葉最盛期；8 月則是滿眼濃綠與瀑布水量最大的季節</li></ul></div>
         <div class="galwrap"><div class="gal g3"><figure class="ph"><img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/Hakusan_Super_Rindo_Forest_Road_Chugu_Toll_Gate_001.JPG?width=1000" alt="白山白川鄉白色道路" onerror="imgFail(this)"></figure><figure class="ph"><img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/Entrance_of_Hakusan_National_Park.jpg?width=1000" alt="白山白川鄉白色道路" onerror="imgFail(this)"></figure><figure class="ph"><img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/Mount_Hakusan_Nishiwaki.jpg?width=1000" alt="白山白川鄉白色道路" onerror="imgFail(this)"></figure></div><div class="fb" hidden><div class="noimg" style="--c:#65a30d"><span class="ni-ic">⌒</span><span class="ni-jp">白山白川郷ホワイトロード</span><span class="ni-tx">圖片載入失敗（請確認網路連線）</span></div></div></div>
         <a class="mapbtn" href="https://www.google.com/maps/search/?api=1&amp;query=%E7%99%BD%E5%B1%B1%E7%99%BD%E5%B7%9D%E9%83%B7%E3%83%9B%E3%83%AF%E3%82%A4%E3%83%88%E3%83%AD%E3%83%BC%E3%83%89%20%E4%B8%AD%E5%AE%AE%E6%96%99%E9%87%91%E6%89%80" target="_blank" rel="noopener">在 Google 地圖開啟 <span>›</span></a>
       </article>
@@ -490,6 +534,7 @@ footer{margin-top:40px;text-align:center;color:var(--sub);font-size:12px;line-he
             <div class="tags"><span class="cat" style="background:#0891b2">▲ 展望台</span><span class="tag">山岳展望</span></div>
           </div>
         </div>
+        <div class="biz ok" style="--s:#059669"><div class="bizhead"><span class="badge" style="background:#059669">營業中</span><span class="hrs">依白色道路通行時間</span></div><p class="hnote">停車區設有廁所與自動販賣機</p></div>
         <p class="sum">白色道路岐阜側的展望停車區，可眺望白山連峰與往白川鄉方向的深谷。海拔高、氣溫比平地低 5–8 度，是全程最舒服的休息點。</p>
         <div class="hot"><h4>熱門重點</h4><ul><li>晴天可望見白山主峰與三方岩岳的岩壁</li><li>停車場旁有廁所與自動販賣機，是進入白川鄉前最後的補給點</li><li>雲海機率高的是清晨，中午多為開闊藍天視野</li></ul></div>
         <div class="galwrap"><div class="gal g2"><figure class="ph"><img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/Ryohaku_Mountains_from_Mount_Maru.JPG?width=1000" alt="白色道路 白川鄉展望台" onerror="imgFail(this)"></figure><figure class="ph"><img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/Ryohaku_Mountains_from_Mount_Dainachi.JPG?width=1000" alt="白色道路 白川鄉展望台" onerror="imgFail(this)"></figure></div><div class="fb" hidden><div class="noimg" style="--c:#0891b2"><span class="ni-ic">▲</span><span class="ni-jp">ホワイトロード 白川郷展望台</span><span class="ni-tx">圖片載入失敗（請確認網路連線）</span></div></div></div><p class="imgnote">兩白山地一帶展望示意圖</p>
@@ -504,8 +549,9 @@ footer{margin-top:40px;text-align:center;color:var(--sub);font-size:12px;line-he
             <div class="tags"><span class="cat" style="background:#0d9488">★ 世界遺產</span><span class="tag">UNESCO</span><span class="tag">必訪</span></div>
           </div>
         </div>
+        <div class="biz tight" style="--s:#d97706"><div class="bizhead"><span class="badge" style="background:#d97706">時間緊迫</span><span class="hrs">聚落全天開放｜せせらぎ公園停車場 8:00–17:00（最後入場 16:30）｜和田家 9:00–17:00</span></div><p class="hnote">停車 ¥2,000（旺季另有加價，2026 金額未公告）；和田家為不定休，可能當天沒開。停留 1 小時含停車與走動偏趕，建議拉到 1.5–2 小時</p></div>
         <p class="sum">1995 年登錄的世界文化遺產。約 110 棟茅葺屋頂的「合掌造」民家散布在庄川河谷，屋頂陡峭如雙手合十，是為了承受豪雪而生的建築智慧。至今仍有居民生活其中。</p>
-        <div class="hot"><h4>熱門重點</h4><ul><li>和田家（重要文化財）｜規模最大的合掌屋，可入內看到三層樓的養蠶空間 ¥400</li><li>明善寺鄉土館｜連寺院鐘樓都是茅葺，最有味道的一角</li><li>であい橋｜跨過庄川的吊橋，是從停車場走進聚落的必經入口</li><li>午餐推薦｜飛驒牛朴葉味噌、蕎麥麵、五平餅</li><li>聚落內請走指定道路，勿進入民家庭院與農田</li></ul></div>
+        <div class="hot"><h4>熱門重點</h4><ul><li>和田家（重要文化財）｜規模最大的合掌屋，9:00–17:00、¥400，但為<strong>不定休</strong>可能當天沒開</li><li>明善寺鄉土館｜連寺院鐘樓都是茅葺，最有味道的一角</li><li>であい橋｜跨過庄川的吊橋，是從停車場走進聚落的必經入口（せせらぎ公園停車場 8:00–17:00、普通車 ¥2,000，旺季加價）</li><li>午餐推薦｜飛驒牛朴葉味噌、蕎麥麵、五平餅</li><li>聚落內請走指定道路，勿進入民家庭院與農田</li></ul></div>
         <div class="galwrap"><div class="gal g3"><figure class="ph"><img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/Shirakawago.jpg?width=1000" alt="白川鄉 合掌造聚落" onerror="imgFail(this)"></figure><figure class="ph"><img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/Ogi_Shirakawa-g%C5%8D%2C_Gifu%2C_Japan.jpg?width=1000" alt="白川鄉 合掌造聚落" onerror="imgFail(this)"></figure><figure class="ph"><img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/SHIRAKAWA_GOU.JPG?width=1000" alt="白川鄉 合掌造聚落" onerror="imgFail(this)"></figure></div><div class="fb" hidden><div class="noimg" style="--c:#0d9488"><span class="ni-ic">★</span><span class="ni-jp">白川郷 荻町合掌造り集落</span><span class="ni-tx">圖片載入失敗（請確認網路連線）</span></div></div></div>
         <a class="mapbtn" href="https://www.google.com/maps/search/?api=1&amp;query=%E7%99%BD%E5%B7%9D%E9%83%B7%20%E5%90%88%E6%8E%8C%E9%80%A0%E3%82%8A%E9%9B%86%E8%90%BD" target="_blank" rel="noopener">在 Google 地圖開啟 <span>›</span></a>
       </article>
@@ -518,8 +564,9 @@ footer{margin-top:40px;text-align:center;color:var(--sub);font-size:12px;line-he
             <div class="tags"><span class="cat" style="background:#0891b2">▲ 展望台</span><span class="tag">明信片視角</span><span class="tag">必拍</span></div>
           </div>
         </div>
+        <div class="biz ok" style="--s:#059669"><div class="bizhead"><span class="badge" style="background:#059669">營業中</span><span class="hrs">城山天守閣展望台 9:30–15:30（不定休）｜荻町城跡展望台 全天｜接駁巴士約 9:00–16:00</span></div><p class="hnote">接駁 ¥300 現金車上付；天守閣展望台為私人產業，非營業時間禁止進入</p></div>
         <p class="sum">白川鄉最著名的俯瞰點，位在荻町城遺址的高台上。所有白川鄉的經典照片幾乎都出自這裡——整片合掌屋頂在山谷中排開，背後是層層山巒。</p>
-        <div class="hot"><h4>熱門重點</h4><ul><li>展望台平台｜正面俯瞰整個荻町聚落的標準構圖</li><li>上山方式｜聚落內和田家附近有登山步道（步行約 20 分），或搭接駁巴士（約 10 分、¥300）</li><li>旁邊的『天守閣展望台』餐廳可邊吃邊看，位置更高</li><li>中午時段順光，拍出來的屋頂線條最清楚</li></ul></div>
+        <div class="hot"><h4>熱門重點</h4><ul><li>展望台平台｜正面俯瞰整個荻町聚落的標準構圖</li><li>上山方式｜和田家附近有登山步道（步行約 15 分），或搭接駁巴士（約 9:00–16:00、¥300 現金車上付）</li><li>旁邊的『城山天守閣展望台』9:30–15:30、不定休，屬私人產業，非營業時間禁止進入</li><li>中午時段順光，拍出來的屋頂線條最清楚</li></ul></div>
         <div class="galwrap"><div class="gal g3"><figure class="ph"><img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/View_of_Shirakawa%2C_Gifu%2C_Japan_from_Ogimachi_Castle_Observation_Deck_%E8%8D%BB%E7%94%BA%E5%9F%8E%E8%B7%A1_%E5%B1%95%E6%9C%9B%E5%8F%B0_%28232%29.jpg?width=1000" alt="天守閣展望台" onerror="imgFail(this)"></figure><figure class="ph"><img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/Shirakawa-go_%282014-06-03%29.JPG?width=1000" alt="天守閣展望台" onerror="imgFail(this)"></figure><figure class="ph"><img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/World_Heritage%2C_Shirakawago.JPG?width=1000" alt="天守閣展望台" onerror="imgFail(this)"></figure></div><div class="fb" hidden><div class="noimg" style="--c:#0891b2"><span class="ni-ic">▲</span><span class="ni-jp">荻町城跡展望台</span><span class="ni-tx">圖片載入失敗（請確認網路連線）</span></div></div></div>
         <a class="mapbtn" href="https://www.google.com/maps/search/?api=1&amp;query=%E8%8D%BB%E7%94%BA%E5%9F%8E%E8%B7%A1%E5%B1%95%E6%9C%9B%E5%8F%B0" target="_blank" rel="noopener">在 Google 地圖開啟 <span>›</span></a>
       </article>
@@ -532,8 +579,9 @@ footer{margin-top:40px;text-align:center;color:var(--sub);font-size:12px;line-he
             <div class="tags"><span class="cat" style="background:#0d9488">★ 世界遺產</span><span class="tag">UNESCO</span><span class="tag">人少</span></div>
           </div>
         </div>
+        <div class="biz ok" style="--s:#059669"><div class="bizhead"><span class="badge" style="background:#059669">營業中</span><span class="hrs">相倉 8:30–17:00（無休）｜菅沼 8:00–17:00（最後入場 16:00）</span></div><p class="hnote">保存協力金已調漲為普通車 ¥1,000（部分網站仍寫 ¥500）。菅沼的「鹽硝之館」自 2026/7/31 起整修休館</p></div>
         <p class="sum">與白川鄉同時登錄世界遺產、位在富山縣南砺市的兩處聚落（相倉 20 棟、菅沼 9 棟）。規模小得多，也因此保留了更純粹的山村氣氛，觀光客明顯比白川鄉少。</p>
-        <div class="hot"><h4>熱門重點</h4><ul><li>相倉集落｜規模較大，山坡上的展望點可拍到全景，是五箇山最上鏡的一處</li><li>菅沼集落｜緊鄰庄川，只有 9 棟，10 分鐘就能走完，寧靜度最高</li><li>五箇山民謠『こきりこ節』｜日本最古老的民謠之一，發源於此</li><li>名物｜五箇山豆腐（硬到能用繩子綁）、岩魚鹽烤</li><li>兩個聚落開車相距約 15 分鐘，時間有限就選相倉</li></ul></div>
+        <div class="hot"><h4>熱門重點</h4><ul><li>相倉集落｜規模較大，山坡上的展望點可拍到全景，是五箇山最上鏡的一處</li><li>菅沼集落｜緊鄰庄川，只有 9 棟，10 分鐘就能走完，寧靜度最高</li><li>五箇山民謠『こきりこ節』｜日本最古老的民謠之一，發源於此</li><li>名物｜五箇山豆腐（硬到能用繩子綁）、岩魚鹽烤</li><li>兩處相距約 15 分鐘車程，時間有限就選相倉。保存協力金已調漲為普通車 ¥1,000（相倉 8:30–17:00、菅沼 8:00–17:00）</li></ul></div>
         <div class="galwrap"><div class="gal g3"><figure class="ph"><img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/Gokayama_ainokura_gassho_shuraku_20050504_4.jpg?width=1000" alt="秘境 五箇山 合掌之里" onerror="imgFail(this)"></figure><figure class="ph"><img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/Gokayama_Ainokura_Gassho-zukuri_19.jpg?width=1000" alt="秘境 五箇山 合掌之里" onerror="imgFail(this)"></figure><figure class="ph"><img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/Gokayama_suganuma.JPG?width=1000" alt="秘境 五箇山 合掌之里" onerror="imgFail(this)"></figure></div><div class="fb" hidden><div class="noimg" style="--c:#0d9488"><span class="ni-ic">★</span><span class="ni-jp">五箇山 合掌の里（相倉・菅沼）</span><span class="ni-tx">圖片載入失敗（請確認網路連線）</span></div></div></div>
         <a class="mapbtn" href="https://www.google.com/maps/search/?api=1&amp;query=%E4%BA%94%E7%AE%87%E5%B1%B1%20%E7%9B%B8%E5%80%89%E5%90%88%E6%8E%8C%E9%80%A0%E3%82%8A%E9%9B%86%E8%90%BD" target="_blank" rel="noopener">在 Google 地圖開啟 <span>›</span></a>
       </article>
@@ -546,6 +594,7 @@ footer{margin-top:40px;text-align:center;color:var(--sub);font-size:12px;line-he
             <div class="tags"><span class="cat" style="background:#db2777">◎ 購物</span><span class="tag">大型路面店</span><span class="tag">停車方便</span></div>
           </div>
         </div>
+        <div class="biz tight" style="--s:#d97706"><div class="bizhead"><span class="badge" style="background:#d97706">時間緊迫</span><span class="hrs">10:00–20:00</span></div><p class="hnote">五箇山開車回白山約 1 小時以上，若 15:15 才離開相倉，實際到店約 16:30–16:45</p></div>
         <p class="sum">回程順路的大型路面店，坪數與商品線都比車站商場店完整，且有大型免費停車場，不用扛著東西擠電梯。</p>
         <div class="hot"><h4>熱門重點</h4><ul><li>家具・寢具・收納｜只有大型店才看得到的完整陳列</li><li>食品區最齊全｜咖哩、零食、冷凍食品的品項比商場店多</li><li>有些大型店設有 Café&amp;Meal MUJI 或麵包區</li><li>與昨天 FORUS 店的採買一起規劃，避免重複買</li></ul></div>
         <div class="galwrap"><div class="gal g2"><figure class="ph"><img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/Muji_Grand_Front_Osaka_201407.JPG?width=1000" alt="無印良品 白山北安田" onerror="imgFail(this)"></figure><figure class="ph"><img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/Clothes_and_furniture_at_the_Muji_Canal_City_store_in_Fukuoka_January_2019.jpg?width=1000" alt="無印良品 白山北安田" onerror="imgFail(this)"></figure></div><div class="fb" hidden><div class="noimg" style="--c:#db2777"><span class="ni-ic">◎</span><span class="ni-jp">無印良品 白山北安田</span><span class="ni-tx">圖片載入失敗（請確認網路連線）</span></div></div></div><p class="imgnote">品牌門市示意圖（非該分店）</p>
@@ -560,6 +609,7 @@ footer{margin-top:40px;text-align:center;color:var(--sub);font-size:12px;line-he
             <div class="tags"><span class="cat" style="background:#8b5cf6">⌂ 住宿</span><span class="tag">休息</span></div>
           </div>
         </div>
+        <div class="biz ok" style="--s:#059669"><div class="bizhead"><span class="badge" style="background:#059669">營業中</span><span class="hrs">24 小時櫃檯</span></div></div>
         <p class="sum">放戰利品、稍作休息，晚上再出門去唐吉訶德。山路開了一整天，這一小時很值得。</p>
         <div class="hot"><h4>熱門重點</h4><ul><li>先把行李箱空間整理出來，晚上採買比較有底</li></ul></div>
         <div class="galwrap"><div class="gal g3"><figure class="ph"><img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/Skyline_of_Kanazawa_from_Ishikawa_Prefectural_Office_Building20230429.jpg?width=1000" alt="金澤佛爾薩酒店" onerror="imgFail(this)"></figure><figure class="ph"><img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/Fountain_clock_in_front_of_east_entrance_of_Kanazawa_Station_at_night.JPG?width=1000" alt="金澤佛爾薩酒店" onerror="imgFail(this)"></figure><figure class="ph"><img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/Machinori_port_02_Kanazawa_station_east.jpg?width=1000" alt="金澤佛爾薩酒店" onerror="imgFail(this)"></figure></div><div class="fb" hidden><div class="noimg" style="--c:#8b5cf6"><span class="ni-ic">⌂</span><span class="ni-jp">ホテルフォルツァ金沢</span><span class="ni-tx">圖片載入失敗（請確認網路連線）</span></div></div></div><p class="imgnote">周邊街景參考圖</p>
@@ -574,8 +624,9 @@ footer{margin-top:40px;text-align:center;color:var(--sub);font-size:12px;line-he
             <div class="tags"><span class="cat" style="background:#db2777">◎ 購物</span><span class="tag">24 小時</span><span class="tag">免稅</span></div>
           </div>
         </div>
-        <p class="sum">MEGA 規格的大型唐吉訶德，除了藥妝零食還加入生鮮食品與家電，商品密度高到像尋寶。附設大型停車場，晚上人潮相對舒服。</p>
-        <div class="hot"><h4>熱門重點</h4><ul><li>藥妝｜EVE 止痛藥、休足時間、蒸氣眼罩、曲617 系列是台灣人定番</li><li>零食｜Kit Kat 地區限定、薯條三兄弟、白色戀人一次補齊</li><li>情人節／季節限定與福袋區常有超殺清倉價</li><li>免稅櫃檯｜滿 ¥5,000 免稅，記得帶護照；結帳前先去拿免稅專用袋</li><li>下載 majica App 可再折扣</li></ul></div>
+        <div class="biz ok" style="--s:#059669"><div class="bizhead"><span class="badge" style="background:#059669">營業中</span><span class="hrs">8:00–24:00（2F 9:00 起）</span></div><p class="hnote"><strong>不是 24 小時營業</strong>；免稅櫃檯可能提早收，晚上採買請先確認</p></div>
+        <p class="sum">MEGA 規格的大型唐吉訶德，除了藥妝零食還加入生鮮食品與家電，商品密度高到像尋寶。營業至凌晨 0:00（<strong>不是 24 小時</strong>），附設大型停車場。</p>
+        <div class="hot"><h4>熱門重點</h4><ul><li>藥妝｜EVE 止痛藥、休足時間、蒸氣眼罩、曲617 系列是台灣人定番</li><li>零食｜Kit Kat 地區限定、薯條三兄弟、白色戀人一次補齊</li><li>情人節／季節限定與福袋區常有超殺清倉價</li><li>免稅櫃檯｜滿 ¥5,000 免稅，記得帶護照；免稅櫃檯可能比賣場提早收，晚上採買請先問</li><li>下載 majica App 可再折扣</li></ul></div>
         <div class="galwrap"><div class="gal g3"><figure class="ph"><img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/Don_Quijote_in_Shinjuku_at_night.jpg?width=1000" alt="MEGA 唐吉訶德 LAPARK 金澤店" onerror="imgFail(this)"></figure><figure class="ph"><img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/MEGA_Don_Quijote_UNY_Tokaidori.jpg?width=1000" alt="MEGA 唐吉訶德 LAPARK 金澤店" onerror="imgFail(this)"></figure><figure class="ph"><img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/Don_Quijote_Dotonbori_Midosuji_store.JPG?width=1000" alt="MEGA 唐吉訶德 LAPARK 金澤店" onerror="imgFail(this)"></figure></div><div class="fb" hidden><div class="noimg" style="--c:#db2777"><span class="ni-ic">◎</span><span class="ni-jp">MEGAドン・キホーテ ラパーク金沢店</span><span class="ni-tx">圖片載入失敗（請確認網路連線）</span></div></div></div><p class="imgnote">品牌門市示意圖（非金澤分店）</p>
         <a class="mapbtn" href="https://www.google.com/maps/search/?api=1&amp;query=MEGA%E3%83%89%E3%83%B3%E3%83%BB%E3%82%AD%E3%83%9B%E3%83%BC%E3%83%86%20%E3%83%A9%E3%83%91%E3%83%BC%E3%82%AF%E9%87%91%E6%B2%A2%E5%BA%97" target="_blank" rel="noopener">在 Google 地圖開啟 <span>›</span></a>
       </article></div>
@@ -600,6 +651,7 @@ footer{margin-top:40px;text-align:center;color:var(--sub);font-size:12px;line-he
             <div class="tags"><span class="cat" style="background:#8b5cf6">⌂ 住宿</span><span class="tag">出發</span></div>
           </div>
         </div>
+        <div class="biz ok" style="--s:#059669"><div class="bizhead"><span class="badge" style="background:#059669">營業中</span><span class="hrs">早餐 6:30–10:30</span></div></div>
         <p class="sum">最後一個完整的白天。今天行程輕鬆，下午回飯店後還有時間補買伴手禮或去沒逛完的地方。</p>
         <div class="hot"><h4>熱門重點</h4><ul><li>21 世紀美術館的『泳池』作品需另外購票且常額滿，建議前一晚先線上預約</li></ul></div>
         <div class="galwrap"><div class="gal g3"><figure class="ph"><img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/Skyline_of_Kanazawa_from_Ishikawa_Prefectural_Office_Building20230429.jpg?width=1000" alt="金澤佛爾薩酒店" onerror="imgFail(this)"></figure><figure class="ph"><img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/Fountain_clock_in_front_of_east_entrance_of_Kanazawa_Station_at_night.JPG?width=1000" alt="金澤佛爾薩酒店" onerror="imgFail(this)"></figure><figure class="ph"><img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/Machinori_port_02_Kanazawa_station_east.jpg?width=1000" alt="金澤佛爾薩酒店" onerror="imgFail(this)"></figure></div><div class="fb" hidden><div class="noimg" style="--c:#8b5cf6"><span class="ni-ic">⌂</span><span class="ni-jp">ホテルフォルツァ金沢</span><span class="ni-tx">圖片載入失敗（請確認網路連線）</span></div></div></div><p class="imgnote">周邊街景參考圖</p>
@@ -614,8 +666,9 @@ footer{margin-top:40px;text-align:center;color:var(--sub);font-size:12px;line-he
             <div class="tags"><span class="cat" style="background:#b45309">⛩ 古街</span><span class="tag">土牆</span><span class="tag">江戶武士街</span></div>
           </div>
         </div>
+        <div class="biz ok" style="--s:#059669"><div class="bizhead"><span class="badge" style="background:#059669">營業中</span><span class="hrs">野村家 8:30–17:30（4–9 月，最後入館 17:00）</span></div><p class="hnote">門票 ¥550；僅 12/26–27、1/1–2 休館</p></div>
         <p class="sum">加賀藩中級武士居住的舊宅區，土黃色的夯土牆、石板路與大野庄用水的流水聲，完整保留了江戶時代的城下町氛圍。清晨與上午幾乎沒人，走起來特別安靜。</p>
-        <div class="hot"><h4>熱門重點</h4><ul><li>野村家（武家屋敷跡野村家）｜被米其林綠色指南列為二星，庭園被美國庭園雜誌評為日本前三 ¥550</li><li>土塀（夯土牆）｜冬季會覆上稻草『薦掛け』，夏季則是原始土色最有味道</li><li>大野庄用水｜金澤最古老的水渠，沿著它走就不會迷路</li><li>金澤市老舖紀念館｜舊藥舖建築，可看江戶商家的內部</li><li>九谷燒與加賀友禪的小店散布其間，適合買精緻伴手禮</li></ul></div>
+        <div class="hot"><h4>熱門重點</h4><ul><li>野村家｜米其林綠色指南二星，庭園獲美國庭園雜誌評為日本前三。8:30–17:30（4–9 月）、¥550</li><li>土塀（夯土牆）｜冬季會覆上稻草『薦掛け』，夏季則是原始土色最有味道</li><li>大野庄用水｜金澤最古老的水渠，沿著它走就不會迷路</li><li>金澤市老舖紀念館｜舊藥舖建築，可看江戶商家的內部</li><li>九谷燒與加賀友禪的小店散布其間，適合買精緻伴手禮</li></ul></div>
         <div class="galwrap"><div class="gal g3"><figure class="ph"><img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/Nagamachi_Bukeyashiki.jpg?width=1000" alt="長町武家屋敷跡" onerror="imgFail(this)"></figure><figure class="ph"><img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/Nagamachi_Buke_Yashiki_District_04.jpg?width=1000" alt="長町武家屋敷跡" onerror="imgFail(this)"></figure><figure class="ph"><img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/1_Chome_Nagamachi%2C_Kanazawa-shi%2C_Ishikawa-ken_920-0865%2C_Japan_-_panoramio.jpg?width=1000" alt="長町武家屋敷跡" onerror="imgFail(this)"></figure></div><div class="fb" hidden><div class="noimg" style="--c:#b45309"><span class="ni-ic">⛩</span><span class="ni-jp">長町武家屋敷跡</span><span class="ni-tx">圖片載入失敗（請確認網路連線）</span></div></div></div>
         <a class="mapbtn" href="https://www.google.com/maps/search/?api=1&amp;query=%E9%95%B7%E7%94%BA%E6%AD%A6%E5%AE%B6%E5%B1%8B%E6%95%B7%E8%B7%A1" target="_blank" rel="noopener">在 Google 地圖開啟 <span>›</span></a>
       </article>
@@ -628,6 +681,7 @@ footer{margin-top:40px;text-align:center;color:var(--sub);font-size:12px;line-he
             <div class="tags"><span class="cat" style="background:#b45309">⛩ 古街</span><span class="tag">三大茶屋街</span><span class="tag">和菓子</span></div>
           </div>
         </div>
+        <div class="biz ok" style="--s:#059669"><div class="bizhead"><span class="badge" style="background:#059669">營業中</span><span class="hrs">街區全天開放｜西茶屋資料館 9:30–17:00（無休）</span></div><p class="hnote">資料館免費</p></div>
         <p class="sum">金澤三大茶屋街中最小的一條，只有短短一列木格子建築，但現役藝妓人數其實是三處最多的。觀光客少，加上鄰近的甘納豆與和菓子名店，很適合悠閒散步。</p>
         <div class="hot"><h4>熱門重點</h4><ul><li>西茶屋資料館｜免費入館，重現大正時代的茶屋座敷，二樓有朱紅色的華麗房間</li><li>甘納豆かわむら｜金澤代表性的甘納豆專賣店，包裝精美、伴手禮首選</li><li>落雁 諸江屋｜1849 年創業的和菓子老舖，落雁與『花うさぎ』很受歡迎</li><li>夜晚偶爾能聽見三味線的練習聲，是這裡的隱藏樂趣</li><li>與忍者寺（妙立寺）步行 5 分鐘，有興趣可加碼（需預約）</li></ul></div>
         <div class="galwrap"><div class="gal g1"><div class="noimg" style="--c:#b45309"><span class="ni-ic">⛩</span><span class="ni-jp">にし茶屋街</span><span class="ni-tx">無公開授權照片</span></div></div></div>
@@ -642,8 +696,9 @@ footer{margin-top:40px;text-align:center;color:var(--sub);font-size:12px;line-he
             <div class="tags"><span class="cat" style="background:#4f46e5">◆ 美術館</span><span class="tag">當代藝術</span><span class="tag">建築名作</span></div>
           </div>
         </div>
+        <div class="biz ok" style="--s:#059669"><div class="bizhead"><span class="badge" style="background:#059669">營業中</span><span class="hrs">交流區 9:00–22:00｜展覽區 10:00–18:00（週五六至 20:00）</span></div><p class="hnote">休館日是<strong>週一</strong>，8/19 為週三正常開館。《游泳池》地下部需事前預約時段並持主辦展覽票；地面水面側可免費看</p></div>
         <p class="sum">SANAA（妹島和世＋西澤立衛）設計的圓形玻璃美術館，2004 年開館後成為日本最成功的地方美術館之一，也是普立茲克獎作品。沒有正面與背面、四面都能進入的開放設計本身就是展品。</p>
-        <div class="hot"><h4>熱門重點</h4><ul><li>《游泳池》Leandro Erlich｜隔著水面互看的錯視名作，需另購展覽券且常額滿，強烈建議線上預約</li><li>《彩色屋》Colour Activity House｜三色玻璃牆，怎麼拍都好看，免費區</li><li>《雲之測量法》《人們》｜屋頂與草坪上的戶外作品，免費</li><li>免費交流區（開放時間 9:00–22:00）與展覽區（10:00–18:00）票價分開</li><li>館內 Fusion21 餐廳與 Museum Shop 的設計小物很值得逛</li></ul></div>
+        <div class="hot"><h4>熱門重點</h4><ul><li>《游泳池》Leandro Erlich｜地下部需<strong>事前預約時段</strong>並持主辦展覽票；地面水面側可從免費區觀看</li><li>《彩色屋》Colour Activity House｜三色玻璃牆，怎麼拍都好看，免費區</li><li>《雲之測量法》《人們》｜屋頂與草坪上的戶外作品，免費</li><li>休館日是<strong>週一</strong>（8/19 為週三正常開館）；交流區 9:00–22:00 免費，展覽區 10:00–18:00（週五六至 20:00）需購票</li><li>館內 Fusion21 餐廳與 Museum Shop 的設計小物很值得逛</li></ul></div>
         <div class="galwrap"><div class="gal g3"><figure class="ph"><img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/21st_Century_Museum_of_Contemporary_Art%2C_Kanazawa011.jpg?width=1000" alt="金澤 21 世紀美術館" onerror="imgFail(this)"></figure><figure class="ph"><img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/21st_Century_Museum_of_Contemporary_Art%2C_Kanazawa004.jpg?width=1000" alt="金澤 21 世紀美術館" onerror="imgFail(this)"></figure><figure class="ph"><img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/Kanazawa_21st_Century_Museum.jpg?width=1000" alt="金澤 21 世紀美術館" onerror="imgFail(this)"></figure></div><div class="fb" hidden><div class="noimg" style="--c:#4f46e5"><span class="ni-ic">◆</span><span class="ni-jp">金沢21世紀美術館</span><span class="ni-tx">圖片載入失敗（請確認網路連線）</span></div></div></div>
         <a class="mapbtn" href="https://www.google.com/maps/search/?api=1&amp;query=%E9%87%91%E6%B2%A221%E4%B8%96%E7%B4%80%E7%BE%8E%E8%A1%93%E9%A4%A8" target="_blank" rel="noopener">在 Google 地圖開啟 <span>›</span></a>
       </article>
@@ -656,6 +711,7 @@ footer{margin-top:40px;text-align:center;color:var(--sub);font-size:12px;line-he
             <div class="tags"><span class="cat" style="background:#8b5cf6">⌂ 住宿</span><span class="tag">自由時間</span></div>
           </div>
         </div>
+        <div class="biz ok" style="--s:#059669"><div class="bizhead"><span class="badge" style="background:#059669">營業中</span><span class="hrs">24 小時櫃檯</span></div></div>
         <p class="sum">回飯店後即為自由時間。可以先整理行李，或再去百番街／FORUS 做最後補貨。</p>
         <div class="hot"><h4>熱門重點</h4><ul><li>加碼建議｜金澤海未來圖書館（建築迷）、鈴木大拙館（靜謐水鏡）、近江町市場二輪</li><li>伴手禮壓軸｜金箔製品、加賀棒茶、柴舟小出、圓八的あんころ餅</li></ul></div>
         <div class="galwrap"><div class="gal g3"><figure class="ph"><img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/Skyline_of_Kanazawa_from_Ishikawa_Prefectural_Office_Building20230429.jpg?width=1000" alt="金澤佛爾薩酒店" onerror="imgFail(this)"></figure><figure class="ph"><img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/Fountain_clock_in_front_of_east_entrance_of_Kanazawa_Station_at_night.JPG?width=1000" alt="金澤佛爾薩酒店" onerror="imgFail(this)"></figure><figure class="ph"><img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/Machinori_port_02_Kanazawa_station_east.jpg?width=1000" alt="金澤佛爾薩酒店" onerror="imgFail(this)"></figure></div><div class="fb" hidden><div class="noimg" style="--c:#8b5cf6"><span class="ni-ic">⌂</span><span class="ni-jp">ホテルフォルツァ金沢</span><span class="ni-tx">圖片載入失敗（請確認網路連線）</span></div></div></div><p class="imgnote">周邊街景參考圖</p>
@@ -671,7 +727,7 @@ footer{margin-top:40px;text-align:center;color:var(--sub);font-size:12px;line-he
         <p class="ddate">2026/08/20・週四 ・ 3 個行程點</p>
       </div>
     </header>
-    <div class="dnote">金澤車站到小松機場的接駁巴士約 40 分鐘，建議 12:00 前從飯店出發，預留充裕時間。</div>
+    <div class="dnote">金澤車站到小松機場的接駁巴士約 40–55 分鐘、¥1,400，建議 12:00 前從飯店出發，預留充裕時間。</div>
     <div class="cards">
       <article class="card" style="--c:#8b5cf6">
         <div class="chead">
@@ -682,6 +738,7 @@ footer{margin-top:40px;text-align:center;color:var(--sub);font-size:12px;line-he
             <div class="tags"><span class="cat" style="background:#8b5cf6">⌂ 住宿</span><span class="tag">退房</span></div>
           </div>
         </div>
+        <div class="biz ok" style="--s:#059669"><div class="bizhead"><span class="badge" style="background:#059669">營業中</span><span class="hrs">Check-out 11:00｜行李寄放免費</span></div></div>
         <p class="sum">退房前確認抽屜與保險箱。行李可寄放櫃檯，上午還能到近江町市場吃最後一頓海鮮丼或去百番街補貨。</p>
         <div class="hot"><h4>熱門重點</h4><ul><li>退房通常為 11:00，寄放行李免費</li><li>車站內也有投幣式置物櫃（大型 ¥700 上下）</li></ul></div>
         <div class="galwrap"><div class="gal g3"><figure class="ph"><img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/Skyline_of_Kanazawa_from_Ishikawa_Prefectural_Office_Building20230429.jpg?width=1000" alt="金澤佛爾薩酒店" onerror="imgFail(this)"></figure><figure class="ph"><img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/Fountain_clock_in_front_of_east_entrance_of_Kanazawa_Station_at_night.JPG?width=1000" alt="金澤佛爾薩酒店" onerror="imgFail(this)"></figure><figure class="ph"><img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/Machinori_port_02_Kanazawa_station_east.jpg?width=1000" alt="金澤佛爾薩酒店" onerror="imgFail(this)"></figure></div><div class="fb" hidden><div class="noimg" style="--c:#8b5cf6"><span class="ni-ic">⌂</span><span class="ni-jp">ホテルフォルツァ金沢</span><span class="ni-tx">圖片載入失敗（請確認網路連線）</span></div></div></div><p class="imgnote">周邊街景參考圖</p>
@@ -696,6 +753,7 @@ footer{margin-top:40px;text-align:center;color:var(--sub);font-size:12px;line-he
             <div class="tags"><span class="cat" style="background:#64748b">✈ 交通</span><span class="tag">出境</span></div>
           </div>
         </div>
+        <div class="biz ok" style="--s:#059669"><div class="bizhead"><span class="badge" style="background:#059669">營業中</span><span class="hrs">航廈 6:35–22:15｜店舖 7:00–20:10｜展望台 7:00–20:00</span></div><p class="hnote">接駁巴士 ¥1,400、車程 40–55 分，建議 12:00 前離開飯店</p></div>
         <p class="sum">國際線班次少，報到櫃檯通常起飛前 2.5 小時才開。安檢後的免稅店規模不大，想買的東西建議在市區先買完。</p>
         <div class="hot"><h4>熱門重點</h4><ul><li>1F 土產區｜加賀棒茶、柴舟、九谷燒小物，最後補貨點</li><li>2F 展望台與石川航空產業館（免費，隔壁棟）可打發時間</li><li>餐廳集中在 2F，過了安檢後選擇很有限，建議先吃飽再進去</li></ul></div>
         <div class="galwrap"><div class="gal g2"><figure class="ph"><img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/Komatsu_airport_terminal_building.jpg?width=1000" alt="小松機場 KMQ" onerror="imgFail(this)"></figure><figure class="ph"><img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/KOMATSU_Airport_-_Sky_Lounge_HAKUSAN._%2832441162598%29.jpg?width=1000" alt="小松機場 KMQ" onerror="imgFail(this)"></figure></div><div class="fb" hidden><div class="noimg" style="--c:#64748b"><span class="ni-ic">✈</span><span class="ni-jp">小松空港</span><span class="ni-tx">圖片載入失敗（請確認網路連線）</span></div></div></div>
@@ -710,6 +768,7 @@ footer{margin-top:40px;text-align:center;color:var(--sub);font-size:12px;line-he
             <div class="tags"><span class="cat" style="background:#64748b">✈ 交通</span><span class="tag">抵達</span></div>
           </div>
         </div>
+        <div class="biz info" style="--s:#64748b"><div class="bizhead"><span class="badge" style="background:#64748b">全天開放</span><span class="hrs">24 小時營運</span></div><p class="hnote">機捷末班約 23:00；國道客運 24 小時</p></div>
         <p class="sum">抵達後入境、提領行李。旅程結束。</p>
         <div class="hot"><h4>熱門重點</h4><ul><li>機捷末班車約 23:00 前後，若班機延誤請先確認</li><li>國道客運 24 小時營運，是延誤時的備案</li></ul></div>
         <div class="galwrap"><div class="gal g3"><figure class="ph"><img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/Exterior_of_Terminal_1%2C_Taoyuan_Airport_20141230.jpg?width=1000" alt="桃園國際機場 TPE" onerror="imgFail(this)"></figure><figure class="ph"><img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/Taiwan_Taoyuan_International_Airport_-_Terminal_1.jpg?width=1000" alt="桃園國際機場 TPE" onerror="imgFail(this)"></figure><figure class="ph"><img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/Taoyuan_Airport_Terminal_2_outside_space_frames_20091024.jpg?width=1000" alt="桃園國際機場 TPE" onerror="imgFail(this)"></figure></div><div class="fb" hidden><div class="noimg" style="--c:#64748b"><span class="ni-ic">✈</span><span class="ni-jp">臺灣桃園國際機場</span><span class="ni-tx">圖片載入失敗（請確認網路連線）</span></div></div></div>
