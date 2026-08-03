@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>金澤 2026 ・ 5 日行程</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+<script>
+function imgFail(el){
+  var f = el.closest('figure'); f.classList.add('dead');
+  var w = f.closest('.galwrap'); if(!w) return;
+  if(w.querySelectorAll('.ph:not(.dead)').length === 0){
+    w.classList.add('allfail');
+    var fb = w.querySelector('.fb'); if(fb) fb.hidden = false;
+  } else {
+    var g = w.querySelector('.gal'), n = w.querySelectorAll('.ph:not(.dead)').length;
+    g.className = 'gal g' + n;
+  }
+}
+</script>
+<style>
+:root{
+  --bg:#f6f7f9; --card:#fff; --ink:#0f172a; --sub:#64748b; --line:#e6e9ef;
+  --r:18px; --sh:0 1px 2px rgba(15,23,42,.04),0 8px 24px rgba(15,23,42,.06);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:88px}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font-family:"Noto Sans TC","Hiragino Sans","PingFang TC","Microsoft JhengHei",system-ui,-apple-system,"Segoe UI",sans-serif;
+  line-height:1.7;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1080px;margin:0 auto;padding:0 20px 80px}
+a{color:inherit}
+
+/* hero */
+.hero{padding:56px 0 28px}
+.kicker{font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:var(--sub);margin:0 0 10px}
+.hero h1{margin:0;font-size:clamp(34px,6vw,54px);letter-spacing:-.02em;line-height:1.15;font-weight:800}
+.hero h1 em{font-style:normal;color:#0ea5e9}
+.hero p.lead{color:var(--sub);margin:14px 0 0;font-size:16px}
+.stats{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}
+.stats div{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:10px 16px;box-shadow:var(--sh)}
+.stats b{display:block;font-size:19px;letter-spacing:-.01em}
+.stats small{color:var(--sub);font-size:12px}
+
+/* nav */
+nav{position:sticky;top:0;z-index:900;background:rgba(246,247,249,.85);
+  backdrop-filter:saturate(180%) blur(14px);border-bottom:1px solid var(--line);margin-bottom:8px}
+nav .inner{max-width:1080px;margin:0 auto;padding:10px 20px;display:flex;gap:8px;overflow-x:auto;scrollbar-width:none}
+nav .inner::-webkit-scrollbar{display:none}
+nav a{flex:0 0 auto;background:var(--card);border:1px solid var(--line);border-radius:999px;
+  padding:7px 16px;text-decoration:none;font-size:14px;font-weight:600;white-space:nowrap;
+  display:flex;gap:8px;align-items:baseline;transition:.18s}
+nav a small{color:var(--sub);font-weight:500;font-size:11px}
+nav a:hover{border-color:var(--dc);color:var(--dc);transform:translateY(-1px)}
+
+/* day */
+.day{margin-top:48px}
+.dhead{display:flex;gap:18px;align-items:center;margin-bottom:14px}
+.dnum{flex:0 0 auto;width:70px;height:70px;border-radius:20px;background:var(--dc);color:#fff;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1;
+  font-size:10px;letter-spacing:.16em;font-weight:700}
+.dnum b{font-size:28px;letter-spacing:0;margin-top:3px}
+.dhead h2{margin:0;font-size:clamp(20px,3.4vw,27px);letter-spacing:-.01em}
+.ddate{margin:4px 0 0;color:var(--sub);font-size:13px}
+.dnote{background:var(--card);border:1px solid var(--line);border-left:3px solid var(--dc);
+  border-radius:12px;padding:12px 16px;font-size:14px;color:#334155;box-shadow:var(--sh)}
+.cards{margin-top:18px;display:flex;flex-direction:column;gap:16px}
+
+/* card */
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);
+  padding:22px;box-shadow:var(--sh);position:relative;overflow:hidden}
+.card::before{content:"";position:absolute;inset:0 auto 0 0;width:3px;background:var(--c);opacity:.85}
+.chead{display:flex;gap:18px;align-items:flex-start}
+.time{flex:0 0 74px;text-align:right;padding-top:2px}
+.time b{display:block;font-size:19px;font-variant-numeric:tabular-nums;letter-spacing:-.02em}
+.time small{color:var(--sub);font-size:11px;white-space:nowrap}
+.ttl h3{margin:0;font-size:20px;letter-spacing:-.01em}
+.jp{margin:2px 0 0;color:var(--sub);font-size:13px}
+.tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:9px}
+.cat{color:#fff;font-size:11px;font-weight:700;padding:3px 10px;border-radius:999px}
+.tag{background:#f1f5f9;color:#475569;font-size:11px;padding:3px 10px;border-radius:999px}
+.sum{margin:15px 0 0;font-size:15px;color:#1e293b}
+.hot{margin-top:14px;background:#f8fafc;border:1px solid var(--line);border-radius:13px;padding:13px 16px}
+.hot h4{margin:0 0 7px;font-size:12px;letter-spacing:.1em;color:var(--c);font-weight:800}
+.hot ul{margin:0;padding-left:17px}
+.hot li{font-size:14px;color:#334155;margin:4px 0}
+
+/* gallery */
+.gal{margin-top:15px;display:grid;gap:8px}
+.gal.g1{grid-template-columns:1fr}
+.gal.g2{grid-template-columns:1fr 1fr}
+.gal.g3{grid-template-columns:1.6fr 1fr 1fr}
+.ph{margin:0;border-radius:13px;overflow:hidden;background:#eef1f5;aspect-ratio:4/3}
+.gal.g1 .ph{aspect-ratio:16/9}
+.ph img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s ease}
+.ph:hover img{transform:scale(1.05)}
+.ph.dead{display:none}
+.galwrap{margin-top:15px}
+.galwrap .gal{margin-top:0}
+.galwrap.allfail .gal{display:none}
+.fb .noimg{height:104px}
+.fb .ni-ic{font-size:20px}
+.fb .ni-jp{font-size:13px}
+.noimg{height:150px;border-radius:13px;display:flex;flex-direction:column;align-items:center;
+  justify-content:center;gap:2px;background:
+  linear-gradient(135deg,color-mix(in srgb,var(--c) 12%, #fff),color-mix(in srgb,var(--c) 4%, #fff));
+  border:1px dashed color-mix(in srgb,var(--c) 35%, #fff)}
+.ni-ic{font-size:26px;color:var(--c);line-height:1}
+.ni-jp{font-size:15px;font-weight:700;color:color-mix(in srgb,var(--c) 75%, #000)}
+.ni-tx{font-size:11px;color:var(--sub)}
+.imgnote{margin:7px 0 0;font-size:11px;color:var(--sub)}
+
+.mapbtn{display:inline-flex;align-items:center;gap:7px;margin-top:15px;text-decoration:none;
+  background:var(--c);color:#fff;font-size:13px;font-weight:700;padding:9px 18px;border-radius:999px;transition:.18s}
+.mapbtn span{transition:.18s}
+.mapbtn:hover{filter:brightness(1.08)}
+.mapbtn:hover span{transform:translateX(3px)}
+.routebtn{display:block;text-align:center;margin-top:16px;text-decoration:none;
+  background:var(--card);border:1px solid var(--line);border-radius:14px;padding:13px;
+  font-size:14px;font-weight:700;color:var(--dc);box-shadow:var(--sh);transition:.18s}
+.routebtn:hover{border-color:var(--dc);transform:translateY(-1px)}
+
+/* overview */
+.ov{margin-top:64px;background:var(--card);border:1px solid var(--line);border-radius:24px;
+  padding:26px;box-shadow:var(--sh)}
+.ov h2{margin:0;font-size:26px;letter-spacing:-.01em}
+.ov .sub{margin:6px 0 18px;color:var(--sub);font-size:14px}
+#map{height:520px;border-radius:16px;border:1px solid var(--line);z-index:1}
+.legend{display:flex;flex-wrap:wrap;gap:14px;margin-top:16px;font-size:13px;color:#475569}
+.legend span{display:flex;align-items:center;gap:7px}
+.legend i{width:11px;height:11px;border-radius:50%;box-shadow:0 0 0 3px rgba(0,0,0,.05)}
+.routes{display:flex;flex-wrap:wrap;gap:9px;margin-top:20px}
+.routes a{text-decoration:none;border:1px solid var(--line);border-radius:999px;padding:8px 16px;
+  font-size:13px;font-weight:700;color:var(--dc);transition:.18s}
+.routes a:hover{border-color:var(--dc);background:color-mix(in srgb,var(--dc) 7%, #fff)}
+.mk{border-radius:50%;border:2.5px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,.3);
+  color:#fff;font-size:10px;font-weight:800;display:flex;align-items:center;justify-content:center}
+footer{margin-top:40px;text-align:center;color:var(--sub);font-size:12px;line-height:2}
+
+@media (max-width:640px){
+  .hero{padding:36px 0 20px}
+  .card{padding:17px}
+  .chead{gap:12px}
+  .time{flex:0 0 58px}
+  .gal.g3{grid-template-columns:1fr 1fr}
+  .gal.g3 .ph:first-child{grid-column:1/-1;aspect-ratio:16/9}
+  #map{height:420px}
+  .dnum{width:58px;height:58px;border-radius:16px}
+  .dnum b{font-size:23px}
+}
+</style>
+</head>
+<body>
+<nav><div class="inner"><a href="#d1" style="--dc:#0ea5e9">Day 1<small>08/16</small></a><a href="#d2" style="--dc:#f97316">Day 2<small>08/17</small></a><a href="#d3" style="--dc:#059669">Day 3<small>08/18</small></a><a href="#d4" style="--dc:#8b5cf6">Day 4<small>08/19</small></a><a href="#d5" style="--dc:#64748b">Day 5<small>08/20</small></a><a href="#overview" style="--dc:#0f172a">地圖總覽</a></div></nav>
+<div class="wrap">
+
+  <header class="hero">
+    <p class="kicker">Ishikawa ・ Japan ・ 2026</p>
+    <h1>金澤 <em>2026</em><br>加賀百萬石 5 日行程</h1>
+    <p class="lead">2026/08/16 – 08/20 ・ 金澤市區 × 白川鄉 × 五箇山 ・ 每站附熱門重點、實景照片與 Google 地圖連結</p>
+    <div class="stats">
+      <div><b>5 天 4 夜</b><small>08/16 – 08/20</small></div>
+      <div><b>35 個行程點</b><small>含交通與購物</small></div>
+      <div><b>2 處世界遺產</b><small>白川鄉・五箇山</small></div>
+      <div><b>Hotel Forza</b><small>連住 4 晚</small></div>
+    </div>
+  </header>
+
+
+  <section class="day" id="d1" style="--dc:#0ea5e9">
+    <header class="dhead">
+      <div class="dnum">DAY<b>1</b></div>
+      <div>
+        <h2>抵達金澤</h2>
+        <p class="ddate">2026/08/16・週日 ・ 4 個行程點</p>
+      </div>
+    </header>
+    <div class="dnote">航班日。小松機場到金澤車站有機場接駁巴士（約 40 分鐘），下車後步行即達飯店。</div>
+    <div class="cards">
+      <article class="card" style="--c:#64748b">
+        <div class="chead">
+          <div class="time"><b>09:10</b><small>停留 3 小時</small></div>
+          <div class="ttl">
+            <h3>桃園國際機場 TPE</h3>
+            <p class="jp">臺灣桃園國際機場</p>
+            <div class="tags"><span class="cat" style="background:#64748b">✈ 交通</span><span class="tag">出境</span><span class="tag">第一航廈／第二航廈</span></div>
+          </div>
+        </div>
+        <p class="sum">起飛前 3 小時抵達最保險。飛小松（KMQ）的航班多為中華航空／台灣虎航，出發航廈記得在訂位紀錄再確認一次。</p>
+        <div class="hot"><h4>熱門重點</h4><ul><li>管制區內的『微風廣場』與大江戶温泉風格休息區是殺時間首選</li><li>第一航廈的天空南／北走廊、第二航廈的空橋採光是打卡點</li><li>日幣現鈔建議在台灣先換好，小松機場匯率較差</li></ul></div>
+        <div class="galwrap"><div class="gal g3"><figure class="ph"><img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/Exterior_of_Terminal_1%2C_Taoyuan_Airport_20141230.jpg?width=1000" alt="桃園國際機場 TPE" onerror="imgFail(this)"></figure><figure class="ph"><img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/Taiwan_Taoyuan_International_Airport_-_Terminal_1.jpg?width=1000" alt="桃園國際機場 TPE" onerror="imgFail(this)"></figure><figure class="ph"><img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/Taoyuan_Airport_Terminal_2_outside_space_frames_20091024.jpg?width=1000" alt="桃園國際機場 TPE" onerror="imgFail(this)"></figure></div><div class="fb" hidden><div class="noimg" style="--c:#64748b"><span class="ni-ic">✈</span><span class="ni-jp">臺灣桃園國際機場</span><span class="ni-tx">圖片載入失敗（請確認網路連線）</span></div></div></div>
+        <a class="mapbtn" href="https://www.google.com/maps/search/?api=1&amp;query=%E8%87%BA%E7%81%A3%E6%A1%83%E5%9C%92%E5%9C%8B%E9%9A%9B%E6%A9%9F%E5%A0%B4" target="_blank" rel="noopener">在 Google 地圖開啟 <span>›</span></a>
+      </article>
+      <article class="card" style="--c:#64748b">
+        <div class="chead">
+          <div class="time"><b>16:05</b><small>停留 1 小時</small></div>
+          <div class="ttl">
+            <h3>小松機場 KMQ</h3>
+            <p class="jp">小松空港</p>
+            <div class="tags"><span class="cat" style="background:#64748b">✈ 交通</span><span class="tag">入境</span><span class="tag">接駁巴士</span></div>
+          </div>
+        </div>
+        <p class="sum">石川縣的空中門戶，規模小、入境動線短，通常 30 分鐘內可完成通關提行李。國內線航廈 1F 有觀光案內所可拿地圖與巴士時刻表。</p>
+        <div class="hot"><h4>熱門重點</h4><ul><li>機場接駁巴士『小松機場連絡巴士』直達金澤車站西口，約 40 分、¥1,300</li><li>2F 有航空博物館連通口與展望台，班機延誤時可打發時間</li><li>出境大廳的加賀棒茶、金箔霜淇淋是最後補貨點</li></ul></div>
+        <div class="galwrap"><div class="gal g2"><figure class="ph"><img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/Komatsu_airport_terminal_building.jpg?width=1000" alt="小松機場 KMQ" onerror="imgFail(this)"></figure><figure class="ph"><img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/KOMATSU_Airport_-_Sky_Lounge_HAKUSAN._%2832441162598%29.jpg?width=1000" alt="小松機場 KMQ" onerror="imgFail(this)"></figure></div><div class="fb" hidden><div class="noimg" style="--c:#64748b"><span class="ni-ic">✈</span><span class="ni-jp">小松空港</span><span class="ni-tx">圖片載入失敗（請確認網路連線）</span></div></div></div>
+        <a class="mapbtn" href="https://www.google.com/maps/search/?api=1&amp;query=%E5%B0%8F%E6%9D%BE%E7%A9%BA%E6%B8%AF" target="_blank" rel="noopener">在 Google 地圖開啟 <span>›</span></a>
+      </article>
+      <article class="card" style="--c:#0ea5e9">
+        <div class="chead">
+          <div class="time"><b>17:05</b><small>停留 1 小時</small></div>
+          <div class="ttl">
+            <h3>金澤車站</h3>
+            <p class="jp">金沢駅</p>
+            <div class="tags"><span class="cat" style="background:#0ea5e9">◈ 地標</span><span class="tag">鼓門</span><span class="tag">百番街</span></div>
+          </div>
+        </div>
+        <p class="sum">被美國旅遊雜誌選為「世界最美車站」之一。東口的木造「鼓門」與玻璃穹頂「もてなしドーム」是金澤的門面，入夜點燈後更值得回訪拍照。</p>
+        <div class="hot"><h4>熱門重點</h4><ul><li>鼓門｜傍晚藍調時刻＋夜間點燈是最佳拍攝時段</li><li>金澤百番街 Anto｜伴手禮一次買齊：金箔製品、加賀棒茶、柴舟</li><li>百番街 Rinto／Kutsurogikan｜餐廳與甜點集中，第一晚覓食很方便</li></ul></div>
+        <div class="galwrap"><div class="gal g3"><figure class="ph"><img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/Tsuzumimon_Gate_in_front_of_Kanazawa_Station_in_the_morning_20150121.JPG?width=1000" alt="金澤車站" onerror="imgFail(this)"></figure><figure class="ph"><img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/Motenashi_Dome%2C_Kanazawa_Station.JPG?width=1000" alt="金澤車站" onerror="imgFail(this)"></figure><figure class="ph"><img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/Tsuzumimon_Gate_in_front_of_Kanazawa_Station_at_night_20150120.JPG?width=1000" alt="金澤車站" onerror="imgFail(this)"></figure></div><div class="fb" hidden><div class="noimg" style="--c:#0ea5e9"><span class="ni-ic">◈</span><span class="ni-jp">金沢駅</span><span class="ni-tx">圖片載入失敗（請確認網路連線）</span></div></div></div>
+        <a class="mapbtn" href="https://www.google.com/maps/search/?api=1&amp;query=%E9%87%91%E6%B2%A2%E9%A7%85%20%E9%BC%93%E9%96%80" target="_blank" rel="noopener">在 Google 地圖開啟 <span>›</span></a>
+      </article>
+      <article class="card" style="--c:#8b5cf6">
+        <div class="chead">
+          <div class="time"><b>18:18</b><small>停留 1 小時</small></div>
+          <div class="ttl">
+            <h3>金澤佛爾薩酒店</h3>
+            <p class="jp">ホテルフォルツァ金沢</p>
+            <div class="tags"><span class="cat" style="background:#8b5cf6">⌂ 住宿</span><span class="tag">連住 4 晚</span><span class="tag">近車站</span></div>
+          </div>
+        </div>
+        <p class="sum">位在金澤車站東口徒步圈的商務型飯店，房型偏日系精簡但機能齊全，作為連住 4 晚的基地非常合適。</p>
+        <div class="hot"><h4>熱門重點</h4><ul><li>Check-in 後先確認早餐時段與最後一天的寄放行李規定</li><li>飯店周邊便利商店、藥妝、居酒屋密度高，宵夜不愁</li><li>距離近江町市場步行約 12 分鐘，隔天早上可直接走過去</li></ul></div>
+        <div class="galwrap"><div class="gal g3"><figure class="ph"><img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/Skyline_of_Kanazawa_from_Ishikawa_Prefectural_Office_Building20230429.jpg?width=1000" alt="金澤佛爾薩酒店" onerror="imgFail(this)"></figure><figure class="ph"><img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/Fountain_clock_in_front_of_east_entrance_of_Kanazawa_Station_at_night.JPG?width=1000" alt="金澤佛爾薩酒店" onerror="imgFail(this)"></figure><figure class="ph"><img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/Machinori_port_02_Kanazawa_station_east.jpg?width=1000" alt="金澤佛爾薩酒店" onerror="imgFail(this)"></figure></div><div class="fb" hidden><div class="noimg" style="--c:#8b5cf6"><span class="ni-ic">⌂</span><span class="ni-jp">ホテルフォルツァ金沢</span><span class="ni-tx">圖片載入失敗（請確認網路連線）</span></div></div></div><p class="imgnote">以下為飯店周邊街景參考圖（該飯店本身無公開授權照片）</p>
+        <a class="mapbtn" href="https://www.google.com/maps/search/?api=1&amp;query=%E3%83%9B%E3%83%86%E3%83%AB%E3%83%95%E3%82%A9%E3%83%AB%E3%83%84%E3%82%A1%E9%87%91%E6%B2%A2" target="_blank" rel="noopener">在 Google 地圖開啟 <span>›</span></a>
+      </article></div>
+    <a class="routebtn" href="https://www.google.com/maps/dir/%E8%87%BA%E7%81%A3%E6%A1%83%E5%9C%92%E5%9C%8B%E9%9A%9B%E6%A9%9F%E5%A0%B4/%E5%B0%8F%E6%9D%BE%E7%A9%BA%E6%B8%AF/%E9%87%91%E6%B2%A2%E9%A7%85%20%E9%BC%93%E9%96%80/%E3%83%9B%E3%83%86%E3%83%AB%E3%83%95%E3%82%A9%E3%83%AB%E3%83%84%E3%82%A1%E9%87%91%E6%B2%A2" target="_blank" rel="noopener">用 Google 地圖看第 1 天完整路線</a>
+  </section>
+  <section class="day" id="d2" style="--dc:#f97316">
+    <header class="dhead">
+      <div class="dnum">DAY<b>2</b></div>
+      <div>
+        <h2>金澤市區經典一日：市場・茶屋街・名園・購物</h2>
+        <p class="ddate">2026/08/17・週一 ・ 14 個行程點</p>
+      </div>
+    </header>
+    <div class="dnote">全天步行＋巴士。建議買『金澤市內一日周遊券（城下町金沢周遊バス）』¥600，兼六園周邊上下坡不少，記得帶水。</div>
+    <div class="cards">
+      <article class="card" style="--c:#8b5cf6">
+        <div class="chead">
+          <div class="time"><b>08:00</b><small>停留 1 小時</small></div>
+          <div class="ttl">
+            <h3>金澤佛爾薩酒店</h3>
+            <p class="jp">ホテルフォルツァ金沢</p>
+            <div class="tags"><span class="cat" style="background:#8b5cf6">⌂ 住宿</span><span class="tag">出發</span></div>
+          </div>
+        </div>
+        <p class="sum">早餐後出發。今天路線是一路往東南走，最後再回到車站商圈掃貨，行李可全部留在房間。</p>
+        <div class="hot"><h4>熱門重點</h4><ul><li>八月金澤日間常達 33–35°C 且濕度高，防曬與補水是重點</li><li>上午先攻市場最新鮮，海鮮丼名店 11 點後就開始排隊</li></ul></div>
+        <div class="galwrap"><div class="gal g3"><figure class="ph"><img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/Skyline_of_Kanazawa_from_Ishikawa_Prefectural_Office_Building20230429.jpg?width=1000" alt="金澤佛爾薩酒店" onerror="imgFail(this)"></figure><figure class="ph"><img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/Fountain_clock_in_front_of_east_entrance_of_Kanazawa_Station_at_night.JPG?width=1000" alt="金澤佛爾薩酒店" onerror="imgFail(this)"></figure><figure class="ph"><img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/Machinori_port_02_Kanazawa_station_east.jpg?width=1000" alt="金澤佛爾薩酒店" onerror="imgFail(this)"></figure></div><div class="fb" hidden><div class="noimg" style="--c:#8b5cf6"><span class="ni-ic">⌂</span><span class="ni-jp">ホテルフォルツァ金沢</span><span class="ni-tx">圖片載入失敗（請確認網路連線）</span></div></div></div><p class="imgnote">周邊街景參考圖</p>
+        <a class="mapbtn" href="https://www.google.com/maps/search/?api=1&amp;query=%E3%83%9B%E3%83%86%E3%83%AB%E3%83%95%E3%82%A9%E3%83%AB%E3%83%84%E3%82%A1%E9%87%91%E6%B2%A2" target="_blank" rel="noopener">在 Google 地圖開啟 <span>›</span></a>
+      </article>
+      <article class="card" style="--c:#f97316">
+        <div class="chead">
+          <div class="time"><b>09:05</b><small>停留 1 小時</small></div>
+          <div class="ttl">
+            <h3>近江町市場</h3>
+            <p class="jp">近江町市場</p>
+            <div class="tags"><span class="cat" style="background:#f97316">◍ 美食</span><span class="tag">海鮮丼</span><span class="tag">早餐</span></div>
+          </div>
+        </div>
+        <p class="sum">有近 300 年歷史的「金澤市民的廚房」，約 170 間店舖擠在有頂棚的市場巷弄裡。是全金澤最好吃海鮮的地方，早上 9 點正是最有活力的時段。</p>
+        <div class="hot"><h4>熱門重點</h4><ul><li>海鮮丼｜『近江町海鮮丼家 ひかりや』『いきいき亭』是排隊定番，¥2,000 起跳</li><li>現剝生蠔與甜蝦｜多家攤位可站著吃，一顆 ¥300 上下</li><li>金澤名產｜加能蟹（冬季）、能登牡蠣、能登豬肉可樂餅</li><li>市場 2F『近江町いちば館』有座位區與土產店，中暑時可避暑</li></ul></div>
+        <div class="galwrap"><div class="gal g2"><figure class="ph"><img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/Omicho_covered_market_western_entrance%2C_Kanazawa%2C_2016.jpg?width=1000" alt="近江町市場" onerror="imgFail(this)"></figure><figure class="ph"><img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/Omicho_Market.JPG?width=1000" alt="近江町市場" onerror="imgFail(this)"></figure></div><div class="fb" hidden><div class="noimg" style="--c:#f97316"><span class="ni-ic">◍</span><span class="ni-jp">近江町市場</span><span class="ni-tx">圖片載入失敗（請確認網路連線）</span></div></div></div>
+        <a class="mapbtn" href="https://www.google.com/maps/search/?api=1&amp;query=%E8%BF%91%E6%B1%9F%E7%94%BA%E5%B8%82%E5%A0%B4" target="_blank" rel="noopener">在 Google 地圖開啟 <span>›</span></a>
+      </article>
+      <article class="card" style="--c:#b45309">
+        <div class="chead">
+          <div class="time"><b>10:17</b><small>停留 1 小時</small></div>
+          <div class="ttl">
+            <h3>主計町茶屋街</h3>
+            <p class="jp">主計町茶屋街</p>
+            <div class="tags"><span class="cat" style="background:#b45309">⛩ 古街</span><span class="tag">重要傳統建造物群</span><span class="tag">淺野川</span></div>
+          </div>
+        </div>
+        <p class="sum">金澤三大茶屋街中最小、也最安靜的一處，緊鄰淺野川。木格子二層樓的茶屋沿河而立，仍有藝妓在此接客，白天幾乎沒有觀光客，是拍照最舒服的時段。</p>
+        <div class="hot"><h4>熱門重點</h4><ul><li>暗がり坂（暗坂）｜狹窄的石階小徑，過去是旦那們前往茶屋的秘密通道，必拍</li><li>淺野川大橋｜國家登錄有形文化財，橋上是俯瞰整條茶屋街的最佳角度</li><li>與東茶屋街步行只要 8 分鐘，兩處可一次走完</li><li>巷內住民仍在生活，請降低音量、勿闖入私人玄關</li></ul></div>
+        <div class="galwrap"><div class="gal g1"><div class="noimg" style="--c:#b45309"><span class="ni-ic">⛩</span><span class="ni-jp">主計町茶屋街</span><span class="ni-tx">無公開授權照片</span></div></div></div>
+        <a class="mapbtn" href="https://www.google.com/maps/search/?api=1&amp;query=%E4%B8%BB%E8%A8%88%E7%94%BA%E8%8C%B6%E5%B1%8B%E8%A1%97" target="_blank" rel="noopener">在 Google 地圖開啟 <span>›</span></a>
+      </article>
+      <article class="card" style="--c:#b45309">
+        <div class="chead">
+          <div class="time"><b>11:24</b><small>停留 1 小時</small></div>
+          <div class="ttl">
+            <h3>東茶屋街</h3>
+            <p class="jp">ひがし茶屋街</p>
+            <div class="tags"><span class="cat" style="background:#b45309">⛩ 古街</span><span class="tag">金箔</span><span class="tag">必訪 No.1</span></div>
+          </div>
+        </div>
+        <p class="sum">金澤人氣第一的老街，整排江戶後期的紅褐色木格子茶屋建築，被指定為國家重要傳統建造物群保存地區。石板路＋和服＋金箔霜淇淋，是金澤明信片上的畫面。</p>
+        <div class="hot"><h4>熱門重點</h4><ul><li>志摩（重要文化財）｜完整保存的茶屋內部，可入內參觀 ¥500</li><li>懷華樓｜金澤最大的茶屋，二樓的紅色房間與金箔階梯很震撼</li><li>箔一 東山店｜整支金箔霜淇淋 ¥891，最紅打卡甜點</li><li>茶屋美人 / 金銀箔工藝さくだ｜金箔面膜、化妝品伴手禮首選</li><li>上午 11 點多店家陸續開門，人潮還沒滿，時間抓得剛好</li></ul></div>
+        <div class="galwrap"><div class="gal g3"><figure class="ph"><img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/Higashiyama_Higashi_Chaya_District_Kanazawa_%2829103739857%29.jpg?width=1000" alt="東茶屋街" onerror="imgFail(this)"></figure><figure class="ph"><img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/Higashi_Chaya_district%2C_Kanazawa_%283810720612%29.jpg?width=1000" alt="東茶屋街" onerror="imgFail(this)"></figure><figure class="ph"><img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/Higashi_chaya_gai003.jpg?width=1000" alt="東茶屋街" onerror="imgFail(this)"></figure></div><div class="fb" hidden><div class="noimg" style="--c:#b45309"><span class="ni-ic">⛩</span><span class="ni-jp">ひがし茶屋街</span><span class="ni-tx">圖片載入失敗（請確認網路連線）</span></div></div></div>
+        <a class="mapbtn" href="https://www.google.com/maps/search/?api=1&amp;query=%E3%81%B2%E3%81%8C%E3%81%97%E8%8C%B6%E5%B1%8B%E8%A1%97" target="_blank" rel="noopener">在 Google 地圖開啟 <span>›</span></a>
+      </article>
+      <article class="card" style="--c:#059669">
+        <div class="chead">
+          <div class="time"><b>12:50</b><small>停留 1 小時</small></div>
+          <div class="ttl">
+            <h3>兼六園</h3>
+            <p class="jp">兼六園</p>
+            <div class="tags"><span class="cat" style="background:#059669">❋ 名勝</span><span class="tag">日本三名園</span><span class="tag">國家特別名勝</span></div>
+          </div>
+        </div>
+        <p class="sum">與水戶偕樂園、岡山後樂園並稱「日本三大名園」，加賀藩前田家歷經約 180 年打造的迴遊式庭園。名字取自「宏大・幽邃・人力・蒼古・水泉・眺望」六勝兼備。</p>
+        <div class="hot"><h4>熱門重點</h4><ul><li>徽軫燈籠（ことじ灯籠）｜兩腳石燈籠配虹橋與霞池，金澤最經典的一幕</li><li>霞池・唐崎松｜池畔黑松枝幹橫展，冬天的雪吊也是從這裡看</li><li>翠瀧・瓢池｜夏天最涼快的一角，適合躲太陽</li><li>成巽閣｜園內的藩主母堂宅邸，另外收費但和室與庭園很精緻</li><li>夏季 7:00–18:00 開園、門票 ¥320；早上 7 點前免費入園</li></ul></div>
+        <div class="galwrap"><div class="gal g3"><figure class="ph"><img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/Kotoji-toro_lantern%2C_Kenroku-en_%283810732114%29.jpg?width=1000" alt="兼六園" onerror="imgFail(this)"></figure><figure class="ph"><img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/Kotoji_Toro_and_Nijibashi_Bridge_in_Kenroku_Garden.JPG?width=1000" alt="兼六園" onerror="imgFail(this)"></figure><figure class="ph"><img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/131109_Kenrokuen_Kanazawa_Ishikawa_pref_Japan01s3.jpg?width=1000" alt="兼六園" onerror="imgFail(this)"></figure></div><div class="fb" hidden><div class="noimg" style="--c:#059669"><span class="ni-ic">❋</span><span class="ni-jp">兼六園</span><span class="ni-tx">圖片載入失敗（請確認網路連線）</span></div></div></div>
+        <a class="mapbtn" href="https://www.google.com/maps/search/?api=1&amp;query=%E5%85%BC%E5%85%AD%E5%9C%92" target="_blank" rel="noopener">在 Google 地圖開啟 <span>›</span></a>
+      </article>
+      <article class="card" style="--c:#dc2626">
+        <div class="chead">
+          <div class="time"><b>14:01</b><small>停留 30 分</small></div>
+          <div class="ttl">
+            <h3>石浦神社</h3>
+            <p class="jp">石浦神社</p>
+            <div class="tags"><span class="cat" style="background:#dc2626">⛩ 神社</span><span class="tag">粉紅鳥居</span><span class="tag">戀愛結緣</span></div>
+          </div>
+        </div>
+        <p class="sum">金澤最古老的神社，創建於 1,500 年前，就在兼六園與 21 世紀美術館旁邊。近年因為 101 座粉紅色水引鳥居隧道爆紅，是年輕人與情侶必訪。</p>
+        <div class="hot"><h4>熱門重點</h4><ul><li>101 座粉紅鳥居｜穿過鳥居隧道通往廣坂稻荷，超上鏡</li><li>きまちゃん籤｜圓滾滾的紅白狛犬御守，擺滿一整排的畫面很可愛</li><li>結緣・良緣御守｜這裡最有名的授與品</li><li>停留 30 分鐘剛好，走出來就是 21 世紀美術館方向</li></ul></div>
+        <div class="galwrap"><div class="gal g1"><figure class="ph"><img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/Ishiura_Shrine_Goshuin_20200820.jpg?width=1000" alt="石浦神社" onerror="imgFail(this)"></figure></div><div class="fb" hidden><div class="noimg" style="--c:#dc2626"><span class="ni-ic">⛩</span><span class="ni-jp">石浦神社</span><span class="ni-tx">圖片載入失敗（請確認網路連線）</span></div></div></div><p class="imgnote">公開授權照片有限，此為該社御朱印</p>
+        <a class="mapbtn" href="https://www.google.com/maps/search/?api=1&amp;query=%E7%9F%B3%E6%B5%A6%E7%A5%9E%E7%A4%BE" target="_blank" rel="noopener">在 Google 地圖開啟 <span>›</span></a>
+      </article>
+      <article class="card" style="--c:#059669">
+        <div class="chead">
+          <div class="time"><b>14:42</b><small>停留 1 小時</small></div>
+          <div class="ttl">
+            <h3>金澤城公園</h3>
+            <p class="jp">金沢城公園</p>
+            <div class="tags"><span class="cat" style="background:#059669">❋ 名勝</span><span class="tag">加賀百萬石</span><span class="tag">與兼六園相鄰</span></div>
+          </div>
+        </div>
+        <p class="sum">加賀藩前田家的居城，經過多次火災後由現代工法忠實復原。白色鉛瓦屋頂與海鼠壁（黑白格紋牆）是金澤城最好認的外觀，腹地廣大、草坪開闊。</p>
+        <div class="hot"><h4>熱門重點</h4><ul><li>石川門｜面向兼六園的正門，江戶後期原構、重要文化財</li><li>五十間長屋・菱櫓｜日本戰後最大規模的木造復原建築，內部可付費參觀 ¥320</li><li>玉泉院丸庭園｜階梯狀的池泉庭園，旁邊的玉泉庵可抹茶配和菓子（約 ¥730）</li><li>公園本身免費開放，只有建物內部收費</li></ul></div>
+        <div class="galwrap"><div class="gal g3"><figure class="ph"><img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/Castle_-_Ishikawa_Gate.JPG?width=1000" alt="金澤城公園" onerror="imgFail(this)"></figure><figure class="ph"><img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/Kanazawa_Kanazawa-jo_Hishi_Yagura_%26_Sakura_1.jpg?width=1000" alt="金澤城公園" onerror="imgFail(this)"></figure><figure class="ph"><img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/Kanazawa_Castle_with_moat_-_Kanazawa%2C_Japan.JPG?width=1000" alt="金澤城公園" onerror="imgFail(this)"></figure></div><div class="fb" hidden><div class="noimg" style="--c:#059669"><span class="ni-ic">❋</span><span class="ni-jp">金沢城公園</span><span class="ni-tx">圖片載入失敗（請確認網路連線）</span></div></div></div>
+        <a class="mapbtn" href="https://www.google.com/maps/search/?api=1&amp;query=%E9%87%91%E6%B2%A2%E5%9F%8E%E5%85%AC%E5%9C%92" target="_blank" rel="noopener">在 Google 地圖開啟 <span>›</span></a>
+      </article>
+      <article class="card" style="--c:#dc2626">
+        <div class="chead">
+          <div class="time"><b>15:48</b><small>停留 30 分</small></div>
+          <div class="ttl">
+            <h3>尾山神社</h3>
+            <p class="jp">尾山神社</p>
+            <div class="tags"><span class="cat" style="background:#dc2626">⛩ 神社</span><span class="tag">和洋折衷</span><span class="tag">彩繪玻璃</span></div>
+          </div>
+        </div>
+        <p class="sum">祭祀加賀藩初代藩主前田利家與正室阿松。最大看點是 1875 年建成的「神門」——三層樓、混合和漢洋三種風格，頂層鑲滿彩色玻璃，日落與夜間會點燈。</p>
+        <div class="hot"><h4>熱門重點</h4><ul><li>神門（重要文化財）｜頂端原本是燈塔，彩繪玻璃在傍晚逆光時最美</li><li>神苑（舊金谷御殿庭園）｜以樂器造型配置石橋的池泉庭園</li><li>前田利家公像・母衣武者像｜戰國迷必拍</li><li>從這裡走到金澤車站約 15 分鐘，正好接上晚間購物</li></ul></div>
+        <div class="galwrap"><div class="gal g3"><figure class="ph"><img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/Torii_and_Gate_of_Oyama_Shrine.JPG?width=1000" alt="尾山神社" onerror="imgFail(this)"></figure><figure class="ph"><img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/Haiden_of_Oyama_Shrine.JPG?width=1000" alt="尾山神社" onerror="imgFail(this)"></figure><figure class="ph"><img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/Matsu_Maeda_stone_relief_Oyama-jinja.jpg?width=1000" alt="尾山神社" onerror="imgFail(this)"></figure></div><div class="fb" hidden><div class="noimg" style="--c:#dc2626"><span class="ni-ic">⛩</span><span class="ni-jp">尾山神社</span><span class="ni-tx">圖片載入失敗（請確認網路連線）</span></div></div></div>
+        <a class="mapbtn" href="https://www.google.com/maps/search/?api=1&amp;query=%E5%B0%BE%E5%B1%B1%E7%A5%9E%E7%A4%BE" target="_blank" rel="noopener">在 Google 地圖開啟 <span>›</span></a>
+      </article>
+      <article class="card" style="--c:#0ea5e9">
+        <div class="chead">
+          <div class="time"><b>16:43</b><small>停留 15 分</small></div>
+          <div class="ttl">
+            <h3>金澤車站</h3>
+            <p class="jp">金沢駅</p>
+            <div class="tags"><span class="cat" style="background:#0ea5e9">◈ 地標</span><span class="tag">轉換點</span></div>
+          </div>
+        </div>
+        <p class="sum">短暫停留、休息並補水，接著進入車站周邊的購物行程。百番街與對面的 FORUS 徒步 3 分鐘內互通。</p>
+        <div class="hot"><h4>熱門重點</h4><ul><li>百番街 Anto｜關門前先看好想買的伴手禮，最後一天再回來掃</li><li>車站觀光案內所可索取隔天白川鄉巴士的時刻表</li></ul></div>
+        <div class="galwrap"><div class="gal g3"><figure class="ph"><img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/Tsuzumimon_Gate_in_front_of_Kanazawa_Station_in_the_morning_20150121.JPG?width=1000" alt="金澤車站" onerror="imgFail(this)"></figure><figure class="ph"><img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/Motenashi_Dome%2C_Kanazawa_Station.JPG?width=1000" alt="金澤車站" onerror="imgFail(this)"></figure><figure class="ph"><img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/Tsuzumimon_Gate_in_front_of_Kanazawa_Station_at_night_20150120.JPG?width=1000" alt="金澤車站" onerror="imgFail(this)"></figure></div><div class="fb" hidden><div class="noimg" style="--c:#0ea5e9"><span class="ni-ic">◈</span><span class="ni-jp">金沢駅</span><span class="ni-tx">圖片載入失敗（請確認網路連線）</span></div></div></div>
+        <a class="mapbtn" href="https://www.google.com/maps/search/?api=1&amp;query=%E9%87%91%E6%B2%A2%E9%A7%85" target="_blank" rel="noopener">在 Google 地圖開啟 <span>›</span></a>
+      </article>
+      <article class="card" style="--c:#db2777">
+        <div class="chead">
+          <div class="time"><b>17:02</b><small>停留 1 小時</small></div>
+          <div class="ttl">
+            <h3>3COINS+plus 金澤百番街 Rinto 店</h3>
+            <p class="jp">3COINS+plus 金沢百番街Rinto店</p>
+            <div class="tags"><span class="cat" style="background:#db2777">◎ 購物</span><span class="tag">¥330 均一</span><span class="tag">生活雜貨</span></div>
+          </div>
+        </div>
+        <p class="sum">日本人氣的 300 日圓均一雜貨店，+plus 是加大型店，商品線比一般店更廣。就在車站站內的 Rinto 區，回飯店超順路。</p>
+        <div class="hot"><h4>熱門重點</h4><ul><li>旅行小物｜壓縮收納袋、掛式盥洗包、折疊購物袋，馬上就能用上</li><li>廚房與收納｜密封罐、瀝水盤、冰箱收納盒 CP 值最高</li><li>3COINS 原創美妝與髮飾｜女生最容易失手的一區</li><li>季節限定與聯名商品（迪士尼、三麗鷗）常常只在日本買得到</li></ul></div>
+        <div class="galwrap"><div class="gal g1"><div class="noimg" style="--c:#db2777"><span class="ni-ic">◎</span><span class="ni-jp">3COINS+plus 金沢百番街Rinto店</span><span class="ni-tx">無公開授權照片</span></div></div></div>
+        <a class="mapbtn" href="https://www.google.com/maps/search/?api=1&amp;query=3COINS%2Bplus%20%E9%87%91%E6%B2%A2%E7%99%BE%E7%95%AA%E8%A1%97Rinto%E5%BA%97" target="_blank" rel="noopener">在 Google 地圖開啟 <span>›</span></a>
+      </article>
+      <article class="card" style="--c:#db2777">
+        <div class="chead">
+          <div class="time"><b>18:05</b><small>停留 1 小時</small></div>
+          <div class="ttl">
+            <h3>UNIQLO 金澤 FORUS 店</h3>
+            <p class="jp">ユニクロ 金沢フォーラス店</p>
+            <div class="tags"><span class="cat" style="background:#db2777">◎ 購物</span><span class="tag">日本限定</span><span class="tag">免稅</span></div>
+          </div>
+        </div>
+        <p class="sum">就在金澤車站東口正對面的 FORUS 百貨內。日本本土 UNIQLO 的價格與限定款是最大誘因，滿 ¥5,000 可辦免稅。</p>
+        <div class="hot"><h4>熱門重點</h4><ul><li>日本限定 UT 聯名｜浮世繪、動漫、美術館聯名款台灣通常沒有</li><li>AIRism / 感熱衣｜日本定價明顯低於台灣，八月正是夏季出清期</li><li>Uniqlo U 與 +J 系列｜日本鋪貨最齊</li><li>記得帶護照才能辦免稅</li></ul></div>
+        <div class="galwrap"><div class="gal g3"><figure class="ph"><img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/UNIQLO_tokyo_ginza_store.JPG?width=1000" alt="UNIQLO 金澤 FORUS 店" onerror="imgFail(this)"></figure><figure class="ph"><img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/Uniqlo_Shinjuku_West.JPG?width=1000" alt="UNIQLO 金澤 FORUS 店" onerror="imgFail(this)"></figure><figure class="ph"><img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/UNIQLO_Uji_Okubo.JPG?width=1000" alt="UNIQLO 金澤 FORUS 店" onerror="imgFail(this)"></figure></div><div class="fb" hidden><div class="noimg" style="--c:#db2777"><span class="ni-ic">◎</span><span class="ni-jp">ユニクロ 金沢フォーラス店</span><span class="ni-tx">圖片載入失敗（請確認網路連線）</span></div></div></div><p class="imgnote">品牌門市示意圖（非金澤分店）</p>
+        <a class="mapbtn" href="https://www.google.com/maps/search/?api=1&amp;query=%E3%83%A6%E3%83%8B%E3%82%AF%E3%83%AD%20%E9%87%91%E6%B2%A2%E3%83%95%E3%82%A9%E3%83%BC%E3%83%A9%E3%82%B9%E5%BA%97" target="_blank" rel="noopener">在 Google 地圖開啟 <span>›</span></a>
+      </article>
+      <article class="card" style="--c:#db2777">
+        <div class="chead">
+          <div class="time"><b>19:06</b><small>停留 1 小時</small></div>
+          <div class="ttl">
+            <h3>無印良品 金澤 FORUS 店</h3>
+            <p class="jp">無印良品 金沢フォーラス</p>
+            <div class="tags"><span class="cat" style="background:#db2777">◎ 購物</span><span class="tag">日本定價</span><span class="tag">免稅</span></div>
+          </div>
+        </div>
+        <p class="sum">與 UNIQLO 同棟的 FORUS 內，動線上樓下樓就到。日本無印的價格約為台灣的 6–7 折，是採買的重點站。</p>
+        <div class="hot"><h4>熱門重點</h4><ul><li>食品區｜咖哩調理包、不揃いバウム年輪蛋糕、糖果零食，最好買也最好帶</li><li>文具｜筆記本、Gel 筆、旅行收納袋，日本限定色多</li><li>保養與香氛｜精油、香氛機、化妝水，台灣售價落差最大</li><li>滿 ¥5,000 免稅，建議把兩天的無印一起結帳</li></ul></div>
+        <div class="galwrap"><div class="gal g2"><figure class="ph"><img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/Muji_Grand_Front_Osaka_201407.JPG?width=1000" alt="無印良品 金澤 FORUS 店" onerror="imgFail(this)"></figure><figure class="ph"><img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/Clothes_and_furniture_at_the_Muji_Canal_City_store_in_Fukuoka_January_2019.jpg?width=1000" alt="無印良品 金澤 FORUS 店" onerror="imgFail(this)"></figure></div><div class="fb" hidden><div class="noimg" style="--c:#db2777"><span class="ni-ic">◎</span><span class="ni-jp">無印良品 金沢フォーラス</span><span class="ni-tx">圖片載入失敗（請確認網路連線）</span></div></div></div><p class="imgnote">品牌門市示意圖（非金澤分店）</p>
+        <a class="mapbtn" href="https://www.google.com/maps/search/?api=1&amp;query=%E7%84%A1%E5%8D%B0%E8%89%AF%E5%93%81%20%E9%87%91%E6%B2%A2%E3%83%95%E3%82%A9%E3%83%BC%E3%83%A9%E3%82%B9" target="_blank" rel="noopener">在 Google 地圖開啟 <span>›</span></a>
+      </article>
+      <article class="card" style="--c:#db2777">
+        <div class="chead">
+          <div class="time"><b>20:06</b><small>停留 1 小時</small></div>
+          <div class="ttl">
+            <h3>寶可夢中心 金澤店</h3>
+            <p class="jp">ポケモンセンターカナザワ</p>
+            <div class="tags"><span class="cat" style="background:#db2777">◎ 購物</span><span class="tag">北陸唯一</span><span class="tag">限定商品</span></div>
+          </div>
+        </div>
+        <p class="sum">北陸地區唯一的官方寶可夢中心，同樣位在金澤 FORUS。2020 年開幕，店內有大型立體展示與限定扭蛋機。</p>
+        <div class="hot"><h4>熱門重點</h4><ul><li>金澤／北陸限定商品｜加賀友禪、金箔、和風主題的皮卡丘系列</li><li>店頭大型模型｜拍照打卡必備</li><li>Pokémon Center 限定絨毛與扭蛋｜台灣代購價常翻倍</li><li>營業到 20:00 或 21:00（依 FORUS 而定），這站建議提早一點到</li></ul></div>
+        <div class="galwrap"><div class="gal g3"><figure class="ph"><img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/Mega_Tokyo_Pok%C3%A9mon_Center_2.jpg?width=1000" alt="寶可夢中心 金澤店" onerror="imgFail(this)"></figure><figure class="ph"><img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/Pokemon_Center_Tohoku_in_SENDAI_PARCO.jpg?width=1000" alt="寶可夢中心 金澤店" onerror="imgFail(this)"></figure><figure class="ph"><img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/PokemonCenterTokyo-Hamamatsucho.JPG?width=1000" alt="寶可夢中心 金澤店" onerror="imgFail(this)"></figure></div><div class="fb" hidden><div class="noimg" style="--c:#db2777"><span class="ni-ic">◎</span><span class="ni-jp">ポケモンセンターカナザワ</span><span class="ni-tx">圖片載入失敗（請確認網路連線）</span></div></div></div><p class="imgnote">品牌門市示意圖（非金澤分店）</p>
+        <a class="mapbtn" href="https://www.google.com/maps/search/?api=1&amp;query=%E3%83%9D%E3%82%B1%E3%83%A2%E3%83%B3%E3%82%BB%E3%83%B3%E3%82%BF%E3%83%BC%E3%82%AB%E3%83%8A%E3%82%B6%E3%83%AF" target="_blank" rel="noopener">在 Google 地圖開啟 <span>›</span></a>
+      </article>
+      <article class="card" style="--c:#8b5cf6">
+        <div class="chead">
+          <div class="time"><b>21:19</b><small>停留 1 小時</small></div>
+          <div class="ttl">
+            <h3>金澤佛爾薩酒店</h3>
+            <p class="jp">ホテルフォルツァ金沢</p>
+            <div class="tags"><span class="cat" style="background:#8b5cf6">⌂ 住宿</span><span class="tag">回程</span></div>
+          </div>
+        </div>
+        <p class="sum">回飯店整理戰利品。明天是長途山路行程，記得早點休息並把暈車藥、外套備好。</p>
+        <div class="hot"><h4>熱門重點</h4><ul><li>白川鄉山區早晚溫差大，建議帶一件薄外套</li><li>白山白川鄉白色道路是收費道路，開車請先備好現金或 ETC</li></ul></div>
+        <div class="galwrap"><div class="gal g3"><figure class="ph"><img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/Skyline_of_Kanazawa_from_Ishikawa_Prefectural_Office_Building20230429.jpg?width=1000" alt="金澤佛爾薩酒店" onerror="imgFail(this)"></figure><figure class="ph"><img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/Fountain_clock_in_front_of_east_entrance_of_Kanazawa_Station_at_night.JPG?width=1000" alt="金澤佛爾薩酒店" onerror="imgFail(this)"></figure><figure class="ph"><img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/Machinori_port_02_Kanazawa_station_east.jpg?width=1000" alt="金澤佛爾薩酒店" onerror="imgFail(this)"></figure></div><div class="fb" hidden><div class="noimg" style="--c:#8b5cf6"><span class="ni-ic">⌂</span><span class="ni-jp">ホテルフォルツァ金沢</span><span class="ni-tx">圖片載入失敗（請確認網路連線）</span></div></div></div><p class="imgnote">周邊街景參考圖</p>
+        <a class="mapbtn" href="https://www.google.com/maps/search/?api=1&amp;query=%E3%83%9B%E3%83%86%E3%83%AB%E3%83%95%E3%82%A9%E3%83%AB%E3%83%84%E3%82%A1%E9%87%91%E6%B2%A2" target="_blank" rel="noopener">在 Google 地圖開啟 <span>›</span></a>
+      </article></div>
+    <a class="routebtn" href="https://www.google.com/maps/dir/%E3%83%9B%E3%83%86%E3%83%AB%E3%83%95%E3%82%A9%E3%83%AB%E3%83%84%E3%82%A1%E9%87%91%E6%B2%A2/%E8%BF%91%E6%B1%9F%E7%94%BA%E5%B8%82%E5%A0%B4/%E4%B8%BB%E8%A8%88%E7%94%BA%E8%8C%B6%E5%B1%8B%E8%A1%97/%E3%81%B2%E3%81%8C%E3%81%97%E8%8C%B6%E5%B1%8B%E8%A1%97/%E5%85%BC%E5%85%AD%E5%9C%92/%E7%9F%B3%E6%B5%A6%E7%A5%9E%E7%A4%BE/%E9%87%91%E6%B2%A2%E5%9F%8E%E5%85%AC%E5%9C%92/%E5%B0%BE%E5%B1%B1%E7%A5%9E%E7%A4%BE/%E9%87%91%E6%B2%A2%E9%A7%85/3COINS%2Bplus%20%E9%87%91%E6%B2%A2%E7%99%BE%E7%95%AA%E8%A1%97Rinto%E5%BA%97/%E3%83%A6%E3%83%8B%E3%82%AF%E3%83%AD%20%E9%87%91%E6%B2%A2%E3%83%95%E3%82%A9%E3%83%BC%E3%83%A9%E3%82%B9%E5%BA%97/%E7%84%A1%E5%8D%B0%E8%89%AF%E5%93%81%20%E9%87%91%E6%B2%A2%E3%83%95%E3%82%A9%E3%83%BC%E3%83%A9%E3%82%B9/%E3%83%9D%E3%82%B1%E3%83%A2%E3%83%B3%E3%82%BB%E3%83%B3%E3%82%BF%E3%83%BC%E3%82%AB%E3%83%8A%E3%82%B6%E3%83%AF/%E3%83%9B%E3%83%86%E3%83%AB%E3%83%95%E3%82%A9%E3%83%AB%E3%83%84%E3%82%A1%E9%87%91%E6%B2%A2" target="_blank" rel="noopener">用 Google 地圖看第 2 天完整路線</a>
+  </section>
+  <section class="day" id="d3" style="--dc:#059669">
+    <header class="dhead">
+      <div class="dnum">DAY<b>3</b></div>
+      <div>
+        <h2>世界遺產：白川鄉・五箇山合掌村</h2>
+        <p class="ddate">2026/08/18・週二 ・ 9 個行程點</p>
+      </div>
+    </header>
+    <div class="dnote">全天山路行程。白山白川鄉白色道路每年約 6 月上旬～11 月上旬開放，通行時間 7:00–18:00（最後進入約 16:00），普通車通行費約 ¥1,700，且禁止機車與夜間通行——出發前務必上官網確認當日通行狀況。</div>
+    <div class="cards">
+      <article class="card" style="--c:#8b5cf6">
+        <div class="chead">
+          <div class="time"><b>08:00</b><small>停留 1 小時</small></div>
+          <div class="ttl">
+            <h3>金澤佛爾薩酒店</h3>
+            <p class="jp">ホテルフォルツァ金沢</p>
+            <div class="tags"><span class="cat" style="background:#8b5cf6">⌂ 住宿</span><span class="tag">出發</span></div>
+          </div>
+        </div>
+        <p class="sum">早餐後出發往白山方向。到白色道路入口約 1.5 小時車程，沿途便利商店在進山後就變少，飲水與零食先買好。</p>
+        <div class="hot"><h4>熱門重點</h4><ul><li>加油站在山區稀少，出發前先加滿油</li><li>山路彎道多，會暈車的人建議坐前座</li></ul></div>
+        <div class="galwrap"><div class="gal g3"><figure class="ph"><img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/Skyline_of_Kanazawa_from_Ishikawa_Prefectural_Office_Building20230429.jpg?width=1000" alt="金澤佛爾薩酒店" onerror="imgFail(this)"></figure><figure class="ph"><img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/Fountain_clock_in_front_of_east_entrance_of_Kanazawa_Station_at_night.JPG?width=1000" alt="金澤佛爾薩酒店" onerror="imgFail(this)"></figure><figure class="ph"><img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/Machinori_port_02_Kanazawa_station_east.jpg?width=1000" alt="金澤佛爾薩酒店" onerror="imgFail(this)"></figure></div><div class="fb" hidden><div class="noimg" style="--c:#8b5cf6"><span class="ni-ic">⌂</span><span class="ni-jp">ホテルフォルツァ金沢</span><span class="ni-tx">圖片載入失敗（請確認網路連線）</span></div></div></div><p class="imgnote">周邊街景參考圖</p>
+        <a class="mapbtn" href="https://www.google.com/maps/search/?api=1&amp;query=%E3%83%9B%E3%83%86%E3%83%AB%E3%83%95%E3%82%A9%E3%83%AB%E3%83%84%E3%82%A1%E9%87%91%E6%B2%A2" target="_blank" rel="noopener">在 Google 地圖開啟 <span>›</span></a>
+      </article>
+      <article class="card" style="--c:#65a30d">
+        <div class="chead">
+          <div class="time"><b>10:45</b><small>停留 5 分</small></div>
+          <div class="ttl">
+            <h3>白山白川鄉白色道路</h3>
+            <p class="jp">白山白川郷ホワイトロード</p>
+            <div class="tags"><span class="cat" style="background:#65a30d">⌒ 景觀道路</span><span class="tag">收費道路</span><span class="tag">季節限定</span></div>
+          </div>
+        </div>
+        <p class="sum">連接石川縣白山市與岐阜縣白川村、全長約 33 公里的山岳觀光道路（舊稱白山超級林道）。海拔最高處超過 1,450 公尺，穿越白山國立公園的原始林，是北陸最經典的一段兜風路線。</p>
+        <div class="hot"><h4>熱門重點</h4><ul><li>ふくべの大滝｜落差 86 公尺、水量驚人，可停車近距離觀賞，是全線最大亮點</li><li>蛇谷園地・親谷之湯｜溪谷步道與野溪溫泉（足湯）</li><li>三方岩岳登山口｜全線最高點附近，展望絕佳</li><li>10 月中～11 月初是紅葉最盛期；8 月則是滿眼濃綠與瀑布水量最大的季節</li></ul></div>
+        <div class="galwrap"><div class="gal g3"><figure class="ph"><img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/Hakusan_Super_Rindo_Forest_Road_Chugu_Toll_Gate_001.JPG?width=1000" alt="白山白川鄉白色道路" onerror="imgFail(this)"></figure><figure class="ph"><img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/Entrance_of_Hakusan_National_Park.jpg?width=1000" alt="白山白川鄉白色道路" onerror="imgFail(this)"></figure><figure class="ph"><img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/Mount_Hakusan_Nishiwaki.jpg?width=1000" alt="白山白川鄉白色道路" onerror="imgFail(this)"></figure></div><div class="fb" hidden><div class="noimg" style="--c:#65a30d"><span class="ni-ic">⌒</span><span class="ni-jp">白山白川郷ホワイトロード</span><span class="ni-tx">圖片載入失敗（請確認網路連線）</span></div></div></div>
+        <a class="mapbtn" href="https://www.google.com/maps/search/?api=1&amp;query=%E7%99%BD%E5%B1%B1%E7%99%BD%E5%B7%9D%E9%83%B7%E3%83%9B%E3%83%AF%E3%82%A4%E3%83%88%E3%83%AD%E3%83%BC%E3%83%89%20%E4%B8%AD%E5%AE%AE%E6%96%99%E9%87%91%E6%89%80" target="_blank" rel="noopener">在 Google 地圖開啟 <span>›</span></a>
+      </article>
+      <article class="card" style="--c:#0891b2">
+        <div class="chead">
+          <div class="time"><b>11:17</b><small>停留 30 分</small></div>
+          <div class="ttl">
+            <h3>白色道路 白川鄉展望台</h3>
+            <p class="jp">ホワイトロード 白川郷展望台</p>
+            <div class="tags"><span class="cat" style="background:#0891b2">▲ 展望台</span><span class="tag">山岳展望</span></div>
+          </div>
+        </div>
+        <p class="sum">白色道路岐阜側的展望停車區，可眺望白山連峰與往白川鄉方向的深谷。海拔高、氣溫比平地低 5–8 度，是全程最舒服的休息點。</p>
+        <div class="hot"><h4>熱門重點</h4><ul><li>晴天可望見白山主峰與三方岩岳的岩壁</li><li>停車場旁有廁所與自動販賣機，是進入白川鄉前最後的補給點</li><li>雲海機率高的是清晨，中午多為開闊藍天視野</li></ul></div>
+        <div class="galwrap"><div class="gal g2"><figure class="ph"><img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/Ryohaku_Mountains_from_Mount_Maru.JPG?width=1000" alt="白色道路 白川鄉展望台" onerror="imgFail(this)"></figure><figure class="ph"><img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/Ryohaku_Mountains_from_Mount_Dainachi.JPG?width=1000" alt="白色道路 白川鄉展望台" onerror="imgFail(this)"></figure></div><div class="fb" hidden><div class="noimg" style="--c:#0891b2"><span class="ni-ic">▲</span><span class="ni-jp">ホワイトロード 白川郷展望台</span><span class="ni-tx">圖片載入失敗（請確認網路連線）</span></div></div></div><p class="imgnote">兩白山地一帶展望示意圖</p>
+        <a class="mapbtn" href="https://www.google.com/maps/search/?api=1&amp;query=%E7%99%BD%E5%B1%B1%E7%99%BD%E5%B7%9D%E9%83%B7%E3%83%9B%E3%83%AF%E3%82%A4%E3%83%88%E3%83%AD%E3%83%BC%E3%83%89%20%E7%99%BD%E5%B7%9D%E9%83%B7%E5%B1%95%E6%9C%9B%E5%8F%B0" target="_blank" rel="noopener">在 Google 地圖開啟 <span>›</span></a>
+      </article>
+      <article class="card" style="--c:#0d9488">
+        <div class="chead">
+          <div class="time"><b>12:13</b><small>停留 1 小時</small></div>
+          <div class="ttl">
+            <h3>白川鄉 合掌造聚落</h3>
+            <p class="jp">白川郷 荻町合掌造り集落</p>
+            <div class="tags"><span class="cat" style="background:#0d9488">★ 世界遺產</span><span class="tag">UNESCO</span><span class="tag">必訪</span></div>
+          </div>
+        </div>
+        <p class="sum">1995 年登錄的世界文化遺產。約 110 棟茅葺屋頂的「合掌造」民家散布在庄川河谷，屋頂陡峭如雙手合十，是為了承受豪雪而生的建築智慧。至今仍有居民生活其中。</p>
+        <div class="hot"><h4>熱門重點</h4><ul><li>和田家（重要文化財）｜規模最大的合掌屋，可入內看到三層樓的養蠶空間 ¥400</li><li>明善寺鄉土館｜連寺院鐘樓都是茅葺，最有味道的一角</li><li>であい橋｜跨過庄川的吊橋，是從停車場走進聚落的必經入口</li><li>午餐推薦｜飛驒牛朴葉味噌、蕎麥麵、五平餅</li><li>聚落內請走指定道路，勿進入民家庭院與農田</li></ul></div>
+        <div class="galwrap"><div class="gal g3"><figure class="ph"><img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/Shirakawago.jpg?width=1000" alt="白川鄉 合掌造聚落" onerror="imgFail(this)"></figure><figure class="ph"><img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/Ogi_Shirakawa-g%C5%8D%2C_Gifu%2C_Japan.jpg?width=1000" alt="白川鄉 合掌造聚落" onerror="imgFail(this)"></figure><figure class="ph"><img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/SHIRAKAWA_GOU.JPG?width=1000" alt="白川鄉 合掌造聚落" onerror="imgFail(this)"></figure></div><div class="fb" hidden><div class="noimg" style="--c:#0d9488"><span class="ni-ic">★</span><span class="ni-jp">白川郷 荻町合掌造り集落</span><span class="ni-tx">圖片載入失敗（請確認網路連線）</span></div></div></div>
+        <a class="mapbtn" href="https://www.google.com/maps/search/?api=1&amp;query=%E7%99%BD%E5%B7%9D%E9%83%B7%20%E5%90%88%E6%8E%8C%E9%80%A0%E3%82%8A%E9%9B%86%E8%90%BD" target="_blank" rel="noopener">在 Google 地圖開啟 <span>›</span></a>
+      </article>
+      <article class="card" style="--c:#0891b2">
+        <div class="chead">
+          <div class="time"><b>13:17</b><small>停留 30 分</small></div>
+          <div class="ttl">
+            <h3>天守閣展望台</h3>
+            <p class="jp">荻町城跡展望台</p>
+            <div class="tags"><span class="cat" style="background:#0891b2">▲ 展望台</span><span class="tag">明信片視角</span><span class="tag">必拍</span></div>
+          </div>
+        </div>
+        <p class="sum">白川鄉最著名的俯瞰點，位在荻町城遺址的高台上。所有白川鄉的經典照片幾乎都出自這裡——整片合掌屋頂在山谷中排開，背後是層層山巒。</p>
+        <div class="hot"><h4>熱門重點</h4><ul><li>展望台平台｜正面俯瞰整個荻町聚落的標準構圖</li><li>上山方式｜聚落內和田家附近有登山步道（步行約 20 分），或搭接駁巴士（約 10 分、¥300）</li><li>旁邊的『天守閣展望台』餐廳可邊吃邊看，位置更高</li><li>中午時段順光，拍出來的屋頂線條最清楚</li></ul></div>
+        <div class="galwrap"><div class="gal g3"><figure class="ph"><img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/View_of_Shirakawa%2C_Gifu%2C_Japan_from_Ogimachi_Castle_Observation_Deck_%E8%8D%BB%E7%94%BA%E5%9F%8E%E8%B7%A1_%E5%B1%95%E6%9C%9B%E5%8F%B0_%28232%29.jpg?width=1000" alt="天守閣展望台" onerror="imgFail(this)"></figure><figure class="ph"><img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/Shirakawa-go_%282014-06-03%29.JPG?width=1000" alt="天守閣展望台" onerror="imgFail(this)"></figure><figure class="ph"><img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/World_Heritage%2C_Shirakawago.JPG?width=1000" alt="天守閣展望台" onerror="imgFail(this)"></figure></div><div class="fb" hidden><div class="noimg" style="--c:#0891b2"><span class="ni-ic">▲</span><span class="ni-jp">荻町城跡展望台</span><span class="ni-tx">圖片載入失敗（請確認網路連線）</span></div></div></div>
+        <a class="mapbtn" href="https://www.google.com/maps/search/?api=1&amp;query=%E8%8D%BB%E7%94%BA%E5%9F%8E%E8%B7%A1%E5%B1%95%E6%9C%9B%E5%8F%B0" target="_blank" rel="noopener">在 Google 地圖開啟 <span>›</span></a>
+      </article>
+      <article class="card" style="--c:#0d9488">
+        <div class="chead">
+          <div class="time"><b>14:16</b><small>停留 1 小時</small></div>
+          <div class="ttl">
+            <h3>秘境 五箇山 合掌之里</h3>
+            <p class="jp">五箇山 合掌の里（相倉・菅沼）</p>
+            <div class="tags"><span class="cat" style="background:#0d9488">★ 世界遺產</span><span class="tag">UNESCO</span><span class="tag">人少</span></div>
+          </div>
+        </div>
+        <p class="sum">與白川鄉同時登錄世界遺產、位在富山縣南砺市的兩處聚落（相倉 20 棟、菅沼 9 棟）。規模小得多，也因此保留了更純粹的山村氣氛，觀光客明顯比白川鄉少。</p>
+        <div class="hot"><h4>熱門重點</h4><ul><li>相倉集落｜規模較大，山坡上的展望點可拍到全景，是五箇山最上鏡的一處</li><li>菅沼集落｜緊鄰庄川，只有 9 棟，10 分鐘就能走完，寧靜度最高</li><li>五箇山民謠『こきりこ節』｜日本最古老的民謠之一，發源於此</li><li>名物｜五箇山豆腐（硬到能用繩子綁）、岩魚鹽烤</li><li>兩個聚落開車相距約 15 分鐘，時間有限就選相倉</li></ul></div>
+        <div class="galwrap"><div class="gal g3"><figure class="ph"><img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/Gokayama_ainokura_gassho_shuraku_20050504_4.jpg?width=1000" alt="秘境 五箇山 合掌之里" onerror="imgFail(this)"></figure><figure class="ph"><img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/Gokayama_Ainokura_Gassho-zukuri_19.jpg?width=1000" alt="秘境 五箇山 合掌之里" onerror="imgFail(this)"></figure><figure class="ph"><img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/Gokayama_suganuma.JPG?width=1000" alt="秘境 五箇山 合掌之里" onerror="imgFail(this)"></figure></div><div class="fb" hidden><div class="noimg" style="--c:#0d9488"><span class="ni-ic">★</span><span class="ni-jp">五箇山 合掌の里（相倉・菅沼）</span><span class="ni-tx">圖片載入失敗（請確認網路連線）</span></div></div></div>
+        <a class="mapbtn" href="https://www.google.com/maps/search/?api=1&amp;query=%E4%BA%94%E7%AE%87%E5%B1%B1%20%E7%9B%B8%E5%80%89%E5%90%88%E6%8E%8C%E9%80%A0%E3%82%8A%E9%9B%86%E8%90%BD" target="_blank" rel="noopener">在 Google 地圖開啟 <span>›</span></a>
+      </article>
+      <article class="card" style="--c:#db2777">
+        <div class="chead">
+          <div class="time"><b>16:18</b><small>停留 1 小時</small></div>
+          <div class="ttl">
+            <h3>無印良品 白山北安田</h3>
+            <p class="jp">無印良品 白山北安田</p>
+            <div class="tags"><span class="cat" style="background:#db2777">◎ 購物</span><span class="tag">大型路面店</span><span class="tag">停車方便</span></div>
+          </div>
+        </div>
+        <p class="sum">回程順路的大型路面店，坪數與商品線都比車站商場店完整，且有大型免費停車場，不用扛著東西擠電梯。</p>
+        <div class="hot"><h4>熱門重點</h4><ul><li>家具・寢具・收納｜只有大型店才看得到的完整陳列</li><li>食品區最齊全｜咖哩、零食、冷凍食品的品項比商場店多</li><li>有些大型店設有 Café&amp;Meal MUJI 或麵包區</li><li>與昨天 FORUS 店的採買一起規劃，避免重複買</li></ul></div>
+        <div class="galwrap"><div class="gal g2"><figure class="ph"><img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/Muji_Grand_Front_Osaka_201407.JPG?width=1000" alt="無印良品 白山北安田" onerror="imgFail(this)"></figure><figure class="ph"><img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/Clothes_and_furniture_at_the_Muji_Canal_City_store_in_Fukuoka_January_2019.jpg?width=1000" alt="無印良品 白山北安田" onerror="imgFail(this)"></figure></div><div class="fb" hidden><div class="noimg" style="--c:#db2777"><span class="ni-ic">◎</span><span class="ni-jp">無印良品 白山北安田</span><span class="ni-tx">圖片載入失敗（請確認網路連線）</span></div></div></div><p class="imgnote">品牌門市示意圖（非該分店）</p>
+        <a class="mapbtn" href="https://www.google.com/maps/search/?api=1&amp;query=%E7%84%A1%E5%8D%B0%E8%89%AF%E5%93%81%20%E7%99%BD%E5%B1%B1%E5%8C%97%E5%AE%89%E7%94%B0" target="_blank" rel="noopener">在 Google 地圖開啟 <span>›</span></a>
+      </article>
+      <article class="card" style="--c:#8b5cf6">
+        <div class="chead">
+          <div class="time"><b>17:47</b><small>停留 1 小時</small></div>
+          <div class="ttl">
+            <h3>金澤佛爾薩酒店</h3>
+            <p class="jp">ホテルフォルツァ金沢</p>
+            <div class="tags"><span class="cat" style="background:#8b5cf6">⌂ 住宿</span><span class="tag">休息</span></div>
+          </div>
+        </div>
+        <p class="sum">放戰利品、稍作休息，晚上再出門去唐吉訶德。山路開了一整天，這一小時很值得。</p>
+        <div class="hot"><h4>熱門重點</h4><ul><li>先把行李箱空間整理出來，晚上採買比較有底</li></ul></div>
+        <div class="galwrap"><div class="gal g3"><figure class="ph"><img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/Skyline_of_Kanazawa_from_Ishikawa_Prefectural_Office_Building20230429.jpg?width=1000" alt="金澤佛爾薩酒店" onerror="imgFail(this)"></figure><figure class="ph"><img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/Fountain_clock_in_front_of_east_entrance_of_Kanazawa_Station_at_night.JPG?width=1000" alt="金澤佛爾薩酒店" onerror="imgFail(this)"></figure><figure class="ph"><img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/Machinori_port_02_Kanazawa_station_east.jpg?width=1000" alt="金澤佛爾薩酒店" onerror="imgFail(this)"></figure></div><div class="fb" hidden><div class="noimg" style="--c:#8b5cf6"><span class="ni-ic">⌂</span><span class="ni-jp">ホテルフォルツァ金沢</span><span class="ni-tx">圖片載入失敗（請確認網路連線）</span></div></div></div><p class="imgnote">周邊街景參考圖</p>
+        <a class="mapbtn" href="https://www.google.com/maps/search/?api=1&amp;query=%E3%83%9B%E3%83%86%E3%83%AB%E3%83%95%E3%82%A9%E3%83%AB%E3%83%84%E3%82%A1%E9%87%91%E6%B2%A2" target="_blank" rel="noopener">在 Google 地圖開啟 <span>›</span></a>
+      </article>
+      <article class="card" style="--c:#db2777">
+        <div class="chead">
+          <div class="time"><b>19:00</b><small>停留 1 小時</small></div>
+          <div class="ttl">
+            <h3>MEGA 唐吉訶德 LAPARK 金澤店</h3>
+            <p class="jp">MEGAドン・キホーテ ラパーク金沢店</p>
+            <div class="tags"><span class="cat" style="background:#db2777">◎ 購物</span><span class="tag">24 小時</span><span class="tag">免稅</span></div>
+          </div>
+        </div>
+        <p class="sum">MEGA 規格的大型唐吉訶德，除了藥妝零食還加入生鮮食品與家電，商品密度高到像尋寶。附設大型停車場，晚上人潮相對舒服。</p>
+        <div class="hot"><h4>熱門重點</h4><ul><li>藥妝｜EVE 止痛藥、休足時間、蒸氣眼罩、曲617 系列是台灣人定番</li><li>零食｜Kit Kat 地區限定、薯條三兄弟、白色戀人一次補齊</li><li>情人節／季節限定與福袋區常有超殺清倉價</li><li>免稅櫃檯｜滿 ¥5,000 免稅，記得帶護照；結帳前先去拿免稅專用袋</li><li>下載 majica App 可再折扣</li></ul></div>
+        <div class="galwrap"><div class="gal g3"><figure class="ph"><img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/Don_Quijote_in_Shinjuku_at_night.jpg?width=1000" alt="MEGA 唐吉訶德 LAPARK 金澤店" onerror="imgFail(this)"></figure><figure class="ph"><img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/MEGA_Don_Quijote_UNY_Tokaidori.jpg?width=1000" alt="MEGA 唐吉訶德 LAPARK 金澤店" onerror="imgFail(this)"></figure><figure class="ph"><img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/Don_Quijote_Dotonbori_Midosuji_store.JPG?width=1000" alt="MEGA 唐吉訶德 LAPARK 金澤店" onerror="imgFail(this)"></figure></div><div class="fb" hidden><div class="noimg" style="--c:#db2777"><span class="ni-ic">◎</span><span class="ni-jp">MEGAドン・キホーテ ラパーク金沢店</span><span class="ni-tx">圖片載入失敗（請確認網路連線）</span></div></div></div><p class="imgnote">品牌門市示意圖（非金澤分店）</p>
+        <a class="mapbtn" href="https://www.google.com/maps/search/?api=1&amp;query=MEGA%E3%83%89%E3%83%B3%E3%83%BB%E3%82%AD%E3%83%9B%E3%83%BC%E3%83%86%20%E3%83%A9%E3%83%91%E3%83%BC%E3%82%AF%E9%87%91%E6%B2%A2%E5%BA%97" target="_blank" rel="noopener">在 Google 地圖開啟 <span>›</span></a>
+      </article></div>
+    <a class="routebtn" href="https://www.google.com/maps/dir/%E3%83%9B%E3%83%86%E3%83%AB%E3%83%95%E3%82%A9%E3%83%AB%E3%83%84%E3%82%A1%E9%87%91%E6%B2%A2/%E7%99%BD%E5%B1%B1%E7%99%BD%E5%B7%9D%E9%83%B7%E3%83%9B%E3%83%AF%E3%82%A4%E3%83%88%E3%83%AD%E3%83%BC%E3%83%89%20%E4%B8%AD%E5%AE%AE%E6%96%99%E9%87%91%E6%89%80/%E7%99%BD%E5%B1%B1%E7%99%BD%E5%B7%9D%E9%83%B7%E3%83%9B%E3%83%AF%E3%82%A4%E3%83%88%E3%83%AD%E3%83%BC%E3%83%89%20%E7%99%BD%E5%B7%9D%E9%83%B7%E5%B1%95%E6%9C%9B%E5%8F%B0/%E7%99%BD%E5%B7%9D%E9%83%B7%20%E5%90%88%E6%8E%8C%E9%80%A0%E3%82%8A%E9%9B%86%E8%90%BD/%E8%8D%BB%E7%94%BA%E5%9F%8E%E8%B7%A1%E5%B1%95%E6%9C%9B%E5%8F%B0/%E4%BA%94%E7%AE%87%E5%B1%B1%20%E7%9B%B8%E5%80%89%E5%90%88%E6%8E%8C%E9%80%A0%E3%82%8A%E9%9B%86%E8%90%BD/%E7%84%A1%E5%8D%B0%E8%89%AF%E5%93%81%20%E7%99%BD%E5%B1%B1%E5%8C%97%E5%AE%89%E7%94%B0/%E3%83%9B%E3%83%86%E3%83%AB%E3%83%95%E3%82%A9%E3%83%AB%E3%83%84%E3%82%A1%E9%87%91%E6%B2%A2/MEGA%E3%83%89%E3%83%B3%E3%83%BB%E3%82%AD%E3%83%9B%E3%83%BC%E3%83%86%20%E3%83%A9%E3%83%91%E3%83%BC%E3%82%AF%E9%87%91%E6%B2%A2%E5%BA%97" target="_blank" rel="noopener">用 Google 地圖看第 3 天完整路線</a>
+  </section>
+  <section class="day" id="d4" style="--dc:#8b5cf6">
+    <header class="dhead">
+      <div class="dnum">DAY<b>4</b></div>
+      <div>
+        <h2>武家屋敷・西茶屋・當代藝術（半日輕鬆行）</h2>
+        <p class="ddate">2026/08/19・週三 ・ 5 個行程點</p>
+      </div>
+    </header>
+    <div class="dnote">上午集中在金澤西南側，中午前就結束，下午自由運用。這三個點彼此步行 10–15 分鐘可達，也可搭周遊巴士。</div>
+    <div class="cards">
+      <article class="card" style="--c:#8b5cf6">
+        <div class="chead">
+          <div class="time"><b>08:00</b><small>停留 1 小時</small></div>
+          <div class="ttl">
+            <h3>金澤佛爾薩酒店</h3>
+            <p class="jp">ホテルフォルツァ金沢</p>
+            <div class="tags"><span class="cat" style="background:#8b5cf6">⌂ 住宿</span><span class="tag">出發</span></div>
+          </div>
+        </div>
+        <p class="sum">最後一個完整的白天。今天行程輕鬆，下午回飯店後還有時間補買伴手禮或去沒逛完的地方。</p>
+        <div class="hot"><h4>熱門重點</h4><ul><li>21 世紀美術館的『泳池』作品需另外購票且常額滿，建議前一晚先線上預約</li></ul></div>
+        <div class="galwrap"><div class="gal g3"><figure class="ph"><img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/Skyline_of_Kanazawa_from_Ishikawa_Prefectural_Office_Building20230429.jpg?width=1000" alt="金澤佛爾薩酒店" onerror="imgFail(this)"></figure><figure class="ph"><img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/Fountain_clock_in_front_of_east_entrance_of_Kanazawa_Station_at_night.JPG?width=1000" alt="金澤佛爾薩酒店" onerror="imgFail(this)"></figure><figure class="ph"><img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/Machinori_port_02_Kanazawa_station_east.jpg?width=1000" alt="金澤佛爾薩酒店" onerror="imgFail(this)"></figure></div><div class="fb" hidden><div class="noimg" style="--c:#8b5cf6"><span class="ni-ic">⌂</span><span class="ni-jp">ホテルフォルツァ金沢</span><span class="ni-tx">圖片載入失敗（請確認網路連線）</span></div></div></div><p class="imgnote">周邊街景參考圖</p>
+        <a class="mapbtn" href="https://www.google.com/maps/search/?api=1&amp;query=%E3%83%9B%E3%83%86%E3%83%AB%E3%83%95%E3%82%A9%E3%83%AB%E3%83%84%E3%82%A1%E9%87%91%E6%B2%A2" target="_blank" rel="noopener">在 Google 地圖開啟 <span>›</span></a>
+      </article>
+      <article class="card" style="--c:#b45309">
+        <div class="chead">
+          <div class="time"><b>09:19</b><small>停留 1 小時</small></div>
+          <div class="ttl">
+            <h3>長町武家屋敷跡</h3>
+            <p class="jp">長町武家屋敷跡</p>
+            <div class="tags"><span class="cat" style="background:#b45309">⛩ 古街</span><span class="tag">土牆</span><span class="tag">江戶武士街</span></div>
+          </div>
+        </div>
+        <p class="sum">加賀藩中級武士居住的舊宅區，土黃色的夯土牆、石板路與大野庄用水的流水聲，完整保留了江戶時代的城下町氛圍。清晨與上午幾乎沒人，走起來特別安靜。</p>
+        <div class="hot"><h4>熱門重點</h4><ul><li>野村家（武家屋敷跡野村家）｜被米其林綠色指南列為二星，庭園被美國庭園雜誌評為日本前三 ¥550</li><li>土塀（夯土牆）｜冬季會覆上稻草『薦掛け』，夏季則是原始土色最有味道</li><li>大野庄用水｜金澤最古老的水渠，沿著它走就不會迷路</li><li>金澤市老舖紀念館｜舊藥舖建築，可看江戶商家的內部</li><li>九谷燒與加賀友禪的小店散布其間，適合買精緻伴手禮</li></ul></div>
+        <div class="galwrap"><div class="gal g3"><figure class="ph"><img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/Nagamachi_Bukeyashiki.jpg?width=1000" alt="長町武家屋敷跡" onerror="imgFail(this)"></figure><figure class="ph"><img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/Nagamachi_Buke_Yashiki_District_04.jpg?width=1000" alt="長町武家屋敷跡" onerror="imgFail(this)"></figure><figure class="ph"><img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/1_Chome_Nagamachi%2C_Kanazawa-shi%2C_Ishikawa-ken_920-0865%2C_Japan_-_panoramio.jpg?width=1000" alt="長町武家屋敷跡" onerror="imgFail(this)"></figure></div><div class="fb" hidden><div class="noimg" style="--c:#b45309"><span class="ni-ic">⛩</span><span class="ni-jp">長町武家屋敷跡</span><span class="ni-tx">圖片載入失敗（請確認網路連線）</span></div></div></div>
+        <a class="mapbtn" href="https://www.google.com/maps/search/?api=1&amp;query=%E9%95%B7%E7%94%BA%E6%AD%A6%E5%AE%B6%E5%B1%8B%E6%95%B7%E8%B7%A1" target="_blank" rel="noopener">在 Google 地圖開啟 <span>›</span></a>
+      </article>
+      <article class="card" style="--c:#b45309">
+        <div class="chead">
+          <div class="time"><b>10:35</b><small>停留 1 小時</small></div>
+          <div class="ttl">
+            <h3>西茶屋街</h3>
+            <p class="jp">にし茶屋街</p>
+            <div class="tags"><span class="cat" style="background:#b45309">⛩ 古街</span><span class="tag">三大茶屋街</span><span class="tag">和菓子</span></div>
+          </div>
+        </div>
+        <p class="sum">金澤三大茶屋街中最小的一條，只有短短一列木格子建築，但現役藝妓人數其實是三處最多的。觀光客少，加上鄰近的甘納豆與和菓子名店，很適合悠閒散步。</p>
+        <div class="hot"><h4>熱門重點</h4><ul><li>西茶屋資料館｜免費入館，重現大正時代的茶屋座敷，二樓有朱紅色的華麗房間</li><li>甘納豆かわむら｜金澤代表性的甘納豆專賣店，包裝精美、伴手禮首選</li><li>落雁 諸江屋｜1849 年創業的和菓子老舖，落雁與『花うさぎ』很受歡迎</li><li>夜晚偶爾能聽見三味線的練習聲，是這裡的隱藏樂趣</li><li>與忍者寺（妙立寺）步行 5 分鐘，有興趣可加碼（需預約）</li></ul></div>
+        <div class="galwrap"><div class="gal g1"><div class="noimg" style="--c:#b45309"><span class="ni-ic">⛩</span><span class="ni-jp">にし茶屋街</span><span class="ni-tx">無公開授權照片</span></div></div></div>
+        <a class="mapbtn" href="https://www.google.com/maps/search/?api=1&amp;query=%E3%81%AB%E3%81%97%E8%8C%B6%E5%B1%8B%E8%A1%97" target="_blank" rel="noopener">在 Google 地圖開啟 <span>›</span></a>
+      </article>
+      <article class="card" style="--c:#4f46e5">
+        <div class="chead">
+          <div class="time"><b>11:55</b><small>停留 1 小時</small></div>
+          <div class="ttl">
+            <h3>金澤 21 世紀美術館</h3>
+            <p class="jp">金沢21世紀美術館</p>
+            <div class="tags"><span class="cat" style="background:#4f46e5">◆ 美術館</span><span class="tag">當代藝術</span><span class="tag">建築名作</span></div>
+          </div>
+        </div>
+        <p class="sum">SANAA（妹島和世＋西澤立衛）設計的圓形玻璃美術館，2004 年開館後成為日本最成功的地方美術館之一，也是普立茲克獎作品。沒有正面與背面、四面都能進入的開放設計本身就是展品。</p>
+        <div class="hot"><h4>熱門重點</h4><ul><li>《游泳池》Leandro Erlich｜隔著水面互看的錯視名作，需另購展覽券且常額滿，強烈建議線上預約</li><li>《彩色屋》Colour Activity House｜三色玻璃牆，怎麼拍都好看，免費區</li><li>《雲之測量法》《人們》｜屋頂與草坪上的戶外作品，免費</li><li>免費交流區（開放時間 9:00–22:00）與展覽區（10:00–18:00）票價分開</li><li>館內 Fusion21 餐廳與 Museum Shop 的設計小物很值得逛</li></ul></div>
+        <div class="galwrap"><div class="gal g3"><figure class="ph"><img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/21st_Century_Museum_of_Contemporary_Art%2C_Kanazawa011.jpg?width=1000" alt="金澤 21 世紀美術館" onerror="imgFail(this)"></figure><figure class="ph"><img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/21st_Century_Museum_of_Contemporary_Art%2C_Kanazawa004.jpg?width=1000" alt="金澤 21 世紀美術館" onerror="imgFail(this)"></figure><figure class="ph"><img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/Kanazawa_21st_Century_Museum.jpg?width=1000" alt="金澤 21 世紀美術館" onerror="imgFail(this)"></figure></div><div class="fb" hidden><div class="noimg" style="--c:#4f46e5"><span class="ni-ic">◆</span><span class="ni-jp">金沢21世紀美術館</span><span class="ni-tx">圖片載入失敗（請確認網路連線）</span></div></div></div>
+        <a class="mapbtn" href="https://www.google.com/maps/search/?api=1&amp;query=%E9%87%91%E6%B2%A221%E4%B8%96%E7%B4%80%E7%BE%8E%E8%A1%93%E9%A4%A8" target="_blank" rel="noopener">在 Google 地圖開啟 <span>›</span></a>
+      </article>
+      <article class="card" style="--c:#8b5cf6">
+        <div class="chead">
+          <div class="time"><b>13:19</b><small>停留 1 小時</small></div>
+          <div class="ttl">
+            <h3>金澤佛爾薩酒店</h3>
+            <p class="jp">ホテルフォルツァ金沢</p>
+            <div class="tags"><span class="cat" style="background:#8b5cf6">⌂ 住宿</span><span class="tag">自由時間</span></div>
+          </div>
+        </div>
+        <p class="sum">回飯店後即為自由時間。可以先整理行李，或再去百番街／FORUS 做最後補貨。</p>
+        <div class="hot"><h4>熱門重點</h4><ul><li>加碼建議｜金澤海未來圖書館（建築迷）、鈴木大拙館（靜謐水鏡）、近江町市場二輪</li><li>伴手禮壓軸｜金箔製品、加賀棒茶、柴舟小出、圓八的あんころ餅</li></ul></div>
+        <div class="galwrap"><div class="gal g3"><figure class="ph"><img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/Skyline_of_Kanazawa_from_Ishikawa_Prefectural_Office_Building20230429.jpg?width=1000" alt="金澤佛爾薩酒店" onerror="imgFail(this)"></figure><figure class="ph"><img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/Fountain_clock_in_front_of_east_entrance_of_Kanazawa_Station_at_night.JPG?width=1000" alt="金澤佛爾薩酒店" onerror="imgFail(this)"></figure><figure class="ph"><img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/Machinori_port_02_Kanazawa_station_east.jpg?width=1000" alt="金澤佛爾薩酒店" onerror="imgFail(this)"></figure></div><div class="fb" hidden><div class="noimg" style="--c:#8b5cf6"><span class="ni-ic">⌂</span><span class="ni-jp">ホテルフォルツァ金沢</span><span class="ni-tx">圖片載入失敗（請確認網路連線）</span></div></div></div><p class="imgnote">周邊街景參考圖</p>
+        <a class="mapbtn" href="https://www.google.com/maps/search/?api=1&amp;query=%E3%83%9B%E3%83%86%E3%83%AB%E3%83%95%E3%82%A9%E3%83%AB%E3%83%84%E3%82%A1%E9%87%91%E6%B2%A2" target="_blank" rel="noopener">在 Google 地圖開啟 <span>›</span></a>
+      </article></div>
+    <a class="routebtn" href="https://www.google.com/maps/dir/%E3%83%9B%E3%83%86%E3%83%AB%E3%83%95%E3%82%A9%E3%83%AB%E3%83%84%E3%82%A1%E9%87%91%E6%B2%A2/%E9%95%B7%E7%94%BA%E6%AD%A6%E5%AE%B6%E5%B1%8B%E6%95%B7%E8%B7%A1/%E3%81%AB%E3%81%97%E8%8C%B6%E5%B1%8B%E8%A1%97/%E9%87%91%E6%B2%A221%E4%B8%96%E7%B4%80%E7%BE%8E%E8%A1%93%E9%A4%A8/%E3%83%9B%E3%83%86%E3%83%AB%E3%83%95%E3%82%A9%E3%83%AB%E3%83%84%E3%82%A1%E9%87%91%E6%B2%A2" target="_blank" rel="noopener">用 Google 地圖看第 4 天完整路線</a>
+  </section>
+  <section class="day" id="d5" style="--dc:#64748b">
+    <header class="dhead">
+      <div class="dnum">DAY<b>5</b></div>
+      <div>
+        <h2>返程</h2>
+        <p class="ddate">2026/08/20・週四 ・ 3 個行程點</p>
+      </div>
+    </header>
+    <div class="dnote">金澤車站到小松機場的接駁巴士約 40 分鐘，建議 12:00 前從飯店出發，預留充裕時間。</div>
+    <div class="cards">
+      <article class="card" style="--c:#8b5cf6">
+        <div class="chead">
+          <div class="time"><b>08:00</b><small>停留 1 小時</small></div>
+          <div class="ttl">
+            <h3>金澤佛爾薩酒店</h3>
+            <p class="jp">ホテルフォルツァ金沢</p>
+            <div class="tags"><span class="cat" style="background:#8b5cf6">⌂ 住宿</span><span class="tag">退房</span></div>
+          </div>
+        </div>
+        <p class="sum">退房前確認抽屜與保險箱。行李可寄放櫃檯，上午還能到近江町市場吃最後一頓海鮮丼或去百番街補貨。</p>
+        <div class="hot"><h4>熱門重點</h4><ul><li>退房通常為 11:00，寄放行李免費</li><li>車站內也有投幣式置物櫃（大型 ¥700 上下）</li></ul></div>
+        <div class="galwrap"><div class="gal g3"><figure class="ph"><img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/Skyline_of_Kanazawa_from_Ishikawa_Prefectural_Office_Building20230429.jpg?width=1000" alt="金澤佛爾薩酒店" onerror="imgFail(this)"></figure><figure class="ph"><img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/Fountain_clock_in_front_of_east_entrance_of_Kanazawa_Station_at_night.JPG?width=1000" alt="金澤佛爾薩酒店" onerror="imgFail(this)"></figure><figure class="ph"><img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/Machinori_port_02_Kanazawa_station_east.jpg?width=1000" alt="金澤佛爾薩酒店" onerror="imgFail(this)"></figure></div><div class="fb" hidden><div class="noimg" style="--c:#8b5cf6"><span class="ni-ic">⌂</span><span class="ni-jp">ホテルフォルツァ金沢</span><span class="ni-tx">圖片載入失敗（請確認網路連線）</span></div></div></div><p class="imgnote">周邊街景參考圖</p>
+        <a class="mapbtn" href="https://www.google.com/maps/search/?api=1&amp;query=%E3%83%9B%E3%83%86%E3%83%AB%E3%83%95%E3%82%A9%E3%83%AB%E3%83%84%E3%82%A1%E9%87%91%E6%B2%A2" target="_blank" rel="noopener">在 Google 地圖開啟 <span>›</span></a>
+      </article>
+      <article class="card" style="--c:#64748b">
+        <div class="chead">
+          <div class="time"><b>13:55</b><small>停留 3 小時</small></div>
+          <div class="ttl">
+            <h3>小松機場 KMQ</h3>
+            <p class="jp">小松空港</p>
+            <div class="tags"><span class="cat" style="background:#64748b">✈ 交通</span><span class="tag">出境</span></div>
+          </div>
+        </div>
+        <p class="sum">國際線班次少，報到櫃檯通常起飛前 2.5 小時才開。安檢後的免稅店規模不大，想買的東西建議在市區先買完。</p>
+        <div class="hot"><h4>熱門重點</h4><ul><li>1F 土產區｜加賀棒茶、柴舟、九谷燒小物，最後補貨點</li><li>2F 展望台與石川航空產業館（免費，隔壁棟）可打發時間</li><li>餐廳集中在 2F，過了安檢後選擇很有限，建議先吃飽再進去</li></ul></div>
+        <div class="galwrap"><div class="gal g2"><figure class="ph"><img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/Komatsu_airport_terminal_building.jpg?width=1000" alt="小松機場 KMQ" onerror="imgFail(this)"></figure><figure class="ph"><img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/KOMATSU_Airport_-_Sky_Lounge_HAKUSAN._%2832441162598%29.jpg?width=1000" alt="小松機場 KMQ" onerror="imgFail(this)"></figure></div><div class="fb" hidden><div class="noimg" style="--c:#64748b"><span class="ni-ic">✈</span><span class="ni-jp">小松空港</span><span class="ni-tx">圖片載入失敗（請確認網路連線）</span></div></div></div>
+        <a class="mapbtn" href="https://www.google.com/maps/search/?api=1&amp;query=%E5%B0%8F%E6%9D%BE%E7%A9%BA%E6%B8%AF" target="_blank" rel="noopener">在 Google 地圖開啟 <span>›</span></a>
+      </article>
+      <article class="card" style="--c:#64748b">
+        <div class="chead">
+          <div class="time"><b>19:10</b><small>停留 1 小時</small></div>
+          <div class="ttl">
+            <h3>桃園國際機場 TPE</h3>
+            <p class="jp">臺灣桃園國際機場</p>
+            <div class="tags"><span class="cat" style="background:#64748b">✈ 交通</span><span class="tag">抵達</span></div>
+          </div>
+        </div>
+        <p class="sum">抵達後入境、提領行李。旅程結束。</p>
+        <div class="hot"><h4>熱門重點</h4><ul><li>機捷末班車約 23:00 前後，若班機延誤請先確認</li><li>國道客運 24 小時營運，是延誤時的備案</li></ul></div>
+        <div class="galwrap"><div class="gal g3"><figure class="ph"><img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/Exterior_of_Terminal_1%2C_Taoyuan_Airport_20141230.jpg?width=1000" alt="桃園國際機場 TPE" onerror="imgFail(this)"></figure><figure class="ph"><img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/Taiwan_Taoyuan_International_Airport_-_Terminal_1.jpg?width=1000" alt="桃園國際機場 TPE" onerror="imgFail(this)"></figure><figure class="ph"><img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/Taoyuan_Airport_Terminal_2_outside_space_frames_20091024.jpg?width=1000" alt="桃園國際機場 TPE" onerror="imgFail(this)"></figure></div><div class="fb" hidden><div class="noimg" style="--c:#64748b"><span class="ni-ic">✈</span><span class="ni-jp">臺灣桃園國際機場</span><span class="ni-tx">圖片載入失敗（請確認網路連線）</span></div></div></div>
+        <a class="mapbtn" href="https://www.google.com/maps/search/?api=1&amp;query=%E8%87%BA%E7%81%A3%E6%A1%83%E5%9C%92%E5%9C%8B%E9%9A%9B%E6%A9%9F%E5%A0%B4" target="_blank" rel="noopener">在 Google 地圖開啟 <span>›</span></a>
+      </article></div>
+    <a class="routebtn" href="https://www.google.com/maps/dir/%E3%83%9B%E3%83%86%E3%83%AB%E3%83%95%E3%82%A9%E3%83%AB%E3%83%84%E3%82%A1%E9%87%91%E6%B2%A2/%E5%B0%8F%E6%9D%BE%E7%A9%BA%E6%B8%AF/%E8%87%BA%E7%81%A3%E6%A1%83%E5%9C%92%E5%9C%8B%E9%9A%9B%E6%A9%9F%E5%A0%B4" target="_blank" rel="noopener">用 Google 地圖看第 5 天完整路線</a>
+  </section>
+
+  <section class="ov" id="overview">
+    <h2>地圖總覽</h2>
+    <p class="sub">全行程 35 個地點，依天數以顏色區分。點擊圓點可看名稱並跳轉 Google 地圖。</p>
+    <div id="map"></div>
+    <div class="legend"><span><i style="background:#0ea5e9"></i>Day 1 ・ 抵達金澤</span><span><i style="background:#f97316"></i>Day 2 ・ 金澤市區經典一日：市場・茶屋街・名園・購物</span><span><i style="background:#059669"></i>Day 3 ・ 世界遺產：白川鄉・五箇山合掌村</span><span><i style="background:#8b5cf6"></i>Day 4 ・ 武家屋敷・西茶屋・當代藝術（半日輕鬆行）</span><span><i style="background:#64748b"></i>Day 5 ・ 返程</span></div>
+    <div class="routes"><a href="https://www.google.com/maps/dir/%E8%87%BA%E7%81%A3%E6%A1%83%E5%9C%92%E5%9C%8B%E9%9A%9B%E6%A9%9F%E5%A0%B4/%E5%B0%8F%E6%9D%BE%E7%A9%BA%E6%B8%AF/%E9%87%91%E6%B2%A2%E9%A7%85%20%E9%BC%93%E9%96%80/%E3%83%9B%E3%83%86%E3%83%AB%E3%83%95%E3%82%A9%E3%83%AB%E3%83%84%E3%82%A1%E9%87%91%E6%B2%A2" target="_blank" rel="noopener" style="--dc:#0ea5e9">Day 1 路線</a><a href="https://www.google.com/maps/dir/%E3%83%9B%E3%83%86%E3%83%AB%E3%83%95%E3%82%A9%E3%83%AB%E3%83%84%E3%82%A1%E9%87%91%E6%B2%A2/%E8%BF%91%E6%B1%9F%E7%94%BA%E5%B8%82%E5%A0%B4/%E4%B8%BB%E8%A8%88%E7%94%BA%E8%8C%B6%E5%B1%8B%E8%A1%97/%E3%81%B2%E3%81%8C%E3%81%97%E8%8C%B6%E5%B1%8B%E8%A1%97/%E5%85%BC%E5%85%AD%E5%9C%92/%E7%9F%B3%E6%B5%A6%E7%A5%9E%E7%A4%BE/%E9%87%91%E6%B2%A2%E5%9F%8E%E5%85%AC%E5%9C%92/%E5%B0%BE%E5%B1%B1%E7%A5%9E%E7%A4%BE/%E9%87%91%E6%B2%A2%E9%A7%85/3COINS%2Bplus%20%E9%87%91%E6%B2%A2%E7%99%BE%E7%95%AA%E8%A1%97Rinto%E5%BA%97/%E3%83%A6%E3%83%8B%E3%82%AF%E3%83%AD%20%E9%87%91%E6%B2%A2%E3%83%95%E3%82%A9%E3%83%BC%E3%83%A9%E3%82%B9%E5%BA%97/%E7%84%A1%E5%8D%B0%E8%89%AF%E5%93%81%20%E9%87%91%E6%B2%A2%E3%83%95%E3%82%A9%E3%83%BC%E3%83%A9%E3%82%B9/%E3%83%9D%E3%82%B1%E3%83%A2%E3%83%B3%E3%82%BB%E3%83%B3%E3%82%BF%E3%83%BC%E3%82%AB%E3%83%8A%E3%82%B6%E3%83%AF/%E3%83%9B%E3%83%86%E3%83%AB%E3%83%95%E3%82%A9%E3%83%AB%E3%83%84%E3%82%A1%E9%87%91%E6%B2%A2" target="_blank" rel="noopener" style="--dc:#f97316">Day 2 路線</a><a href="https://www.google.com/maps/dir/%E3%83%9B%E3%83%86%E3%83%AB%E3%83%95%E3%82%A9%E3%83%AB%E3%83%84%E3%82%A1%E9%87%91%E6%B2%A2/%E7%99%BD%E5%B1%B1%E7%99%BD%E5%B7%9D%E9%83%B7%E3%83%9B%E3%83%AF%E3%82%A4%E3%83%88%E3%83%AD%E3%83%BC%E3%83%89%20%E4%B8%AD%E5%AE%AE%E6%96%99%E9%87%91%E6%89%80/%E7%99%BD%E5%B1%B1%E7%99%BD%E5%B7%9D%E9%83%B7%E3%83%9B%E3%83%AF%E3%82%A4%E3%83%88%E3%83%AD%E3%83%BC%E3%83%89%20%E7%99%BD%E5%B7%9D%E9%83%B7%E5%B1%95%E6%9C%9B%E5%8F%B0/%E7%99%BD%E5%B7%9D%E9%83%B7%20%E5%90%88%E6%8E%8C%E9%80%A0%E3%82%8A%E9%9B%86%E8%90%BD/%E8%8D%BB%E7%94%BA%E5%9F%8E%E8%B7%A1%E5%B1%95%E6%9C%9B%E5%8F%B0/%E4%BA%94%E7%AE%87%E5%B1%B1%20%E7%9B%B8%E5%80%89%E5%90%88%E6%8E%8C%E9%80%A0%E3%82%8A%E9%9B%86%E8%90%BD/%E7%84%A1%E5%8D%B0%E8%89%AF%E5%93%81%20%E7%99%BD%E5%B1%B1%E5%8C%97%E5%AE%89%E7%94%B0/%E3%83%9B%E3%83%86%E3%83%AB%E3%83%95%E3%82%A9%E3%83%AB%E3%83%84%E3%82%A1%E9%87%91%E6%B2%A2/MEGA%E3%83%89%E3%83%B3%E3%83%BB%E3%82%AD%E3%83%9B%E3%83%BC%E3%83%86%20%E3%83%A9%E3%83%91%E3%83%BC%E3%82%AF%E9%87%91%E6%B2%A2%E5%BA%97" target="_blank" rel="noopener" style="--dc:#059669">Day 3 路線</a><a href="https://www.google.com/maps/dir/%E3%83%9B%E3%83%86%E3%83%AB%E3%83%95%E3%82%A9%E3%83%AB%E3%83%84%E3%82%A1%E9%87%91%E6%B2%A2/%E9%95%B7%E7%94%BA%E6%AD%A6%E5%AE%B6%E5%B1%8B%E6%95%B7%E8%B7%A1/%E3%81%AB%E3%81%97%E8%8C%B6%E5%B1%8B%E8%A1%97/%E9%87%91%E6%B2%A221%E4%B8%96%E7%B4%80%E7%BE%8E%E8%A1%93%E9%A4%A8/%E3%83%9B%E3%83%86%E3%83%AB%E3%83%95%E3%82%A9%E3%83%AB%E3%83%84%E3%82%A1%E9%87%91%E6%B2%A2" target="_blank" rel="noopener" style="--dc:#8b5cf6">Day 4 路線</a><a href="https://www.google.com/maps/dir/%E3%83%9B%E3%83%86%E3%83%AB%E3%83%95%E3%82%A9%E3%83%AB%E3%83%84%E3%82%A1%E9%87%91%E6%B2%A2/%E5%B0%8F%E6%9D%BE%E7%A9%BA%E6%B8%AF/%E8%87%BA%E7%81%A3%E6%A1%83%E5%9C%92%E5%9C%8B%E9%9A%9B%E6%A9%9F%E5%A0%B4" target="_blank" rel="noopener" style="--dc:#64748b">Day 5 路線</a></div>
+  </section>
+
+  <footer>
+    照片來源：Wikimedia Commons（各檔案依其原授權條款使用）・ 部分連鎖店為品牌門市示意圖<br>
+    營業時間、票價與白山白川鄉白色道路通行狀況請以官方公告為準
+  </footer>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script>
+var PTS = [{"d": 1, "t": "09:10", "n": "桃園國際機場 TPE", "jp": "臺灣桃園國際機場", "lat": 25.0797, "lng": 121.2342, "c": "#0ea5e9", "u": "https://www.google.com/maps/search/?api=1&query=%E8%87%BA%E7%81%A3%E6%A1%83%E5%9C%92%E5%9C%8B%E9%9A%9B%E6%A9%9F%E5%A0%B4", "cat": "交通"}, {"d": 1, "t": "16:05", "n": "小松機場 KMQ", "jp": "小松空港", "lat": 36.3946, "lng": 136.4075, "c": "#0ea5e9", "u": "https://www.google.com/maps/search/?api=1&query=%E5%B0%8F%E6%9D%BE%E7%A9%BA%E6%B8%AF", "cat": "交通"}, {"d": 1, "t": "17:05", "n": "金澤車站", "jp": "金沢駅", "lat": 36.578, "lng": 136.6479, "c": "#0ea5e9", "u": "https://www.google.com/maps/search/?api=1&query=%E9%87%91%E6%B2%A2%E9%A7%85%20%E9%BC%93%E9%96%80", "cat": "地標"}, {"d": 1, "t": "18:18", "n": "金澤佛爾薩酒店", "jp": "ホテルフォルツァ金沢", "lat": 36.576, "lng": 136.6478, "c": "#0ea5e9", "u": "https://www.google.com/maps/search/?api=1&query=%E3%83%9B%E3%83%86%E3%83%AB%E3%83%95%E3%82%A9%E3%83%AB%E3%83%84%E3%82%A1%E9%87%91%E6%B2%A2", "cat": "住宿"}, {"d": 2, "t": "08:00", "n": "金澤佛爾薩酒店", "jp": "ホテルフォルツァ金沢", "lat": 36.576, "lng": 136.6478, "c": "#f97316", "u": "https://www.google.com/maps/search/?api=1&query=%E3%83%9B%E3%83%86%E3%83%AB%E3%83%95%E3%82%A9%E3%83%AB%E3%83%84%E3%82%A1%E9%87%91%E6%B2%A2", "cat": "住宿"}, {"d": 2, "t": "09:05", "n": "近江町市場", "jp": "近江町市場", "lat": 36.572, "lng": 136.6567, "c": "#f97316", "u": "https://www.google.com/maps/search/?api=1&query=%E8%BF%91%E6%B1%9F%E7%94%BA%E5%B8%82%E5%A0%B4", "cat": "美食"}, {"d": 2, "t": "10:17", "n": "主計町茶屋街", "jp": "主計町茶屋街", "lat": 36.5697, "lng": 136.6604, "c": "#f97316", "u": "https://www.google.com/maps/search/?api=1&query=%E4%B8%BB%E8%A8%88%E7%94%BA%E8%8C%B6%E5%B1%8B%E8%A1%97", "cat": "古街"}, {"d": 2, "t": "11:24", "n": "東茶屋街", "jp": "ひがし茶屋街", "lat": 36.5722, "lng": 136.6668, "c": "#f97316", "u": "https://www.google.com/maps/search/?api=1&query=%E3%81%B2%E3%81%8C%E3%81%97%E8%8C%B6%E5%B1%8B%E8%A1%97", "cat": "古街"}, {"d": 2, "t": "12:50", "n": "兼六園", "jp": "兼六園", "lat": 36.5622, "lng": 136.6626, "c": "#f97316", "u": "https://www.google.com/maps/search/?api=1&query=%E5%85%BC%E5%85%AD%E5%9C%92", "cat": "名勝"}, {"d": 2, "t": "14:01", "n": "石浦神社", "jp": "石浦神社", "lat": 36.561, "lng": 136.6595, "c": "#f97316", "u": "https://www.google.com/maps/search/?api=1&query=%E7%9F%B3%E6%B5%A6%E7%A5%9E%E7%A4%BE", "cat": "神社"}, {"d": 2, "t": "14:42", "n": "金澤城公園", "jp": "金沢城公園", "lat": 36.565, "lng": 136.659, "c": "#f97316", "u": "https://www.google.com/maps/search/?api=1&query=%E9%87%91%E6%B2%A2%E5%9F%8E%E5%85%AC%E5%9C%92", "cat": "名勝"}, {"d": 2, "t": "15:48", "n": "尾山神社", "jp": "尾山神社", "lat": 36.5665, "lng": 136.6537, "c": "#f97316", "u": "https://www.google.com/maps/search/?api=1&query=%E5%B0%BE%E5%B1%B1%E7%A5%9E%E7%A4%BE", "cat": "神社"}, {"d": 2, "t": "16:43", "n": "金澤車站", "jp": "金沢駅", "lat": 36.578, "lng": 136.6479, "c": "#f97316", "u": "https://www.google.com/maps/search/?api=1&query=%E9%87%91%E6%B2%A2%E9%A7%85", "cat": "地標"}, {"d": 2, "t": "17:02", "n": "3COINS+plus 金澤百番街 Rinto 店", "jp": "3COINS+plus 金沢百番街Rinto店", "lat": 36.578, "lng": 136.6482, "c": "#f97316", "u": "https://www.google.com/maps/search/?api=1&query=3COINS%2Bplus%20%E9%87%91%E6%B2%A2%E7%99%BE%E7%95%AA%E8%A1%97Rinto%E5%BA%97", "cat": "購物"}, {"d": 2, "t": "18:05", "n": "UNIQLO 金澤 FORUS 店", "jp": "ユニクロ 金沢フォーラス店", "lat": 36.5776, "lng": 136.6489, "c": "#f97316", "u": "https://www.google.com/maps/search/?api=1&query=%E3%83%A6%E3%83%8B%E3%82%AF%E3%83%AD%20%E9%87%91%E6%B2%A2%E3%83%95%E3%82%A9%E3%83%BC%E3%83%A9%E3%82%B9%E5%BA%97", "cat": "購物"}, {"d": 2, "t": "19:06", "n": "無印良品 金澤 FORUS 店", "jp": "無印良品 金沢フォーラス", "lat": 36.5776, "lng": 136.6489, "c": "#f97316", "u": "https://www.google.com/maps/search/?api=1&query=%E7%84%A1%E5%8D%B0%E8%89%AF%E5%93%81%20%E9%87%91%E6%B2%A2%E3%83%95%E3%82%A9%E3%83%BC%E3%83%A9%E3%82%B9", "cat": "購物"}, {"d": 2, "t": "20:06", "n": "寶可夢中心 金澤店", "jp": "ポケモンセンターカナザワ", "lat": 36.5776, "lng": 136.6489, "c": "#f97316", "u": "https://www.google.com/maps/search/?api=1&query=%E3%83%9D%E3%82%B1%E3%83%A2%E3%83%B3%E3%82%BB%E3%83%B3%E3%82%BF%E3%83%BC%E3%82%AB%E3%83%8A%E3%82%B6%E3%83%AF", "cat": "購物"}, {"d": 2, "t": "21:19", "n": "金澤佛爾薩酒店", "jp": "ホテルフォルツァ金沢", "lat": 36.576, "lng": 136.6478, "c": "#f97316", "u": "https://www.google.com/maps/search/?api=1&query=%E3%83%9B%E3%83%86%E3%83%AB%E3%83%95%E3%82%A9%E3%83%AB%E3%83%84%E3%82%A1%E9%87%91%E6%B2%A2", "cat": "住宿"}, {"d": 3, "t": "08:00", "n": "金澤佛爾薩酒店", "jp": "ホテルフォルツァ金沢", "lat": 36.576, "lng": 136.6478, "c": "#059669", "u": "https://www.google.com/maps/search/?api=1&query=%E3%83%9B%E3%83%86%E3%83%AB%E3%83%95%E3%82%A9%E3%83%AB%E3%83%84%E3%82%A1%E9%87%91%E6%B2%A2", "cat": "住宿"}, {"d": 3, "t": "10:45", "n": "白山白川鄉白色道路", "jp": "白山白川郷ホワイトロード", "lat": 36.2528, "lng": 136.7736, "c": "#059669", "u": "https://www.google.com/maps/search/?api=1&query=%E7%99%BD%E5%B1%B1%E7%99%BD%E5%B7%9D%E9%83%B7%E3%83%9B%E3%83%AF%E3%82%A4%E3%83%88%E3%83%AD%E3%83%BC%E3%83%89%20%E4%B8%AD%E5%AE%AE%E6%96%99%E9%87%91%E6%89%80", "cat": "景觀道路"}, {"d": 3, "t": "11:17", "n": "白色道路 白川鄉展望台", "jp": "ホワイトロード 白川郷展望台", "lat": 36.2278, "lng": 136.8236, "c": "#059669", "u": "https://www.google.com/maps/search/?api=1&query=%E7%99%BD%E5%B1%B1%E7%99%BD%E5%B7%9D%E9%83%B7%E3%83%9B%E3%83%AF%E3%82%A4%E3%83%88%E3%83%AD%E3%83%BC%E3%83%89%20%E7%99%BD%E5%B7%9D%E9%83%B7%E5%B1%95%E6%9C%9B%E5%8F%B0", "cat": "展望台"}, {"d": 3, "t": "12:13", "n": "白川鄉 合掌造聚落", "jp": "白川郷 荻町合掌造り集落", "lat": 36.2578, "lng": 136.9061, "c": "#059669", "u": "https://www.google.com/maps/search/?api=1&query=%E7%99%BD%E5%B7%9D%E9%83%B7%20%E5%90%88%E6%8E%8C%E9%80%A0%E3%82%8A%E9%9B%86%E8%90%BD", "cat": "世界遺產"}, {"d": 3, "t": "13:17", "n": "天守閣展望台", "jp": "荻町城跡展望台", "lat": 36.2617, "lng": 136.9082, "c": "#059669", "u": "https://www.google.com/maps/search/?api=1&query=%E8%8D%BB%E7%94%BA%E5%9F%8E%E8%B7%A1%E5%B1%95%E6%9C%9B%E5%8F%B0", "cat": "展望台"}, {"d": 3, "t": "14:16", "n": "秘境 五箇山 合掌之里", "jp": "五箇山 合掌の里（相倉・菅沼）", "lat": 36.4283, "lng": 136.935, "c": "#059669", "u": "https://www.google.com/maps/search/?api=1&query=%E4%BA%94%E7%AE%87%E5%B1%B1%20%E7%9B%B8%E5%80%89%E5%90%88%E6%8E%8C%E9%80%A0%E3%82%8A%E9%9B%86%E8%90%BD", "cat": "世界遺產"}, {"d": 3, "t": "16:18", "n": "無印良品 白山北安田", "jp": "無印良品 白山北安田", "lat": 36.5145, "lng": 136.572, "c": "#059669", "u": "https://www.google.com/maps/search/?api=1&query=%E7%84%A1%E5%8D%B0%E8%89%AF%E5%93%81%20%E7%99%BD%E5%B1%B1%E5%8C%97%E5%AE%89%E7%94%B0", "cat": "購物"}, {"d": 3, "t": "17:47", "n": "金澤佛爾薩酒店", "jp": "ホテルフォルツァ金沢", "lat": 36.576, "lng": 136.6478, "c": "#059669", "u": "https://www.google.com/maps/search/?api=1&query=%E3%83%9B%E3%83%86%E3%83%AB%E3%83%95%E3%82%A9%E3%83%AB%E3%83%84%E3%82%A1%E9%87%91%E6%B2%A2", "cat": "住宿"}, {"d": 3, "t": "19:00", "n": "MEGA 唐吉訶德 LAPARK 金澤店", "jp": "MEGAドン・キホーテ ラパーク金沢店", "lat": 36.599, "lng": 136.614, "c": "#059669", "u": "https://www.google.com/maps/search/?api=1&query=MEGA%E3%83%89%E3%83%B3%E3%83%BB%E3%82%AD%E3%83%9B%E3%83%BC%E3%83%86%20%E3%83%A9%E3%83%91%E3%83%BC%E3%82%AF%E9%87%91%E6%B2%A2%E5%BA%97", "cat": "購物"}, {"d": 4, "t": "08:00", "n": "金澤佛爾薩酒店", "jp": "ホテルフォルツァ金沢", "lat": 36.576, "lng": 136.6478, "c": "#8b5cf6", "u": "https://www.google.com/maps/search/?api=1&query=%E3%83%9B%E3%83%86%E3%83%AB%E3%83%95%E3%82%A9%E3%83%AB%E3%83%84%E3%82%A1%E9%87%91%E6%B2%A2", "cat": "住宿"}, {"d": 4, "t": "09:19", "n": "長町武家屋敷跡", "jp": "長町武家屋敷跡", "lat": 36.5646, "lng": 136.6489, "c": "#8b5cf6", "u": "https://www.google.com/maps/search/?api=1&query=%E9%95%B7%E7%94%BA%E6%AD%A6%E5%AE%B6%E5%B1%8B%E6%95%B7%E8%B7%A1", "cat": "古街"}, {"d": 4, "t": "10:35", "n": "西茶屋街", "jp": "にし茶屋街", "lat": 36.5537, "lng": 136.6493, "c": "#8b5cf6", "u": "https://www.google.com/maps/search/?api=1&query=%E3%81%AB%E3%81%97%E8%8C%B6%E5%B1%8B%E8%A1%97", "cat": "古街"}, {"d": 4, "t": "11:55", "n": "金澤 21 世紀美術館", "jp": "金沢21世紀美術館", "lat": 36.5606, "lng": 136.658, "c": "#8b5cf6", "u": "https://www.google.com/maps/search/?api=1&query=%E9%87%91%E6%B2%A221%E4%B8%96%E7%B4%80%E7%BE%8E%E8%A1%93%E9%A4%A8", "cat": "美術館"}, {"d": 4, "t": "13:19", "n": "金澤佛爾薩酒店", "jp": "ホテルフォルツァ金沢", "lat": 36.576, "lng": 136.6478, "c": "#8b5cf6", "u": "https://www.google.com/maps/search/?api=1&query=%E3%83%9B%E3%83%86%E3%83%AB%E3%83%95%E3%82%A9%E3%83%AB%E3%83%84%E3%82%A1%E9%87%91%E6%B2%A2", "cat": "住宿"}, {"d": 5, "t": "08:00", "n": "金澤佛爾薩酒店", "jp": "ホテルフォルツァ金沢", "lat": 36.576, "lng": 136.6478, "c": "#64748b", "u": "https://www.google.com/maps/search/?api=1&query=%E3%83%9B%E3%83%86%E3%83%AB%E3%83%95%E3%82%A9%E3%83%AB%E3%83%84%E3%82%A1%E9%87%91%E6%B2%A2", "cat": "住宿"}, {"d": 5, "t": "13:55", "n": "小松機場 KMQ", "jp": "小松空港", "lat": 36.3946, "lng": 136.4075, "c": "#64748b", "u": "https://www.google.com/maps/search/?api=1&query=%E5%B0%8F%E6%9D%BE%E7%A9%BA%E6%B8%AF", "cat": "交通"}, {"d": 5, "t": "19:10", "n": "桃園國際機場 TPE", "jp": "臺灣桃園國際機場", "lat": 25.0797, "lng": 121.2342, "c": "#64748b", "u": "https://www.google.com/maps/search/?api=1&query=%E8%87%BA%E7%81%A3%E6%A1%83%E5%9C%92%E5%9C%8B%E9%9A%9B%E6%A9%9F%E5%A0%B4", "cat": "交通"}];
+if (typeof L === 'undefined') {
+  document.getElementById('map').innerHTML =
+    '<div style="height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;'
+    + 'gap:8px;color:#64748b;font-size:14px;text-align:center;padding:24px">'
+    + '<b style="font-size:16px;color:#0f172a">互動地圖需要網路連線</b>'
+    + '<span>連上網後重新整理即可載入，或直接使用下方各天的 Google 地圖路線連結。</span></div>';
+} else {
+var map = L.map('map', {scrollWheelZoom:false}).setView([36.42,136.72], 9);
+L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+  attribution:'&copy; OpenStreetMap &copy; CARTO', maxZoom:19
+}).addTo(map);
+
+var byDay = {};
+PTS.forEach(function(p){ (byDay[p.d] = byDay[p.d] || []).push(p); });
+
+Object.keys(byDay).forEach(function(d){
+  var arr = byDay[d];
+  L.polyline(arr.map(function(p){return [p.lat,p.lng];}),
+    {color:arr[0].c, weight:2.5, opacity:.45, dashArray:'5,7'}).addTo(map);
+  arr.forEach(function(p,i){
+    var m = L.marker([p.lat,p.lng], {icon: L.divIcon({
+      className:'', html:'<div class="mk" style="background:'+p.c+';width:24px;height:24px">'+(i+1)+'</div>',
+      iconSize:[24,24], iconAnchor:[12,12]})}).addTo(map);
+    m.bindPopup('<div style="font-family:inherit;min-width:150px">'
+      + '<div style="font-size:10px;letter-spacing:.1em;color:'+p.c+';font-weight:800">DAY '+p.d+' ・ '+p.t+'</div>'
+      + '<div style="font-size:15px;font-weight:700;margin:2px 0">'+p.n+'</div>'
+      + '<div style="font-size:11px;color:#64748b">'+p.jp+' ・ '+p.cat+'</div>'
+      + '<a href="'+p.u+'" target="_blank" rel="noopener" style="display:inline-block;margin-top:7px;font-size:12px;font-weight:700;color:'+p.c+'">在 Google 地圖開啟 ›</a></div>');
+  });
+});
+map.fitBounds(L.latLngBounds(PTS.map(function(p){return [p.lat,p.lng];})).pad(0.12));
+}
+</script>
+</body>
+</html>
